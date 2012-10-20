@@ -1535,4 +1535,877 @@ interface Number {
 	upto(num: number, fn?: Function, step?: number): number[];
 }
 
+interface Array {
+	
+	/***
+	* @short Alternate array constructor.
+	* @method Array.create(<obj1>, <obj2>, ...)
+	* @returns Array
+	* @extra This method will create a single array by calling %concat%
+	*        on all arguments passed. In addition to ensuring that an unknown
+	*        variable is in a single, flat array (the standard constructor will
+	*        create nested arrays, this one will not), it is also a useful
+	*        shorthand to convert a function's arguments object into a standard
+	*        array.
+	* @example
+	*
+	*   Array.create('one', true, 3)   -> ['one', true, 3]
+	*   Array.create(['one', true, 3]) -> ['one', true, 3]
+	+   Array.create(function(n) {
+	*     return arguments;
+	*   }('howdy', 'doody'));
+	*
+	***/
+	create(...args: any[]): any[];
 
+	/***
+	* @short Returns true if <obj> is an Array.
+	* @method Array.isArray(<obj>)
+	* @returns Boolean
+	* @extra This method is provided for browsers that don't support it internally.
+	* @example
+	*
+	*   Array.isArray(3)        -> false
+	*   Array.isArray(true)     -> false
+	*   Array.isArray('wasabi') -> false
+	*   Array.isArray([1,2,3])  -> true
+	*
+	***/
+	isArray(obj: any): bool;
+
+	/***
+	* @short Adds <el> to the array.
+	* @method add(<el>, [index])
+	* @returns Array
+	* @extra If [index] is specified, it will add at [index], otherwise
+	*        adds to the end of the array. %add% behaves like %concat%
+	*        in that if <el> is an array it will be joined, not inserted.
+	*        This method will change the array! Use %include% for a
+	*        non-destructive alias. Also, %insert% is provided as an
+	*        alias that reads better when using an index.
+	* @example
+	*
+	*   [1,2,3,4].add(5)       -> [1,2,3,4,5]
+	*   [1,2,3,4].add([5,6,7]) -> [1,2,3,4,5,6,7]
+	*   [1,2,3,4].insert(8, 1) -> [1,8,2,3,4]
+	*
+	***/
+	add(el: any, index?: number): any[];
+	add(el: any[], index?: number): any[];
+	insert(el: any, index?: number): any[];
+	insert(el: any[], index?: number): any[];
+
+	/***
+	* @short Gets the element(s) at a given index.
+	* @method at(<index>, [loop] = true)
+	* @returns Mixed
+	* @extra When [loop] is true, overshooting the end of the array (or the beginning) will begin counting from the other end. As an alternate syntax, passing multiple indexes will get the elements at those indexes.
+	* @example
+	*
+	*   [1,2,3].at(0)        -> 1
+	*   [1,2,3].at(2)        -> 3
+	*   [1,2,3].at(4)        -> 2
+	*   [1,2,3].at(4, false) -> null
+	*   [1,2,3].at(-1)       -> 3
+	*   [1,2,3].at(0,1)      -> [1,2]
+	*
+	***/
+	at(index: number, loop?: bool): any;
+	at(start: number, stop: number): any[];
+
+	/***
+	* @short Averages all values in the array.
+	* @method average([map])
+	* @returns Number
+	* @extra [map] may be a function mapping the value to be averaged or
+	*        a string acting as a shortcut.
+	* @example
+	*
+	*   [1,2,3].average()                           -> 2
+	+   [{age:35},{age:11},{age:11}].average(function(n) {
+	*     return n.age;
+	*   });                                         -> 19
+	*   [{age:35},{age:11},{age:11}].average('age') -> 19
+	*
+	***/
+	average(map?: (n: number) => number): number;
+
+	/***
+	* @short Clones the array.
+	* @method clone()
+	* @returns Array
+	* @example
+	*
+	*   [1,2,3].clone() -> [1,2,3]
+	*
+	***/
+	clone(): any[];
+
+	/***
+	* @short Removes all instances of %undefined%, %null%, and %NaN% from the array.
+	* @method compact([all] = false)
+	* @returns Array
+	* @extra If [all] is %true%, all "falsy" elements will be removed. This includes empty strings, 0, and false.
+	* @example
+	*
+	*   [1,null,2,undefined,3].compact() -> [1,2,3]
+	*   [1,'',2,false,3].compact()       -> [1,'',2,false,3]
+	*   [1,'',2,false,3].compact(true)   -> [1,2,3]
+	*
+	***/
+	compact(all?: bool): any[];
+
+	/***
+	* @short Counts all elements in the array that match <f>.
+	* @method count(<f>)
+	* @returns Number
+	* @extra <f> will match a string, number, array, object, or alternately test against a function or regex. This method implements @array_matching.
+	* @example
+	*
+	*   [1,2,3,1].count(1)       -> 2
+	*   ['a','b','c'].count(/b/) -> 1
+	+   [{a:1},{b:2}].count(function(n) {
+	*     return n['a'] > 1;
+	*   });                      -> 0
+	*
+	***/
+	count(f: number): number;
+	count(f: string): number;
+	count(f: any[]): number;
+	count(f: Object): number;
+	count(f: (n: any) => any): number;
+	count(f: RegExp): number;
+
+	/***
+	* @short Runs <fn> against each element in the array. Enhanced version of %Array#forEach%.
+	* @method each(<fn>, [index] = 0, [loop] = false)
+	* @returns Array
+	* @extra Parameters passed to <fn> are identical to %forEach%,
+	*        ie. the first parameter is the current element, second
+	*        parameter is the current index, and third parameter is
+	*        the array itself. If <fn> returns %false% at any time
+	*        it will break out of the loop. Once %each% finishes,
+	*        it will return the array. If [index] is passed, <fn> will
+	*        begin at that index and work its way to the end. If [loop]
+	*        is true, it will then start over from the beginning of the
+	*        array and continue until it reaches [index] - 1.
+	* @example
+	*
+	*   [1,2,3,4].each(function(n) {
+	*     // Called 4 times: 1, 2, 3, 4
+	*   });
+	*   [1,2,3,4].each(function(n) {
+	*     // Called 4 times: 3, 4, 1, 2
+	*   }, 2, true);
+	*
+	***/
+	each(fn: (el: any, i?: number, array?: any[]) => bool,
+		index?: number,
+		loop?: bool): any[];
+
+	/***
+	* @short Returns true if all elements in the array match <f>.
+	* @method every(<f>, [scope])
+	* @returns Boolean
+	* @extra [scope] is the %this% object. %all% is provided an alias.
+	*        In addition to providing this method for browsers that don't
+	*        support it natively, this method also implements @array_matching.
+	* @example
+	*
+	+   ['a','a','a'].every(function(n) {
+	*     return n == 'a';
+	*   });
+	*   ['a','a','a'].every('a')   -> true
+	*   [{a:2},{a:2}].every({a:2}) -> true
+	***/
+	every(f: number, scope?: any): bool;
+	every(f: string, scope?: any): bool;
+	every(f: Object, scope?: any): bool;
+	every(f: (el: any, i?: number, array?: any[]) => bool, scope?: any): bool;
+	all(f: number, scope?: any): bool;
+	all(f: string, scope?: any): bool;
+	all(f: Object, scope?: any): bool;
+	all(f: (el: any, i?: number, array?: any[]) => bool, scope?: any): bool;
+
+	/***
+	* @short Removes any element in the array that matches [f1], [f2], etc.
+	* @method exclude([f1], [f2], ...)
+	* @returns Array
+	* @extra This is a non-destructive alias for %remove%. It will not change the original array. This method implements @array_matching.
+	* @example
+	*
+	*   [1,2,3].exclude(3)         -> [1,2]
+	*   ['a','b','c'].exclude(/b/) -> ['a','c']
+	*   [{a:1},{b:2}].exclude(function(n) {
+	*     return n['a'] == 1;
+	*   });                       -> [{b:2}]
+	*
+	***/
+	exclude(...f: number[]): number[];
+	exclude(...f: string[]): string[];
+	exclude(...f: RegExp[]): string[];
+	exclude(...f: Object[]): Object[];
+	exclude(...f: (el: any, i?: number, array?: any[]) => bool): any[];
+
+	/***
+	* @short Returns any elements in the array that match <f>.
+	* @method filter(<f>, [scope])
+	* @returns Array
+	* @extra [scope] is the %this% object. In addition to providing this
+	*        method for browsers that don't support it natively, this method
+	*        also implements @array_matching.
+	* @example
+	*
+	*   [1,2,3].filter(function(n) {
+	*     return n > 1;
+	*   });
+	*   [1,2,2,4].filter(2) -> 2
+	*
+	***/
+	filter(f: number, scope?: any): number[];
+	filter(f: string, scope?: any): string[];
+	filter(f: RegExp, scope?: any): String[];
+	filter(f: Object, scope?: any): Object[];
+	filter(f: (el: any, i?: number, array?: any[]) => bool, scope?: any): any[];
+
+	/***
+	* @short Returns the first element that matches <f>.
+	* @method find(<f>, [index] = 0, [loop] = false)
+	* @returns Mixed
+	* @extra <f> will match a string, number, array, object, or alternately
+	*        test against a function or regex. Starts at [index], and will
+	*        continue once from index = 0 if [loop] is true. This method
+	*        implements @array_matching.
+	* @example
+	*
+	*   [{a:1,b:2},{a:1,b:3},{a:1,b:4}].find(function(n) {
+	*     return n['a'] == 1;
+	*   });                                     -> {a:1,b:3}
+	*   ['cuba','japan','canada'].find(/^c/, 2) -> 'canada'
+	*
+	***/
+	find(f: number, index?: number, loop?: bool): number;
+	find(f: string, index?: number, loop?: bool): string;
+	find(f: RegExp, index?: number, loop?: bool): string;
+	find(f: Object, index?: number, loop?: bool): Object;
+	find(f: (el: any, i?: number, array?: any[]) => bool, index?: number, loop?: bool): any;
+
+	/***
+	* @short Returns all elements that match <f>.
+	* @method findAll(<f>, [index] = 0, [loop] = false)
+	* @returns Array
+	* @extra <f> will match a string, number, array, object, or alternately
+	*        test against a function or regex. Starts at [index], and will
+	*        continue once from index = 0 if [loop] is true. This method
+	*        implements @array_matching.
+	* @example
+	*
+	*   [{a:1,b:2},{a:1,b:3},{a:2,b:4}].findAll(function(n) {
+	*     return n['a'] == 1;
+	*   });                                        -> [{a:1,b:3},{a:1,b:4}]
+	*   ['cuba','japan','canada'].findAll(/^c/)    -> 'cuba','canada'
+	*   ['cuba','japan','canada'].findAll(/^c/, 2) -> 'canada'
+	*
+	***/
+	findAll(f: number, index?: number, loop?: bool): number[];
+	findAll(f: string, index?: number, loop?: bool): string[];
+	findAll(f: RegExp, index?: number, loop?: bool): string[];
+	findAll(f: Object, index?: number, loop?: bool): Object[];
+	findAll(f: (el: any, i?: number, array?: any[]) => bool, index?: number, loop?: bool): any[];
+
+	/***
+	* @short Returns the index of the first element that matches <f>
+	*        or -1 if not found.
+	* @method findIndex(<f>, [startIndex] = 0, [loop] = false)
+	* @returns Number
+	* @extra This method has a few notable differences to native %indexOf%.
+	*        Although <f> will similarly match a primitive such as a string
+	*        or number, it will also match deep objects and arrays that are
+	*        not equal by reference (%===%). Additionally, if a function is
+	*        passed it will be run as a matching function (similar to the
+	*        behavior of %Array#filter%) rather than attempting to find that
+	*        function itself by reference in the array. Starts at [index],
+	*        and will continue once from index = 0 if [loop] is true.
+	*        This method implements @array_matching.
+	* @example
+	*
+	*   [1,2,3,4].findIndex(3);  -> 2
+	*   [1,2,3,4].findIndex(function(n) {
+	*     return n % 2 == 0;
+	*   }); -> 1
+	*   ['one','two','three'].findIndex(/th/); -> 2
+	*
+	***/
+	findIndex(f: number, startIndex?: number, loop?: bool): number;
+	findIndex(f: string, startIndex?: number, loop?: bool): number;
+	findIndex(f: RegExp, startIndex?: number, loop?: bool): number;
+	findIndex(f: Object, startIndex?: number, loop?: bool): number;
+	findIndex(f: RegExp, startIndex?: number, loop?: bool): number;
+	findIndex(f: (el: any, i?: number, array?: any[]) => bool, startIndex?: number, loop?: bool): number;
+
+	/***
+	* @short Returns the first element(s) in the array.
+	* @method first([num] = 1)
+	* @returns Mixed
+	* @extra When <num> is passed, returns the first <num> elements in the array.
+	* @example
+	*
+	*   [1,2,3].first()        -> 1
+	*   [1,2,3].first(2)       -> [1,2]
+	*
+	***/
+	first(num?: number): any[];
+
+	/***
+	* @short Returns a flattened, one-dimensional copy of the array.
+	* @method flatten([limit] = Infinity)
+	* @returns Array
+	* @extra You can optionally specify a [limit], which will only flatten
+	*        that depth.
+	* @example
+	*
+	*   [[1], 2, [3]].flatten()      -> [1,2,3]
+	*   [['a'],[],'b','c'].flatten() -> ['a','b','c']
+	*
+	***/
+	flatten(limit?: number): any[];
+
+	/***
+	* @short Iterates over the array, calling [fn] on each loop.
+	* @method forEach([fn], [scope])
+	* @returns Nothing
+	* @extra This method is only provided for those browsers that do not support
+	*        it natively. [scope] becomes the %this% object.
+	* @example
+	*
+	*   ['a','b','c'].forEach(function(a) {
+	*     // Called 3 times: 'a','b','c'
+	*   });
+	*
+	***/
+	forEach(fn: (el: any, i?: number, array?: any[]) => any, scope?: any): void;
+
+	/***
+	* @short Returns a slice of the array from <index>.
+	* @method from(<index>)
+	* @returns Array
+	* @example
+	*
+	*   [1,2,3].from(1)  -> [2,3]
+	*   [1,2,3].from(2)  -> [3]
+	*
+	***/
+	from(index: number): any[];
+
+	/***
+	* @short Groups the array by <map>.
+	* @method groupBy(<map>, [fn])
+	* @returns Object
+	* @extra Will return an object with keys equal to the grouped values.
+	*        <map> may be a mapping function, or a string acting as a shortcut.
+	*        Optionally calls [fn] for each group.
+	* @example
+	*
+	*   ['fee','fi','fum'].groupBy('length') -> { 2: ['fi'], 3: ['fee','fum'] }
+	+   [{age:35,name:'ken'},{age:15,name:'bob'}].groupBy(function(n) {
+	*     return n.age;
+	*   });                                  -> { 35: [{age:35,name:'ken'}], 15: [{age:15,name:'bob'}] }
+	*
+	***/
+	groupBy(map: string, fn?: (n: any) => void): Object;
+	groupBy(fn: (n: any) => void): Object;
+
+	/***
+	* @short Groups the array into <num> arrays.
+	* @method inGroups(<num>, [padding])
+	* @returns Array
+	* @extra [padding] specifies a value with which to pad the last array
+	*        so that they are all equal length.
+	* @example
+	*
+	*   [1,2,3,4,5,6,7].inGroups(3)         -> [ [1,2,3], [4,5,6], [7] ]
+	*   [1,2,3,4,5,6,7].inGroups(3, 'none') -> [ [1,2,3], [4,5,6], [7,'none','none'] ]
+	*
+	***/
+	inGroups(num: number, padding?: any): any[][];
+
+	/***
+	* @short Groups the array into arrays of <num> elements each.
+	* @method inGroupsOf(<num>, [padding] = null)
+	* @returns Array
+	* @extra [padding] specifies a value with which to pad the last array so that they are all equal length.
+	* @example
+	*
+	*   [1,2,3,4,5,6,7].inGroupsOf(4)         -> [ [1,2,3,4], [5,6,7] ]
+	*   [1,2,3,4,5,6,7].inGroupsOf(4, 'none') -> [ [1,2,3,4], [5,6,7,'none'] ]
+	*
+	***/
+	inGroupsOf(num: number, padding?: any): any[][];
+
+	/***
+	* @short Adds <el> to the array.
+	* @method include(<el>, [index])
+	* @returns Array
+	* @extra This is a non-destructive alias for %add%. It will not change
+	*        the original array.
+	* @example
+	*
+	*   [1,2,3,4].include(5)       -> [1,2,3,4,5]
+	*   [1,2,3,4].include(8, 1)    -> [1,8,2,3,4]
+	*   [1,2,3,4].include([5,6,7]) -> [1,2,3,4,5,6,7]
+	*
+	***/
+	include(el: any, index?: number): any[];
+
+	/***
+	* @short Searches the array and returns the first index where <search> occurs, or -1 if the element is not found.
+	* @method indexOf(<search>, [fromIndex])
+	* @returns Number
+	* @extra [fromIndex] is the index from which to begin the search.
+	*        This method performs a simple strict equality comparison on <search>.
+	*        It does not support enhanced functionality such as searching
+	*        the contents against a regex, callback, or deep comparison of objects.
+	*        For such functionality, use the %findIndex% method instead.
+	* @example
+	*
+	*   [1,2,3].indexOf(3)           -> 1
+	*   [1,2,3].indexOf(7)           -> -1
+	*
+	***/
+	indexOf(search: any, fromIndex?: number): number;
+
+	/***
+	* @short Returns an array containing the elements all arrays have in common.
+	* @method intersect([a1], [a2], ...)
+	* @returns Array
+	* @extra This method will also correctly operate on arrays of objects.
+	* @example
+	*
+	*   [1,3,5].intersect([5,7,9])   -> [5]
+	*   ['a','b'].intersect('b','c') -> ['b']
+	*
+	***/
+	intersect(...args: number[]): number[];
+	intersect(...args: string[]): string[];
+	intersect(...args: Object[]): Object[];
+	intersect(...args: any[]): any[];
+
+	/***
+	* @short Returns true if the array is empty.
+	* @method isEmpty()
+	* @returns Boolean
+	* @extra This is true if the array has a length of zero, or contains
+	*        only %undefined%, %null%, or %NaN%.
+	* @example
+	*
+	*   [].isEmpty()               -> true
+	*   [null,undefined].isEmpty() -> true
+	*
+	***/
+	isEmpty(): bool;
+
+	/***
+	* @short Returns the last element(s) in the array.
+	* @method last([num] = 1)
+	* @returns Mixed
+	* @extra When <num> is passed, returns the last <num> elements in the array.
+	* @example
+	*
+	*   [1,2,3].last()        -> 3
+	*   [1,2,3].last(2)       -> [2,3]
+	*
+	***/
+	last(): any;
+	last(num: number): any[];
+
+	/***
+	* @short Searches the array and returns the last index where <search> occurs,
+	*        or -1 if the element is not found.
+	* @method lastIndexOf(<search>, [fromIndex])
+	* @returns Number
+	* @extra [fromIndex] is the index from which to begin the search.
+	*        This method performs a simple strict equality comparison on <search>.
+	* @example
+	*
+	*   [1,2,1].lastIndexOf(1)                 -> 2
+	*   [1,2,1].lastIndexOf(7)                 -> -1
+	*
+	***/
+	lastIndexOf(search: any, fromIndex?: number): number;
+
+	/***
+	* @short Returns the elements in the array with the least
+	*        commonly occuring value.
+	* @method least([map])
+	* @returns Array
+	* @extra [map] may be a function mapping the value to be checked or a
+	*        string acting as a shortcut.
+	* @example
+	*
+	*   [3,2,2].least()                   -> [3]
+	*   ['fe','fo','fum'].least('length') -> ['fum']
+	*   [{age:35,name:'ken'},{age:12,name:'bob'},{age:12,name:'ted'}].least(function(n) {
+	*     return n.age;
+	*   });                               -> [{age:35,name:'ken'}]
+	*
+	***/
+	least(map: string): any[];
+	least(map: (n: any) => any): any[];
+
+	/***
+	* @short Maps the array to another array containing the values that
+	*        are the result of calling <map> on each element.
+	* @method map(<map>, [scope])
+	* @returns Array
+	* @extra [scope] is the %this% object. In addition to providing this method
+	*        for browsers that don't support it natively, this enhanced method
+	*        also directly accepts a string, which is a shortcut for a function
+	*        that gets that property (or invokes a function) on each element.
+	* @example
+	*
+	*   [1,2,3].map(function(n) {
+	*     return n * 3;
+	*   });                                  -> [3,6,9]
+	*   ['one','two','three'].map(function(n) {
+	*     return n.length;
+	*   });                                  -> [3,3,5]
+	*   ['one','two','three'].map('length')  -> [3,3,5]
+	***/
+	map(map: string, scope?: any): any[];
+	map(map: (n: any) => any, scope?: any): any[];
+
+	/***
+	* @short Returns the element in the array with the greatest value.
+	* @method max([map], [all] = false)
+	* @returns Mixed
+	* @extra [map] may be a function mapping the value to be checked or a string
+	*        acting as a shortcut. If [all] is true, will return all max values
+	*        in an array.
+	* @example
+	*
+	*   [1,2,3].max()                          -> 3
+	*   ['fee','fo','fum'].max('length')       -> 'fee'
+	*   ['fee','fo','fum'].max('length', true) -> ['fee']
+	+   [{a:3,a:2}].max(function(n) {
+	*     return n['a'];
+	*   });                              -> {a:3}
+	*
+	***/
+	max(map: string): any;
+	max(map: (n: any) => any): any;
+
+	/***
+	* @short Returns the element in the array with the lowest value.
+	* @method min([map], [all] = false)
+	* @returns Mixed
+	* @extra [map] may be a function mapping the value to be checked or a string acting as a shortcut. If [all] is true, will return all min values in an array.
+	* @example
+	*
+	*   [1,2,3].min()                          -> 1
+	*   ['fee','fo','fum'].min('length')       -> 'fo'
+	*   ['fee','fo','fum'].min('length', true) -> ['fo']
+	+   ['fee','fo','fum'].min(function(n) {
+	*     return n.length;
+	*   });                              -> ['fo']
+	+   [{a:3,a:2}].min(function(n) {
+	*     return n['a'];
+	*   });                              -> [{a:2}]
+	*
+	***/
+	min(map: string): any;
+	min(map: (n: any) => any): any;
+
+	/***
+	* @short Returns the elements in the array with the most
+	*        commonly occuring value.
+	* @method most([map])
+	* @returns Array
+	* @extra [map] may be a function mapping the value to be checked or a string
+	*              acting as a shortcut.
+	* @example
+	*
+	*   [3,2,2].most()                   -> [2]
+	*   ['fe','fo','fum'].most('length') -> ['fe','fo']
+	+   [{age:35,name:'ken'},{age:12,name:'bob'},{age:12,name:'ted'}].most(function(n) {
+	*     return n.age;
+	*   });                              -> [{age:12,name:'bob'},{age:12,name:'ted'}]
+	*
+	***/
+	most(map: string): any[];
+	most(map: (n: any) => any): any[];
+
+	/***
+	* @short Returns true if none of the elements in the array match <f>.
+	* @method none(<f>)
+	* @returns Boolean
+	* @extra <f> will match a string, number, array, object, or alternately test
+	*        against a function or regex. This method implements @array_matching.
+	* @example
+	*
+	*   [1,2,3].none(5)         -> true
+	*   ['a','b','c'].none(/b/) -> false
+	+   [{a:1},{b:2}].none(function(n) {
+	*     return n['a'] > 1;
+	*   });                     -> true
+	*
+	***/
+	none(f: number): bool;
+	none(f: string): bool;
+	none(f: RegExp): bool;
+	none(f: Object): bool;
+	none(f: any[]): bool;
+	none(f: (n: any) => bool): bool;
+
+	/***
+	* @short Returns a copy of the array with the elements randomized.
+	* @method randomize()
+	* @returns Array
+	* @extra Uses Fisher-Yates algorithm.
+	* @example
+	*
+	*   [1,2,3,4].randomize()  -> [?,?,?,?]
+	*
+	***/
+	randomize(): any[];
+
+	/***
+	* @short Reduces the array to a single result.
+	* @method reduce(<fn>, [init])
+	* @returns Mixed
+	* @extra If [init] is passed as a starting value, that value will be passed
+	*        as the first argument to the callback. The second argument will be
+	*        the first element in the array. From that point, the result of the
+	*        callback will then be used as the first argument of the next
+	*        iteration. This is often refered to as "accumulation", and [init]
+	*        is often called an "accumulator". If [init] is not passed, then
+	*         <fn> will be called n - 1 times, where n is the length of the array.
+	*        In this case, on the first iteration only, the first argument will
+	*        be the first element of the array, and the second argument will be
+	*        the second. After that callbacks work as normal, using the result
+	*        of the previous callback as the first argument of the next. This
+	*        method is only provided for those browsers that do not support it
+	*        natively.
+	*
+	* @example
+	*
+	*   [1,2,3,4].reduce(function(a, b) {
+	*     return a - b;
+	*   });
+	*   [1,2,3,4].reduce(function(a, b) {
+	*     return a - b;
+	*   }, 100);
+	*
+	***/
+	reduce(fn: (a: any, b: any) => any, init: any): any;
+
+	/***
+	* @short Identical to %Array#reduce%,
+	*        but operates on the elements in reverse order.
+	* @method reduceRight([fn], [init])
+	* @returns Mixed
+	* @extra This method is only provided for those browsers that do not support
+	*        it natively.
+	* @example
+	*
+	*   [1,2,3,4].reduceRight(function(a, b) {
+	*     return a - b;
+	*   });
+	*
+	***/
+	reduceRight(fn: (a: any, b: any) => any, init: any): any;
+
+	/***
+	* @short Removes any element in the array that matches [f1], [f2], etc.
+	* @method remove([f1], [f2], ...)
+	* @returns Array
+	* @extra Will match a string, number, array, object, or alternately test
+	*        against a function or regex. This method will change the array!
+	*        Use %exclude% for a non-destructive alias. This method implements
+	*        @array_matching.
+	* @example
+	*
+	*   [1,2,3].remove(3)         -> [1,2]
+	*   ['a','b','c'].remove(/b/) -> ['a','c']
+	+   [{a:1},{b:2}].remove(function(n) {
+	*     return n['a'] == 1;
+	*   });                       -> [{b:2}]
+	*
+	***/
+	remove(...args: number[]): number[];
+	remove(...args: string[]): string[];
+	remove(...args: Object[]): Object[];
+	remove(...args: any[]): any[];
+	remove(fn: (n: any) => bool): any[];
+
+	/***
+	* @short Removes element at <start>. If [end] is specified, removes the range
+	*        between <start> and [end]. This method will change the array!
+	*        If you don't intend the array to be changed use %clone% first.
+	* @method removeAt(<start>, [end])
+	* @returns Array
+	* @example
+	*
+	*   ['a','b','c'].removeAt(0) -> ['b','c']
+	*   [1,2,3,4].removeAt(1, 3)  -> [1]
+	*
+	***/
+	removeAt(start: number, end?: number): any[];
+
+	/***
+	* @short Returns a random element from the array.
+	* @method sample([num])
+	* @returns Mixed
+	* @extra If [num] is passed, will return [num] samples from the array.
+	* @example
+	*
+	*   [1,2,3,4,5].sample()  -> // Random element
+	*   [1,2,3,4,5].sample(3) -> // Array of 3 random elements
+	*
+	***/
+	sample(): any;
+	sample(num: number): any[];
+
+	/***
+	* @short Returns true if any element in the array matches <f>.
+	* @method some(<f>, [scope])
+	* @returns Boolean
+	* @extra [scope] is the %this% object. %any% is provided as an alias.
+	*        In addition to providing this method for browsers that don't
+	*        support it natively, this method also implements @array_matching.
+	* @example
+	*
+	*   ['a','b','c'].some(function(n) {
+	*     return n == 'a';
+	*   });
+	*   ['a','b','c'].some(function(n) {
+	*     return n == 'd';
+	*   });
+	*   ['a','b','c'].some('a')   -> true
+	*   [{a:2},{b:5}].some({a:2}) -> true
+	***/
+	some(f: number, scope?: any): bool;
+	some(f: string, scope?: any): bool;
+	some(f: any, scope?: any): bool;
+	some(f: (n: any) => bool, scope?: any): bool;
+
+	/***
+	* @short Sorts the array by <map>.
+	* @method sortBy(<map>, [desc] = false)
+	* @returns Array
+	* @extra <map> may be a function, a string acting as a shortcut, or blank
+	*        (direct comparison of array values). [desc] will sort the array in
+	*        descending order. When the field being sorted on is a string, the
+	*        resulting order will be determined by an internal collation algorithm
+	*        that is optimized for major Western languages, but can be customized.
+	*        For more information see @array_sorting.
+	* @example
+	*
+	*   ['world','a','new'].sortBy('length')       -> ['a','new','world']
+	*   ['world','a','new'].sortBy('length', true) -> ['world','new','a']
+	*   [{age:72},{age:13},{age:18}].sortBy(function(n) {
+	*     return n.age;
+	*   });                                        -> [{age:13},{age:18},{age:72}]
+	*
+	***/
+	sortBy(map: string, desc?: bool): any[];
+	sortBy(fn: (n: any) => any, desc?: bool): any[];
+
+	/***
+	* @short Subtracts from the array all elements in [a1], [a2], etc.
+	* @method subtract([a1], [a2], ...)
+	* @returns Array
+	* @extra This method will also correctly operate on arrays of objects.
+	* @example
+	*
+	*   [1,3,5].subtract([5,7,9])   -> [1,3]
+	*   [1,3,5].subtract([3],[5])   -> [1]
+	*   ['a','b'].subtract('b','c') -> ['a']
+	*
+	***/
+	subtract(...args: any[]): any[];
+
+	/***
+	* @method sum([map])
+	* @returns Number
+	* @short Sums all values in the array.
+	* @extra [map] may be a function mapping the value to be summed or a string
+	*        acting as a shortcut.
+	* @example
+	*
+	*   [1,2,2].sum()                           -> 5
+	*   [{age:35},{age:12},{age:12}].sum(function(n) {
+	*     return n.age;
+	*   });                                     -> 59
+	*   [{age:35},{age:12},{age:12}].sum('age') -> 59
+	*
+	***/
+	sum(map: string): number;
+	sum(fn: (n: any) => number): number;
+
+	/***
+	* @short Returns a slice of the array up to <index>.
+	* @method to(<index>)
+	* @returns Array
+	* @example
+	*
+	*   [1,2,3].to(1)  -> [1]
+	*   [1,2,3].to(2)  -> [1,2]
+	*
+	***/
+	to(index: number): any[];
+
+	/***
+	* @short Returns an array containing all elements in all arrays with
+	*        duplicates removed.
+	* @method union([a1], [a2], ...)
+	* @returns Array
+	* @extra This method will also correctly operate on arrays of objects.
+	* @example
+	*
+	*   [1,3,5].union([5,7,9])     -> [1,3,5,7,9]
+	*   ['a','b'].union(['b','c']) -> ['a','b','c']
+	*
+	***/
+	union(array: any[]): any[];
+	union(...args: any[]): any[];
+
+	/***
+	* @short Removes all duplicate elements in the array.
+	* @method unique([map] = null)
+	* @returns Array
+	* @extra [map] may be a function mapping the value to be uniqued on or a
+	*        string acting as a shortcut. This is most commonly used when you
+	*        have a key that ensures the object's uniqueness, and don't need to
+	*        check all fields. This method will also correctly operate on arrays
+	*        of objects.
+	* @example
+	*
+	*   [1,2,2,3].unique()                 -> [1,2,3]
+	*   [{foo:'bar'},{foo:'bar'}].unique() -> [{foo:'bar'}]
+	+   [{foo:'bar'},{foo:'bar'}].unique(function(obj){
+	*     return obj.foo;
+	*   }); -> [{foo:'bar'}]
+	*   [{foo:'bar'},{foo:'bar'}].unique('foo') -> [{foo:'bar'}]
+	*
+	***/
+	unique(map?: string): any[];
+	unique(fn?: (obj: any) => any): any[];
+
+	/***
+	* @short Merges multiple arrays together.
+	* @method zip([arr1], [arr2], ...)
+	* @returns Array
+	* @extra This method "zips up" smaller arrays into one large whose elements
+	*        are "all elements at index 0", "all elements at index 1", etc.
+	*        Useful when you have associated data that is split over separated
+	*        arrays. If the arrays passed have more elements than the original
+	*        array, they will be discarded. If they have fewer elements, the
+	*        missing elements will filled with %null%.
+	* @example
+	*
+	*   [1,2,3].zip([4,5,6])                                       -> [[1,2], [3,4], [5,6]]
+	*   ['Martin','John'].zip(['Luther','F.'], ['King','Kennedy']) -> [['Martin','Luther','King'], ['John','F.','Kennedy']]
+	*
+	***/
+	zip(...arrays: any[]): any[][];
+}
