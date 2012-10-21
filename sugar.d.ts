@@ -2774,3 +2774,181 @@ interface Object {
 	watch(prop: string, fn: (prop: string, oldVal: any, newVal: any) => any): void;
 	watch(obj: Object, prop: string, fn: (prop: string, oldVal: any, newVal: any) => any): void;
 }
+
+interface Function {
+
+	/***
+	* @short Creates a function that will execute after [num] calls.
+	* @method after([num] = 1)
+	* @returns Function
+	* @extra %after% is useful for running a final callback after a series of
+	*        asynchronous operations, when the order in which the operations will
+	*        complete is unknown.
+	* @example
+	*
+	*   var fn = (function() {
+	*     // Will be executed once only
+	*   }).after(3); fn(); fn(); fn();
+	*
+	***/
+	after(num?: number): Function;
+
+	/***
+	* @short Binds <scope> as the %this% object for the function when it is called.
+	*        Also allows currying an unlimited number of parameters.
+	* @method bind(<scope>, [arg1], ...)
+	* @returns Function
+	* @extra "currying" means setting parameters ([arg1], [arg2], etc.) ahead of
+	*         time so that they are passed when the function is called later.
+	*         If you pass additional parameters when the function is actually
+	*         called, they will be added will be added to the end of the curried
+	*         parameters. This method is provided for browsers that don't support
+	*         it internally.
+	* @example
+	*
+	+   (function() {
+	*     return this;
+	*   }).bind('woof')(); -> returns 'woof'; function is bound with 'woof' as the this object.
+	*   (function(a) {
+	*     return a;
+	*   }).bind(1, 2)();   -> returns 2; function is bound with 1 as the this object and 2 curried as the first parameter
+	*   (function(a, b) {
+	*     return a + b;
+	*   }).bind(1, 2)(3);  -> returns 5; function is bound with 1 as the this object, 2 curied as the first parameter and 3 passed as the second when calling the function
+	*
+	***/
+	bind(scope?: Object, ...args: any[]): Function;
+
+	/***
+	* @short Cancels a delayed function scheduled to be run.
+	* @method cancel()
+	* @returns Function
+	* @extra %delay%, %lazy%, %throttle%, and %debounce% can all set delays.
+	* @example
+	*
+	*   (function() {
+	*     alert('hay'); // Never called
+	*   }).delay(500).cancel();
+	*
+	***/
+	cancel(): Function;
+
+	/***
+	* @short Creates a "debounced" function that postpones its execution until
+	*        after <ms> milliseconds have passed.
+	* @method debounce(<ms>)
+	* @returns Function
+	* @extra This method is useful to execute a function after things have
+	*        "settled down". A good example of this is when a user tabs quickly
+	*        through form fields, execution of a heavy operation should happen
+	*        after a few milliseconds when they have "settled" on a field.
+	* @example
+	*
+	*   var fn = (function(arg1) {
+	*     // called once 50ms later
+	*   }).debounce(50); fn() fn() fn();
+	*
+	***/
+	debounce(ms: number): Function;
+
+	/***
+	* @short Executes the function after <ms> milliseconds.
+	* @method delay([ms] = 0, [arg1], ...)
+	* @returns Function
+	* @extra Returns a reference to itself. %delay% is also a way to execute
+	*        non-blocking operations that will wait until the CPU is free.
+	*        Delayed functions can be canceled using the %cancel% method.
+	*        Can also curry arguments passed in after <ms>.
+	* @example
+	*
+	*   (function(arg1) {
+	*     // called 1s later
+	*   }).delay(1000, 'arg1');
+	*
+	***/
+	delay(ms?: number, ...args: any[]): Function;
+
+	/***
+	* @short Returns a new version of the function which when called will have
+	*        some of its arguments pre-emptively filled in, also known as "currying".
+	* @method fill(<arg1>, <arg2>, ...)
+	* @returns Function
+	* @extra Arguments passed to a "filled" function are generally appended to
+	*        the curried arguments. However, if %undefined% is passed as any of
+	*        the arguments to %fill%, it will be replaced, when the "filled"
+	*        function is executed. This allows currying of arguments even when
+	*        they occur toward the end of an argument list (the example
+	*        demonstrates this much more clearly).
+	* @example
+	*
+	*   var delayOneSecond = setTimeout.fill(undefined, 1000);
+	*   delayOneSecond(function() {
+	*     // Will be executed 1s later
+	*   });
+	*
+	***/
+	fill(...args: any[]): Function;
+
+	/***
+	* @short Creates a lazy function that, when called repeatedly, will queue
+	*        execution and wait [ms] milliseconds to execute again.
+	* @method lazy([ms] = 1, [limit] = Infinity)
+	* @returns Function
+	* @extra Lazy functions will always execute as many times as they are called
+	*        up to [limit], after which point subsequent calls will be ignored
+	*        (if it is set to a finite number). Compare this to %throttle%, which
+	*        will execute only once per [ms] milliseconds. %lazy% is useful when
+	*        you need to be sure that every call to a function is executed, but
+	*        in a non-blocking manner. Calling %cancel% on a lazy function will
+	*       clear the entire queue. Note that [ms] can also be a fraction.
+	* @example
+	*
+	*   (function() {
+	*     // Executes immediately.
+	*   }).lazy()();
+	*   (3).times(function() {
+	*     // Executes 3 times, with each execution 20ms later than the last.
+	*   }.lazy(20));
+	*   (100).times(function() {
+	*     // Executes 50 times, with each execution 20ms later than the last.
+	*   }.lazy(20, 50));
+	*
+	***/
+	lazy(ms?: number, limit?: number): Function;
+
+	/***
+	* @short Creates a function that will execute only once and store the result.
+	* @method once()
+	* @returns Function
+	* @extra %once% is useful for creating functions that will cache the result of
+	*        an expensive operation and use it on subsequent calls. Also it can be
+	*        useful for creating initialization functions that only need to be run
+	*        once.
+	* @example
+	*
+	*   var fn = (function() {
+	*     // Will be executed once only
+	*   }).once(); fn(); fn(); fn();
+	*
+	***/
+	once(): Function;
+
+	/***
+	* @short Creates a "throttled" version of the function that will only be
+	*        executed once per <ms> milliseconds.
+	* @method throttle(<ms>)
+	* @returns Function
+	* @extra This is functionally equivalent to calling %lazy% with a [limit]
+	*        of %1%. %throttle% is appropriate when you want to make sure a
+	*        function is only executed at most once for a given duration.
+	*        Compare this to %lazy%, which will queue rapid calls and execute
+	*        them later.
+	* @example
+	*
+	*   (3).times(function() {
+	*     // called only once. will wait 50ms until it responds again
+	*   }.throttle(50));
+	*
+	***/
+	throttle(ms: number): Function;
+}
