@@ -3038,18 +3038,6 @@ interface Locale {
 	timeParse: string[];
 }
 
-/***
-* @package DateRange
-* @dependency date
-* @description Date Ranges define a range of time. They can enumerate over specific points
-*              within that range, and be manipulated and compared.
-*
-***/
-interface DateRange {
-	start: Date;
-	end: Date;
-}
-
 interface Date {
 	
 	/***
@@ -3910,4 +3898,139 @@ interface Date {
 	*
 	***/
 	utc(on?: bool): Date;
+}
+
+/***
+* @package DateRange
+* @dependency date
+* @description Date Ranges define a range of time. They can enumerate over specific points
+*              within that range, and be manipulated and compared.
+*
+***/
+interface DateRange {
+	start: Date;
+	end: Date;
+
+	/***
+	* @short Returns true if <d> is contained inside the DateRange.
+	*        <d> may be a date or another DateRange.
+	* @method contains(<d>)
+	* @returns Boolean
+	* @example
+	*
+	*   Date.range('2003', '2005').contains(Date.create('2004')) -> true
+	*
+	***/
+	contains(d: Date): bool;
+	contains(d: DateRange): bool;
+
+	/***
+	* @short Return the duration of the DateRange in milliseconds.
+	* @method duration()
+	* @returns Number
+	* @example
+	*
+	*   Date.range('2003', '2005').duration() -> 94694400000
+	*
+	***/
+	duration(): number;
+
+	/***
+	* @short Increments through the date range for each [unit], calling [fn] if it is passed.
+	*        Returns an array of each increment visited.
+	* @method each[Unit]([fn])
+	* @returns Date
+	*
+	* @set
+	*   eachMillisecond
+	*   eachSecond
+	*   eachMinute
+	*   eachHour
+	*   eachDay
+	*   eachWeek
+	*   eachMonth
+	*   eachYear
+	*
+	* @example
+	*
+	*   Date.range('2003-01', '2003-02').eachMonth()     -> [...]
+	*   Date.range('2003-01-15', '2003-01-16').eachDay() -> [...]
+	*
+	***/
+	eachMillisecond(fn?: (d: Date) => void): Date[];
+	eachSecond(fn?: (d: Date) => void): Date[];
+	eachMinute(fn?: (d: Date) => void): Date[];
+	eachHour(fn?: (d: Date) => void): Date[];
+	eachDay(fn?: (d: Date) => void): Date[];
+	eachWeek(fn?: (d: Date) => void): Date[];
+	eachMonth(fn?: (d: Date) => void): Date[];
+	eachYear(fn?: (d: Date) => void): Date[];
+
+	/***
+	* @short Iterates through the DateRange for every <increment>,
+	*        calling [fn] if it is passed. Returns an array of each increment visited.
+	* @method every(<increment>, [fn])
+	* @returns Array
+	* @extra When <increment> is a number, increments will be to the exact millisecond.
+	*        <increment> can also be a string in the format %{number} {unit}s%, in which
+	*        case it will increment in the unit specified. Note that a discrepancy exists
+	*        in the case of months, as %(2).months()% is an approximation. Stepping
+	*        through the actual months by passing %"2 months"% is usually preferable in
+	*        this case.
+	* @example
+	*
+	*   Date.range('2003-01', '2003-03').every("2 months") -> [...]
+	*
+	***/
+	every(ms: number, fn?: (d: Date) => void): Date[];
+	every(increment: string, fn?: (d: Date) => void): Date[];
+
+	/***
+	* @short Returns a new DateRange with the latest starting point as its start, and the
+	*        earliest ending point as its end. If the two ranges do not intersect this will
+	*        effectively produce an invalid range.
+	* @method intersect(<range>)
+	* @returns DateRange
+	* @example
+	*
+	*   Date.range('2003-01', '2005-01').intersect(Date.range('2004-01', '2006-01')) -> Jan 1, 2004..Jan 1, 2005
+	*
+	***/
+	intersect(range: DateRange): DateRange;
+
+	/***
+	* @short Returns true if the DateRange is valid, false otherwise.
+	* @method isValid()
+	* @returns Boolean
+	* @example
+	*
+	*   Date.range('2003', '2005').isValid() -> true
+	*   Date.range('2005', '2003').isValid() -> false
+	*
+	***/
+	isValid(): bool;
+
+	/***
+	* @short Returns a string representation of the DateRange.
+	* @method toString()
+	* @returns String
+	* @example
+	*
+	*   Date.range('2003', '2005').toString() -> January 1, 2003..January 1, 2005
+	*
+	***/
+	toString(): string;
+
+	/***
+	* @short Returns a new DateRange with the earliest starting point as its start,
+	*        and the latest ending point as its end. If the two ranges do not intersect
+	*        this will effectively remove the "gap" between them.
+	* @method union(<range>)
+	* @returns DateRange
+	* @example
+	*
+	*   Date.range('2003=01', '2005-01').union(Date.range('2004-01', '2006-01')) -> Jan 1, 2003..Jan 1, 2006
+	*
+	***/
+	union(range: DateRange): DateRange;
 }
