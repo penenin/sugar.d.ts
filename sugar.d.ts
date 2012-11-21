@@ -1746,7 +1746,7 @@ interface Array {
 	exclude(...f: string[]): string[];
 	exclude(...f: RegExp[]): string[];
 	exclude(...f: Object[]): Object[];
-	exclude(...f: (el: any) => bool): any[];
+	exclude(f: (el: any) => bool): any[];
 
 	/***
 	* @short Returns any elements in the array that match <f>.
