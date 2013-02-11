@@ -28,7 +28,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 interface String {
 
 	/***
-	* @short Adds <str> at [index]. Negative values are also allowed.
+	* Adds <str> at [index]. Negative values are also allowed.
 	* @param str String to add.
 	* @param index Index where str is added. Default = str.length
 	* @returns String
@@ -44,7 +44,7 @@ interface String {
 	insert(str: string, index?: number): string;
 
 	/***
-	* @short Assigns variables to tokens in a string.
+	* Assigns variables to tokens in a string.
 	* @method assign(<obj1>, <obj2>, ...)
 	* @returns String
 	* @extra If an object is passed, it's properties can be assigned using
@@ -67,7 +67,7 @@ interface String {
 	assign(...objs: {}[]): string;
 
 	/***
-	* @short Gets the character(s) at a given index.
+	* Gets the character(s) at a given index.
 	* @method at(<index>, [loop] = true)
 	* @param index Index of the character.
 	* @param loop Default = true
@@ -90,7 +90,7 @@ interface String {
 	at(indexes: number[], loop?: bool): string[];
 
 	/***
-	* @short Converts underscores and hyphens to camel case.
+	* Converts underscores and hyphens to camel case.
 	*        If [first] is true the first letter will also be capitalized.
 	* @method camelize([first] = true)
 	* @param first Default = true
@@ -107,7 +107,7 @@ interface String {
 	camelize(first?: bool): string;
 
 	/***
-	* @short Capitalizes the first character in the string.
+	* Capitalizes the first character in the string.
 	* @method capitalize([all] = false)
 	* @param all Default = false
 	* @returns String
@@ -122,7 +122,7 @@ interface String {
 	capitalize(all: bool): string;
 
 	/***
-	* @short Runs callback [fn] against each character in the string.
+	* Runs callback [fn] against each character in the string.
 	*        Returns an array of characters.
 	* @method chars([fn])
 	* @param fn Callback function.
@@ -138,7 +138,7 @@ interface String {
 	chars(fn?: Function): string[];
 
 	/***
-	* @short Runs callback [fn] against each character code in the string.
+	* Runs callback [fn] against each character code in the string.
 	         Returns an array of character codes.
 	* @method codes([fn])
 	* @param fn Callback function.
@@ -154,7 +154,7 @@ interface String {
 	codes(fn?: Function): number[];
 
 	/***
-	* @short Compacts all white space in the string to
+	* Compacts all white space in the string to
 	*        a single space and trims the ends.
 	* @method compact()
 	* @returns String
@@ -167,7 +167,7 @@ interface String {
 	compact(): string;
 
 	/***
-	* @short Converts underscores and camel casing to hypens.
+	* Converts underscores and camel casing to hypens.
 	* @method dasherize()
 	* @returns String
 	* @example
@@ -179,7 +179,7 @@ interface String {
 	dasherize(): string;
 
 	/***
-	* @short Decodes the string from base64 encoding.
+	* Decodes the string from base64 encoding.
 	* @method decodeBase64()
 	* @returns String
 	* @extra This method wraps the browser native %atob% when available,
@@ -193,7 +193,7 @@ interface String {
 	decodeBase64(): string;
 
 	/***
-	* @short Runs callback [fn] against each occurence of [search].
+	* Runs callback [fn] against each occurence of [search].
 	* @method each([search] = single character, [fn])
 	* @returns Array
 	* @extra Returns an array of matches. [search] may be either
@@ -213,7 +213,7 @@ interface String {
 	each(search: Function): string[];
 
 	/***
-	* @short Encodes the string into base64 encoding.
+	* Encodes the string into base64 encoding.
 	* @method encodeBase64()
 	* @returns String
 	* @extra This method wraps the browser native %btoa% when available,
@@ -244,7 +244,7 @@ interface String {
 	endsWith(find: RegExp, pos?: number, case_?: bool): bool;
 
 	/***
-	* @short Converts HTML characters to their entity equivalents.
+	* Converts HTML characters to their entity equivalents.
 	* @method escapeHTML()
 	* @returns String
 	* @example
@@ -256,7 +256,7 @@ interface String {
 	escapeHTML(): string;
 
 	/***
-	* @short Escapes all RegExp tokens in the string.
+	* Escapes all RegExp tokens in the string.
 	* @method escapeRegExp()
 	* @returns String
 	* @example
@@ -269,7 +269,7 @@ interface String {
 	escapeRegExp(): string;
 
 	/***
-	* @short Escapes characters in a string to make a valid URL.
+	* Escapes characters in a string to make a valid URL.
 	* @method escapeURL([param] = false)
 	* @returns String
 	* @extra If [param] is true, it will also escape valid URL 
@@ -283,7 +283,7 @@ interface String {
 	escapeURL(param?: bool): string;
 
 	/***
-	* @short Returns the first [n] characters of the string.
+	* Returns the first [n] characters of the string.
 	* @method first([n] = 1)
 	* @returns String
 	* @example
@@ -295,7 +295,7 @@ interface String {
 	first(n?: number): string;
 
 	/***
-	* @short Returns a section of the string starting from [index].
+	* Returns a section of the string starting from [index].
 	* @method from([index] = 0)
 	* @returns String
 	* @example
@@ -307,7 +307,7 @@ interface String {
 	from(index?: number): string;
 
 	/***
-	* @short Converts full-width characters (zenkaku) to half-width (hankaku).
+	* Converts full-width characters (zenkaku) to half-width (hankaku).
 	* @method hankaku([mode] = 'all')
 	* @returns String
 	* @extra [mode] accepts any combination of 
@@ -331,7 +331,7 @@ interface String {
 	hankaku(mode?: string): string;
 
 	/***
-	* @short Returns true if the string matches <find>.
+	* Returns true if the string matches <find>.
 	* @method has(<find>)
 	* @returns Boolean
 	* @extra <find> may be a string or regex.
@@ -346,7 +346,7 @@ interface String {
 	has(find: RegExp): bool;
 
 	/***
-	* @short Returns true if the string contains any characters in that script.
+	* Returns true if the string contains any characters in that script.
 	* @method has[Script]()
 	* @returns Boolean
 	*
@@ -391,7 +391,7 @@ interface String {
 	/***
 	* @method hiragana([all] = true)
 	* @returns String
-	* @short Converts katakana into hiragana.
+	* Converts katakana into hiragana.
 	* @extra If [all] is false, only full-width katakana will be converted.
 	* @example
 	*
@@ -406,7 +406,7 @@ interface String {
 	/***
 	* @method humanize()
 	* @returns String
-	* @short Creates a human readable string.
+	* Creates a human readable string.
 	* @extra Capitalizes the first word and turns underscores into spaces and strips a trailing '_id', if any. Like String#titleize, this is meant for creating pretty output.
 	* @example
 	*
@@ -417,7 +417,7 @@ interface String {
 	humanize(): string;
 
 	/***
-	* @short Returns true if the string has a length of 0 or contains only whitespace.
+	* Returns true if the string has a length of 0 or contains only whitespace.
 	* @method isBlank()
 	* @returns Boolean
 	* @example
@@ -430,7 +430,7 @@ interface String {
 	isBlank(): bool;
 
 	/***
-	* @short Returns true if the string contains only characters in that script. Whitespace is ignored.
+	* Returns true if the string contains only characters in that script. Whitespace is ignored.
 	* @method is[Script]()
 	* @returns Boolean
 	*
@@ -473,7 +473,7 @@ interface String {
 	isDevanagari(): bool;
 
 	/***
-	* @short Converts hiragana into katakana.
+	* Converts hiragana into katakana.
 	* @method katakana()
 	* @returns String
 	* @example
@@ -485,7 +485,7 @@ interface String {
 	katakana(): string;
 
 	/***
-	* @short Returns the last [n] characters of the string.
+	* Returns the last [n] characters of the string.
 	* @method last([n] = 1)
 	* @returns String
 	* @example
@@ -497,7 +497,7 @@ interface String {
 	last(n?: number): string;
 
 	/***
-	* @short Runs callback [fn] against each line in the string.
+	* Runs callback [fn] against each line in the string.
 	*        Returns an array of lines.
 	* @method lines([fn])
 	* @returns Array
@@ -512,7 +512,7 @@ interface String {
 	lines(fn?: Function): string[];
 
 	/***
-	* @short Returns the string with accented and non-standard Latin-based
+	* Returns the string with accented and non-standard Latin-based
 	*        characters converted into ASCII approximate equivalents.
 	* @method normalize()
 	* @returns String
@@ -527,7 +527,7 @@ interface String {
 	normalize(): string;
 
 	/***
-	* @short Pads either/both sides of the string.
+	* Pads either/both sides of the string.
 	* @method pad[Side](<padding> = '', [num] = 1)
 	* @returns String
 	* @extra [num] is the number of characters on each side,
@@ -551,7 +551,7 @@ interface String {
 	padRight(padding: string, num?: number): string;
 
 	/***
-	* @short Runs callback [fn] against each paragraph in the string.
+	* Runs callback [fn] against each paragraph in the string.
 	*        Returns an array of paragraphs.
 	* @method paragraphs([fn])
 	* @returns Array
@@ -568,7 +568,7 @@ interface String {
 	paragraphs(fn?: Function): string[];
 
 	/***
-	* @short Replaces special characters in a string so that it may
+	* Replaces special characters in a string so that it may
 	*        be used as part of a pretty URL.
 	* @method parameterize()
 	* @returns String
@@ -580,7 +580,7 @@ interface String {
 	parameterize(): string;
 
 	/***
-	* @short Returns the plural form of the word in the string.
+	* Returns the plural form of the word in the string.
 	* @method pluralize()
 	* @returns String
 	* @example
@@ -595,7 +595,7 @@ interface String {
 	pluralize(): string;
 
 	/***
-	* @short Removes any part of the string that matches <f>.
+	* Removes any part of the string that matches <f>.
 	* @method remove(<f>)
 	* @returns String
 	* @extra <f> can be a string or a regex.
@@ -609,7 +609,7 @@ interface String {
 	remove(find: RegExp): string;
 
 	/***
-	* @short Removes all HTML tags and their contents from the string.
+	* Removes all HTML tags and their contents from the string.
 	* @method removeTags([tag1], [tag2], ...)
 	* @returns String
 	* @extra Tags to remove may be enumerated in the parameters,
@@ -625,7 +625,7 @@ interface String {
 	removeTags(...tags: string[]): string;
 
 	/***
-	* @short Returns the string repeated [num] times.
+	* Returns the string repeated [num] times.
 	* @method repeat([num] = 0)
 	* @returns String
 	* @example
@@ -638,7 +638,7 @@ interface String {
 	repeat(num?: number): string;
 
 	/***
-	* @short Reverses the string.
+	* Reverses the string.
 	* @method reverse()
 	* @returns String
 	* @example
@@ -650,7 +650,7 @@ interface String {
 	reverse(): string;
 
 	/***
-	* @short Shifts each character in the string <n> places in the character map.
+	* Shifts each character in the string <n> places in the character map.
 	* @method shift(<n>)
 	* @returns Array
 	* @example
@@ -662,7 +662,7 @@ interface String {
 	shift(num: number): string[];
 
 	/***
-	* @short The reverse of String#pluralize.
+	* The reverse of String#pluralize.
 	*        Returns the singular form of a word in a string.
 	* @method singularize()
 	* @returns String
@@ -678,7 +678,7 @@ interface String {
 	singularize(): string;
 
 	/***
-	* @short Converts camel case, underscores, and hyphens to a properly spaced string.
+	* Converts camel case, underscores, and hyphens to a properly spaced string.
 	* @method spacify()
 	* @returns String
 	* @example
@@ -708,7 +708,7 @@ interface String {
 	startsWith(find: RegExp, pos?: number, case_?: bool): bool;
 
 	/***
-	* @short Strips all HTML tags from the string.
+	* Strips all HTML tags from the string.
 	* @method stripTags([tag1], [tag2], ...)
 	* @returns String
 	* @extra Tags to strip may be enumerated in the parameters,
@@ -724,7 +724,7 @@ interface String {
 	stripTags(...tags: string[]): string;
 
 	/***
-	* @short Creates a title version of the string.
+	* Creates a title version of the string.
 	* @method titleize()
 	* @returns String
 	* @extra Capitalizes all the words and replaces some characters
@@ -741,7 +741,7 @@ interface String {
 	titleize(): string;
 
 	/***
-	* @short Returns a section of the string ending at [index].
+	* Returns a section of the string ending at [index].
 	* @method to([index] = end)
 	* @returns String
 	* @example
@@ -753,7 +753,7 @@ interface String {
 	to(index?: number): string;
 
 	/***
-	* @short Converts the string into a number.
+	* Converts the string into a number.
 	* @method toNumber([base] = 10)
 	* @returns Number
 	* @extra Any value with a "." fill be converted to a floating point value,
@@ -769,7 +769,7 @@ interface String {
 	toNumber(base?: number): number;
 
 	/***
-	* @short Removes leading and/or trailing whitespace from the string.
+	* Removes leading and/or trailing whitespace from the string.
 	* @method trim[Side]()
 	* @returns String
 	* @extra Whitespace is defined as line breaks, tabs, and any character
@@ -794,7 +794,7 @@ interface String {
 	trimRight(): string;
 
 	/***
-	* @short Truncates a string.
+	* Truncates a string.
 	* @method truncate(<length>, [split] = true, [from] = 'right', [ellipsis] = '...')
 	* @returns Object
 	* @extra If [split] is %false%, will not split words up, and instead
@@ -811,7 +811,7 @@ interface String {
 	truncate(length: number, split?: bool, from?: string, ellipsis?: string): string;
 
 	/***
-	* @short Converts hyphens and camel casing to underscores.
+	* Converts hyphens and camel casing to underscores.
 	* @method underscore()
 	* @returns String
 	* @example
@@ -823,7 +823,7 @@ interface String {
 	underscore(): string;
 
 	/***
-	* @short Restores escaped HTML characters.
+	* Restores escaped HTML characters.
 	* @method unescapeHTML([partial] = false)
 	* @returns String
 	* @example
@@ -835,7 +835,7 @@ interface String {
 	unescapeHTML(partial?: bool): string;
 
 	/***
-	* @short Restores escaped characters in a URL escaped string.
+	* Restores escaped characters in a URL escaped string.
 	* @method unescapeURL([partial] = false)
 	* @returns String
 	* @extra If [partial] is true, it will only unescape non-valid URL characters. [partial] is included here for completeness, but should very rarely be needed.
@@ -848,7 +848,7 @@ interface String {
 	unescapeURL(partial?: bool): string;
 
 	/***
-	* @short Runs callback [fn] against each word in the string.
+	* Runs callback [fn] against each word in the string.
 	*        Returns an array of words.
 	* @method words([fn])
 	* @returns String[]
@@ -864,7 +864,7 @@ interface String {
 	words(fn?: Function): string[];
 
 	/***
-	* @short Converts half-width characters (hankaku) to full-width (zenkaku).
+	* Converts half-width characters (hankaku) to full-width (zenkaku).
 	* @method zenkaku([mode] = 'all')
 	* @returns String
 	* @extra [mode] accepts any combination of
@@ -891,7 +891,7 @@ interface String {
 interface Number {
 
 	/***
-	* @short Returns a random integer between [n1] and [n2].
+	* Returns a random integer between [n1] and [n2].
 	* @method Number.random([n1], [n2])
 	* @returns Number
 	* @extra If only 1 number is passed, the other will be 0. If none are passed, the number will be either 0 or 1.
@@ -905,7 +905,7 @@ interface Number {
 	random(n1?: number, n2?: number): number;
 
 	/***
-	* @short Returns an abbreviated form of the number.
+	* Returns an abbreviated form of the number.
 	* @method abbr([precision] = 0)
 	* @returns String
 	* @extra [precision] will round to the given precision.
@@ -919,7 +919,7 @@ interface Number {
 	abbr(precision?: number): string;
 
 	/***
-	* @short Returns an abbreviated form of the number, considered to be "Bytes".
+	* Returns an abbreviated form of the number, considered to be "Bytes".
 	* @method bytes([precision] = 0, [limit] = 4)
 	* @returns String
 	* @extra [precision] will round to the given precision.
@@ -938,7 +938,7 @@ interface Number {
 	bytes(precision?: number, limit?: bool): string;
 
 	/***
-	* @short Shortcut for %Math.ceil% that also allows a <precision>.
+	* Shortcut for %Math.ceil% that also allows a <precision>.
 	* @method ceil(<precision> = 0)
 	* @returns Number
 	*
@@ -953,7 +953,7 @@ interface Number {
 	ceil(precision?: number): number;
 
 	/***
-	* @short Returns a string at the code point of the number.
+	* Returns a string at the code point of the number.
 	* @method chr()
 	* @returns String
 	* @example
@@ -965,7 +965,7 @@ interface Number {
 	chr(): string;
 
 	/***
-	* @short Returns an array containing numbers from the number down to <num>.
+	* Returns an array containing numbers from the number down to <num>.
 	* @method downto(<num>, [fn], [step] = 1)
 	* @returns Array
 	* @extra Optionally calls [fn] callback for each number in that array.
@@ -982,7 +982,7 @@ interface Number {
 	downto(num: number, fn?: Function, step?: number): number[];
 
 	/***
-	* @short Takes the number as milliseconds and returns a unit-
+	* Takes the number as milliseconds and returns a unit-
 	*        adjusted localized string.
 	* @method duration([locale] = currentLocale)
 	* @returns String
@@ -1002,7 +1002,7 @@ interface Number {
 	duration(locale?: string): string;
 
 	/***
-	* @short Shortcut for %Math.floor% that also allows a <precision>.
+	* Shortcut for %Math.floor% that also allows a <precision>.
 	* @method floor(<precision> = 0)
 	* @returns Number
 	* @example
@@ -1016,7 +1016,7 @@ interface Number {
 	floor(precision?: number): number;
 
 	/***
-	* @short Formats the number to a readable string.
+	* Formats the number to a readable string.
 	* @method format([place] = 0, [thousands] = ',', [decimal] = '.')
 	* @returns String
 	* @extra If [place] is %undefined%, will automatically determine the place.
@@ -1033,7 +1033,7 @@ interface Number {
 	format(place?: number, thousands?: string, decimal?: string): string;
 
 	/***
-	* @short Converts the number to hexidecimal.
+	* Converts the number to hexidecimal.
 	* @method hex([pad] = 1)
 	* @returns String
 	* @extra [pad] will pad the resulting string to that many places.
@@ -1047,7 +1047,7 @@ interface Number {
 	hex(pad?: number): string;
 
 	/***
-	* @short Returns true if the number is even.
+	* Returns true if the number is even.
 	* @method isEven()
 	* @returns Boolean
 	* @example
@@ -1059,7 +1059,7 @@ interface Number {
 	isEven(): bool;
 
 	/***
-	* @short Returns true if the number has no trailing decimal.
+	* Returns true if the number has no trailing decimal.
 	* @method isInteger()
 	* @returns Boolean
 	* @example
@@ -1071,7 +1071,7 @@ interface Number {
 	isInteger(): bool;
 
 	/***
-	* @short Returns true if the number is a multiple of <num>.
+	* Returns true if the number is a multiple of <num>.
 	* @method isMultipleOf(<num>)
 	* @returns Boolean
 	* @example
@@ -1085,7 +1085,7 @@ interface Number {
 	isMultipleOf(num: number): bool;
 
 	/***
-	* @short Returns true if the number is odd.
+	* Returns true if the number is odd.
 	* @method isOdd()
 	* @returns Boolean
 	* @example
@@ -1097,7 +1097,7 @@ interface Number {
 	isOdd(): bool;
 
 	/***
-	* @short Returns the logarithm of the number with base <base>,
+	* Returns the logarithm of the number with base <base>,
 	*        or natural logarithm of the number if <base> is undefined.
 	* @method log(<base> = Math.E)
 	* @returns Number
@@ -1111,7 +1111,7 @@ interface Number {
 	log(base?: number): number;
 
 	/***
-	* @short Math related functions are mapped as shortcuts to numbers and are identical. Note that %Number#log% provides some special defaults.
+	* Math related functions are mapped as shortcuts to numbers and are identical. Note that %Number#log% provides some special defaults.
 	* @method [math]()
 	* @returns Number
 	*
@@ -1146,7 +1146,7 @@ interface Number {
 	pow(num: number): number;
 
 	/***
-	* @short Returns the number as a string in metric notation.
+	* Returns the number as a string in metric notation.
 	* @method metric([precision] = 0, [limit] = 1)
 	* @returns String
 	* @extra [precision] will round to the given precision.
@@ -1168,7 +1168,7 @@ interface Number {
 	metric(precision?: number, limit?: bool): string;
 
 	/***
-	* @short Returns an ordinalized (English) string, i.e. "1st", "2nd", etc.
+	* Returns an ordinalized (English) string, i.e. "1st", "2nd", etc.
 	* @method ordinalize()
 	* @returns String
 	* @example
@@ -1181,7 +1181,7 @@ interface Number {
 	ordinalize(): string;
 
 	/***
-	* @short Pads a number with "0" to <place>.
+	* Pads a number with "0" to <place>.
 	* @method pad(<place> = 0, [sign] = false, [base] = 10)
 	* @returns String
 	* @extra [sign] allows you to force the sign as well (+05, etc). [base] can change the base for numeral conversion.
@@ -1195,7 +1195,7 @@ interface Number {
 	pad(place?: number, sign?: bool, base?: number): string;
 
 	/***
-	* @short Shortcut for %Math.round% that also allows a <precision>.
+	* Shortcut for %Math.round% that also allows a <precision>.
 	* @method round(<precision> = 0)
 	* @returns Number
 	*
@@ -1210,7 +1210,7 @@ interface Number {
 	round(precision?: number): number;
 
 	/***
-	* @short Calls <fn> a number of times equivalent to the number.
+	* Calls <fn> a number of times equivalent to the number.
 	* @method times(<fn>)
 	* @returns Number
 	* @example
@@ -1223,7 +1223,7 @@ interface Number {
 	times(fn: Function): number;
 
 	/***
-	* @short Returns a number. This is mostly for compatibility reasons.
+	* Returns a number. This is mostly for compatibility reasons.
 	* @method toNumber()
 	* @returns Number
 	* @example
@@ -1234,7 +1234,7 @@ interface Number {
 	toNumber(): number;
 
 	/***
-	* @short Takes the number as a corresponding unit of time and
+	* Takes the number as a corresponding unit of time and
 	*        converts to milliseconds.
 	* @method [unit]()
 	* @returns Number
@@ -1287,7 +1287,7 @@ interface Number {
 	years(): number;
 
 	/***
-	* @short Returns a date <n> units after [d], where <n> is the number.
+	* Returns a date <n> units after [d], where <n> is the number.
 	* @method [unit]After([d], [locale] = currentLocale)
 	* @returns Date
 	* @extra [d] will accept a date object, timestamp, or text format.
@@ -1354,7 +1354,7 @@ interface Number {
 	yearsAfter(d: Date, locale?: string): Date;
 
 	/***
-	* @short Returns a date that is <n> units ago.
+	* Returns a date that is <n> units ago.
 	* @method [unit]Ago()
 	* @returns Date
 	* @extra Note that "months" is ambiguous as a unit of time.
@@ -1405,7 +1405,7 @@ interface Number {
 	yearsAgo(): Date;
 
 	/***
-	* @short Returns a date that is <n> units before [d], where <n> is the number.
+	* Returns a date that is <n> units before [d], where <n> is the number.
 	* @method [unit]Before([d], [locale] = currentLocale)
 	* @returns Date
 	* @extra [d] will accept a date object, timestamp, or text format.
@@ -1473,7 +1473,7 @@ interface Number {
 	yearsBefore(d: Date, locale?: string): Date;
 
 	/***
-	* @short Returns a date <n> units from now.
+	* Returns a date <n> units from now.
 	* @method [unit]FromNow()
 	* @returns Date
 	* @extra Note that "months" is ambiguous as a unit of time.
@@ -1524,7 +1524,7 @@ interface Number {
 	yearsFromNow(): Date;
 
 	/***
-	* @short Returns an array containing numbers from the number up to <num>.
+	* Returns an array containing numbers from the number up to <num>.
 	* @method upto(<num>, [fn], [step] = 1)
 	* @returns Array
 	* @extra Optionally calls [fn] callback for each number in that array.
@@ -1544,7 +1544,7 @@ interface Number {
 interface Array {
 
 	/***
-	* @short Alternate array constructor.
+	* Alternate array constructor.
 	* @method Array.create(<obj1>, <obj2>, ...)
 	* @returns Array
 	* @extra This method will create a single array by calling %concat%
@@ -1565,7 +1565,7 @@ interface Array {
 	create(...args: any[]): any[];
 
 	/***
-	* @short Returns true if <obj> is an Array.
+	* Returns true if <obj> is an Array.
 	* @method Array.isArray(<obj>)
 	* @returns Boolean
 	* @extra This method is provided for browsers that don't support it internally.
@@ -1580,7 +1580,7 @@ interface Array {
 	isArray(obj: any): bool;
 
 	/***
-	* @short Adds <el> to the array.
+	* Adds <el> to the array.
 	* @method add(<el>, [index])
 	* @returns Array
 	* @extra If [index] is specified, it will add at [index], otherwise
@@ -1602,7 +1602,7 @@ interface Array {
 	insert(el: any[], index?: number): any[];
 
 	/***
-	* @short Gets the element(s) at a given index.
+	* Gets the element(s) at a given index.
 	* @method at(<index>, [loop] = true)
 	* @returns Mixed
 	* @extra When [loop] is true, overshooting the end of the array (or the beginning) will begin counting from the other end. As an alternate syntax, passing multiple indexes will get the elements at those indexes.
@@ -1620,7 +1620,7 @@ interface Array {
 	at(start: number, stop: number): any[];
 
 	/***
-	* @short Averages all values in the array.
+	* Averages all values in the array.
 	* @method average([map])
 	* @returns Number
 	* @extra [map] may be a function mapping the value to be averaged or
@@ -1637,7 +1637,7 @@ interface Array {
 	average(map?: (n: number) => number): number;
 
 	/***
-	* @short Clones the array.
+	* Clones the array.
 	* @method clone()
 	* @returns Array
 	* @example
@@ -1648,7 +1648,7 @@ interface Array {
 	clone(): any[];
 
 	/***
-	* @short Removes all instances of %undefined%, %null%, and %NaN% from the array.
+	* Removes all instances of %undefined%, %null%, and %NaN% from the array.
 	* @method compact([all] = false)
 	* @returns Array
 	* @extra If [all] is %true%, all "falsy" elements will be removed. This includes empty strings, 0, and false.
@@ -1662,7 +1662,7 @@ interface Array {
 	compact(all?: bool): any[];
 
 	/***
-	* @short Counts all elements in the array that match <f>.
+	* Counts all elements in the array that match <f>.
 	* @method count(<f>)
 	* @returns Number
 	* @extra <f> will match a string, number, array, object, or alternately test against a function or regex. This method implements @array_matching.
@@ -1683,7 +1683,7 @@ interface Array {
 	count(f: RegExp): number;
 
 	/***
-	* @short Runs <fn> against each element in the array. Enhanced version of %Array#forEach%.
+	* Runs <fn> against each element in the array. Enhanced version of %Array#forEach%.
 	* @method each(<fn>, [index] = 0, [loop] = false)
 	* @returns Array
 	* @extra Parameters passed to <fn> are identical to %forEach%,
@@ -1710,7 +1710,7 @@ interface Array {
 		loop?: bool): any[];
 
 	/***
-	* @short Returns true if all elements in the array match <f>.
+	* Returns true if all elements in the array match <f>.
 	* @method every(<f>, [scope])
 	* @returns Boolean
 	* @extra [scope] is the %this% object. %all% is provided an alias.
@@ -1734,7 +1734,7 @@ interface Array {
 	all(f: (el: any, i?: number, array?: any[]) => bool, scope?: any): bool;
 
 	/***
-	* @short Removes any element in the array that matches [f1], [f2], etc.
+	* Removes any element in the array that matches [f1], [f2], etc.
 	* @method exclude([f1], [f2], ...)
 	* @returns Array
 	* @extra This is a non-destructive alias for %remove%. It will not change the original array. This method implements @array_matching.
@@ -1754,7 +1754,7 @@ interface Array {
 	exclude(...f: (el: any, i?: number, array?: any[]) => bool): any[];
 
 	/***
-	* @short Returns any elements in the array that match <f>.
+	* Returns any elements in the array that match <f>.
 	* @method filter(<f>, [scope])
 	* @returns Array
 	* @extra [scope] is the %this% object. In addition to providing this
@@ -1775,7 +1775,7 @@ interface Array {
 	filter(f: (el: any, i?: number, array?: any[]) => bool, scope?: any): any[];
 
 	/***
-	* @short Returns the first element that matches <f>.
+	* Returns the first element that matches <f>.
 	* @method find(<f>, [index] = 0, [loop] = false)
 	* @returns Mixed
 	* @extra <f> will match a string, number, array, object, or alternately
@@ -1797,7 +1797,7 @@ interface Array {
 	find(f: (el: any, i?: number, array?: any[]) => bool, index?: number, loop?: bool): any;
 
 	/***
-	* @short Returns all elements that match <f>.
+	* Returns all elements that match <f>.
 	* @method findAll(<f>, [index] = 0, [loop] = false)
 	* @returns Array
 	* @extra <f> will match a string, number, array, object, or alternately
@@ -1820,7 +1820,7 @@ interface Array {
 	findAll(f: (el: any, i?: number, array?: any[]) => bool, index?: number, loop?: bool): any[];
 
 	/***
-	* @short Returns the index of the first element that matches <f>
+	* Returns the index of the first element that matches <f>
 	*        or -1 if not found.
 	* @method findIndex(<f>, [startIndex] = 0, [loop] = false)
 	* @returns Number
@@ -1850,7 +1850,7 @@ interface Array {
 	findIndex(f: (el: any, i?: number, array?: any[]) => bool, startIndex?: number, loop?: bool): number;
 
 	/***
-	* @short Returns the first element(s) in the array.
+	* Returns the first element(s) in the array.
 	* @method first([num] = 1)
 	* @returns Mixed
 	* @extra When <num> is passed, returns the first <num> elements in the array.
@@ -1863,7 +1863,7 @@ interface Array {
 	first(num?: number): any[];
 
 	/***
-	* @short Returns a flattened, one-dimensional copy of the array.
+	* Returns a flattened, one-dimensional copy of the array.
 	* @method flatten([limit] = Infinity)
 	* @returns Array
 	* @extra You can optionally specify a [limit], which will only flatten
@@ -1877,7 +1877,7 @@ interface Array {
 	flatten(limit?: number): any[];
 
 	/***
-	* @short Iterates over the array, calling [fn] on each loop.
+	* Iterates over the array, calling [fn] on each loop.
 	* @method forEach([fn], [scope])
 	* @returns Nothing
 	* @extra This method is only provided for those browsers that do not support
@@ -1892,7 +1892,7 @@ interface Array {
 	forEach(fn: (el: any, i?: number, array?: any[]) => any, scope?: any): void;
 
 	/***
-	* @short Returns a slice of the array from <index>.
+	* Returns a slice of the array from <index>.
 	* @method from(<index>)
 	* @returns Array
 	* @example
@@ -1904,7 +1904,7 @@ interface Array {
 	from(index: number): any[];
 
 	/***
-	* @short Groups the array by <map>.
+	* Groups the array by <map>.
 	* @method groupBy(<map>, [fn])
 	* @returns Object
 	* @extra Will return an object with keys equal to the grouped values.
@@ -1922,7 +1922,7 @@ interface Array {
 	groupBy(fn: (n: any) => void ): Object;
 
 	/***
-	* @short Groups the array into <num> arrays.
+	* Groups the array into <num> arrays.
 	* @method inGroups(<num>, [padding])
 	* @returns Array
 	* @extra [padding] specifies a value with which to pad the last array
@@ -1936,7 +1936,7 @@ interface Array {
 	inGroups(num: number, padding?: any): any[][];
 
 	/***
-	* @short Groups the array into arrays of <num> elements each.
+	* Groups the array into arrays of <num> elements each.
 	* @method inGroupsOf(<num>, [padding] = null)
 	* @returns Array
 	* @extra [padding] specifies a value with which to pad the last array so that they are all equal length.
@@ -1949,7 +1949,7 @@ interface Array {
 	inGroupsOf(num: number, padding?: any): any[][];
 
 	/***
-	* @short Adds <el> to the array.
+	* Adds <el> to the array.
 	* @method include(<el>, [index])
 	* @returns Array
 	* @extra This is a non-destructive alias for %add%. It will not change
@@ -1964,7 +1964,7 @@ interface Array {
 	include(el: any, index?: number): any[];
 
 	/***
-	* @short Searches the array and returns the first index where <search> occurs, or -1 if the element is not found.
+	* Searches the array and returns the first index where <search> occurs, or -1 if the element is not found.
 	* @method indexOf(<search>, [fromIndex])
 	* @returns Number
 	* @extra [fromIndex] is the index from which to begin the search.
@@ -1981,7 +1981,7 @@ interface Array {
 	indexOf(search: any, fromIndex?: number): number;
 
 	/***
-	* @short Returns an array containing the elements all arrays have in common.
+	* Returns an array containing the elements all arrays have in common.
 	* @method intersect([a1], [a2], ...)
 	* @returns Array
 	* @extra This method will also correctly operate on arrays of objects.
@@ -1997,7 +1997,7 @@ interface Array {
 	intersect(...args: any[]): any[];
 
 	/***
-	* @short Returns true if the array is empty.
+	* Returns true if the array is empty.
 	* @method isEmpty()
 	* @returns Boolean
 	* @extra This is true if the array has a length of zero, or contains
@@ -2011,7 +2011,7 @@ interface Array {
 	isEmpty(): bool;
 
 	/***
-	* @short Returns the last element(s) in the array.
+	* Returns the last element(s) in the array.
 	* @method last([num] = 1)
 	* @returns Mixed
 	* @extra When <num> is passed, returns the last <num> elements in the array.
@@ -2025,7 +2025,7 @@ interface Array {
 	last(num: number): any[];
 
 	/***
-	* @short Searches the array and returns the last index where <search> occurs,
+	* Searches the array and returns the last index where <search> occurs,
 	*        or -1 if the element is not found.
 	* @method lastIndexOf(<search>, [fromIndex])
 	* @returns Number
@@ -2040,7 +2040,7 @@ interface Array {
 	lastIndexOf(search: any, fromIndex?: number): number;
 
 	/***
-	* @short Returns the elements in the array with the least
+	* Returns the elements in the array with the least
 	*        commonly occuring value.
 	* @method least([map])
 	* @returns Array
@@ -2059,7 +2059,7 @@ interface Array {
 	least(map: (n: any) => any): any[];
 
 	/***
-	* @short Maps the array to another array containing the values that
+	* Maps the array to another array containing the values that
 	*        are the result of calling <map> on each element.
 	* @method map(<map>, [scope])
 	* @returns Array
@@ -2081,7 +2081,7 @@ interface Array {
 	map(map: (n: any) => any, scope?: any): any[];
 
 	/***
-	* @short Returns the element in the array with the greatest value.
+	* Returns the element in the array with the greatest value.
 	* @method max([map], [all] = false)
 	* @returns Mixed
 	* @extra [map] may be a function mapping the value to be checked or a string
@@ -2101,7 +2101,7 @@ interface Array {
 	max(map: (n: any) => any): any;
 
 	/***
-	* @short Returns the element in the array with the lowest value.
+	* Returns the element in the array with the lowest value.
 	* @method min([map], [all] = false)
 	* @returns Mixed
 	* @extra [map] may be a function mapping the value to be checked or a string acting as a shortcut. If [all] is true, will return all min values in an array.
@@ -2122,7 +2122,7 @@ interface Array {
 	min(map: (n: any) => any): any;
 
 	/***
-	* @short Returns the elements in the array with the most
+	* Returns the elements in the array with the most
 	*        commonly occuring value.
 	* @method most([map])
 	* @returns Array
@@ -2141,7 +2141,7 @@ interface Array {
 	most(map: (n: any) => any): any[];
 
 	/***
-	* @short Returns true if none of the elements in the array match <f>.
+	* Returns true if none of the elements in the array match <f>.
 	* @method none(<f>)
 	* @returns Boolean
 	* @extra <f> will match a string, number, array, object, or alternately test
@@ -2163,7 +2163,7 @@ interface Array {
 	none(f: (n: any) => bool): bool;
 
 	/***
-	* @short Returns a copy of the array with the elements randomized.
+	* Returns a copy of the array with the elements randomized.
 	* @method randomize()
 	* @returns Array
 	* @extra Uses Fisher-Yates algorithm.
@@ -2175,7 +2175,7 @@ interface Array {
 	randomize(): any[];
 
 	/***
-	* @short Reduces the array to a single result.
+	* Reduces the array to a single result.
 	* @method reduce(<fn>, [init])
 	* @returns Mixed
 	* @extra If [init] is passed as a starting value, that value will be passed
@@ -2205,7 +2205,7 @@ interface Array {
 	reduce(fn: (a: any, b: any) => any, init: any): any;
 
 	/***
-	* @short Identical to %Array#reduce%,
+	* Identical to %Array#reduce%,
 	*        but operates on the elements in reverse order.
 	* @method reduceRight([fn], [init])
 	* @returns Mixed
@@ -2221,7 +2221,7 @@ interface Array {
 	reduceRight(fn: (a: any, b: any) => any, init: any): any;
 
 	/***
-	* @short Removes any element in the array that matches [f1], [f2], etc.
+	* Removes any element in the array that matches [f1], [f2], etc.
 	* @method remove([f1], [f2], ...)
 	* @returns Array
 	* @extra Will match a string, number, array, object, or alternately test
@@ -2244,7 +2244,7 @@ interface Array {
 	remove(fn: (n: any) => bool): any[];
 
 	/***
-	* @short Removes element at <start>. If [end] is specified, removes the range
+	* Removes element at <start>. If [end] is specified, removes the range
 	*        between <start> and [end]. This method will change the array!
 	*        If you don't intend the array to be changed use %clone% first.
 	* @method removeAt(<start>, [end])
@@ -2258,7 +2258,7 @@ interface Array {
 	removeAt(start: number, end?: number): any[];
 
 	/***
-	* @short Returns a random element from the array.
+	* Returns a random element from the array.
 	* @method sample([num])
 	* @returns Mixed
 	* @extra If [num] is passed, will return [num] samples from the array.
@@ -2272,7 +2272,7 @@ interface Array {
 	sample(num: number): any[];
 
 	/***
-	* @short Returns true if any element in the array matches <f>.
+	* Returns true if any element in the array matches <f>.
 	* @method some(<f>, [scope])
 	* @returns Boolean
 	* @extra [scope] is the %this% object. %any% is provided as an alias.
@@ -2295,7 +2295,7 @@ interface Array {
 	some(f: (n: any) => bool, scope?: any): bool;
 
 	/***
-	* @short Sorts the array by <map>.
+	* Sorts the array by <map>.
 	* @method sortBy(<map>, [desc] = false)
 	* @returns Array
 	* @extra <map> may be a function, a string acting as a shortcut, or blank
@@ -2317,7 +2317,7 @@ interface Array {
 	sortBy(fn: (n: any) => any, desc?: bool): any[];
 
 	/***
-	* @short Subtracts from the array all elements in [a1], [a2], etc.
+	* Subtracts from the array all elements in [a1], [a2], etc.
 	* @method subtract([a1], [a2], ...)
 	* @returns Array
 	* @extra This method will also correctly operate on arrays of objects.
@@ -2333,7 +2333,7 @@ interface Array {
 	/***
 	* @method sum([map])
 	* @returns Number
-	* @short Sums all values in the array.
+	* Sums all values in the array.
 	* @extra [map] may be a function mapping the value to be summed or a string
 	*        acting as a shortcut.
 	* @example
@@ -2349,7 +2349,7 @@ interface Array {
 	sum(fn: (n: any) => number): number;
 
 	/***
-	* @short Returns a slice of the array up to <index>.
+	* Returns a slice of the array up to <index>.
 	* @method to(<index>)
 	* @returns Array
 	* @example
@@ -2361,7 +2361,7 @@ interface Array {
 	to(index: number): any[];
 
 	/***
-	* @short Returns an array containing all elements in all arrays with
+	* Returns an array containing all elements in all arrays with
 	*        duplicates removed.
 	* @method union([a1], [a2], ...)
 	* @returns Array
@@ -2376,7 +2376,7 @@ interface Array {
 	union(...args: any[]): any[];
 
 	/***
-	* @short Removes all duplicate elements in the array.
+	* Removes all duplicate elements in the array.
 	* @method unique([map] = null)
 	* @returns Array
 	* @extra [map] may be a function mapping the value to be uniqued on or a
@@ -2398,7 +2398,7 @@ interface Array {
 	unique(fn?: (obj: any) => any): any[];
 
 	/***
-	* @short Merges multiple arrays together.
+	* Merges multiple arrays together.
 	* @method zip([arr1], [arr2], ...)
 	* @returns Array
 	* @extra This method "zips up" smaller arrays into one large whose elements
@@ -2419,7 +2419,7 @@ interface Array {
 interface Object {
 
 	/***
-	* @short Creates a new object, equivalent to %new Object()% or %{}%,
+	* Creates a new object, equivalent to %new Object()% or %{}%,
 	*        but with extended methods.
 	* @method Object.extended(<obj> = {})
 	* @returns Extended object
@@ -2434,7 +2434,7 @@ interface Object {
 	extended(obj?: Object): Object;
 
 	/***
-	* @short Converts the query string of a URL into an object.
+	* Converts the query string of a URL into an object.
 	* @method Object.fromQueryString(<str>, [deep] = true)
 	* @returns Object
 	* @extra If [deep] is %false%, conversion will only accept shallow params (ie. no object or arrays with %[]% syntax) as these are not universally supported.
@@ -2447,7 +2447,7 @@ interface Object {
 	fromQueryString(str: string, deep?: bool): Object;
 
 	/***
-	* @short Returns true if <obj> is an object of that type.
+	* Returns true if <obj> is an object of that type.
 	* @method Object.is[Type](<obj>)
 	* @returns Boolean
 	* @extra %isObject% will return false on anything that is not an object
@@ -2504,7 +2504,7 @@ interface Object {
 	toQueryString(obj: any, namespace?: string): string;
 
 	/***
-	* @short Creates a clone (copy) of <obj>.
+	* Creates a clone (copy) of <obj>.
 	* @method clone(<obj> = {}, [deep] = false)
 	* @returns Cloned object
 	* @extra Default is a shallow clone, unless [deep] is true. %clone%
@@ -2519,7 +2519,7 @@ interface Object {
 	clone(obj?: Object, deep?: bool): Object;
 
 	/***
-	* @short Enumerable methods in the Array package are also available to
+	* Enumerable methods in the Array package are also available to
 	*        the Object class. They will perform their normal operations for
 	*        every property in <obj>.
 	* @method [enumerable](<obj>)
@@ -2628,7 +2628,7 @@ interface Object {
 	most(obj: Object, map: (key: string, value: any) => any): Object;
 
 	/***
-	* @short Returns true if <a> and <b> are equal.
+	* Returns true if <a> and <b> are equal.
 	* @method equal(<a>, <b>)
 	* @returns Boolean
 	* @extra %equal% in Sugar is "egal", meaning the values are equal
@@ -2644,7 +2644,7 @@ interface Object {
 	equal(a: Object, b: Object): bool;
 
 	/***
-	* @short Checks if <obj> has <key> using hasOwnProperty from Object.prototype.
+	* Checks if <obj> has <key> using hasOwnProperty from Object.prototype.
 	* @method has(<obj>, <key>)
 	* @returns Boolean
 	* @extra This method is considered safer than %Object#hasOwnProperty% when
@@ -2662,7 +2662,7 @@ interface Object {
 	has(obj: Object, key: string): bool;
 
 	/***
-	* @short Returns an array containing the keys in <obj>. Optionally calls
+	* Returns an array containing the keys in <obj>. Optionally calls
 	*        [fn] for each key.
 	* @method keys(<obj>, [fn])
 	* @returns Array
@@ -2683,7 +2683,7 @@ interface Object {
 	keys(obj: Object, fn?: (key: string, value: any) => void ): string[];
 
 	/***
-	* @short Merges all the properties of <source> into <target>.
+	* Merges all the properties of <source> into <target>.
 	* @method merge(<target>, <source>, [deep] = false, [resolve] = true)
 	* @returns Merged object
 	* @extra Merges are shallow unless [deep] is %true%. Properties of <source>
@@ -2735,7 +2735,7 @@ interface Object {
 
 
 	/***
-	* @short Returns the number of properties in <obj>.
+	* Returns the number of properties in <obj>.
 	* @method size(<obj>)
 	* @returns Number
 	* @extra %size% is available as an instance method on extended objects.
@@ -2748,7 +2748,7 @@ interface Object {
 	size(obj: Object): number;
 
 	/***
-	* @short Runs <fn> and returns <obj>.
+	* Runs <fn> and returns <obj>.
 	* @method tap(<obj>, <fn>)
 	* @returns Object
 	* @extra  A string can also be used as a shortcut to a method. This method
@@ -2771,7 +2771,7 @@ interface Object {
 	tap(obj: Object, fn: (...args: any[]) => any): Object;
 
 	/***
-	* @short Returns an array containing the values in <obj>.
+	* Returns an array containing the values in <obj>.
 	*        Optionally calls [fn] for each value.
 	* @method values(<obj>, [fn])
 	* @returns Array
@@ -2792,7 +2792,7 @@ interface Object {
 	values(obj: Object, fn: (value: any) => any): any[];
 
 	/***
-	* @short Watches a property of <obj> and runs <fn> when it changes.
+	* Watches a property of <obj> and runs <fn> when it changes.
 	* @method watch(<obj>, <prop>, <fn>)
 	* @returns Nothing
 	* @extra <fn> is passed three arguments: the property <prop>, the old value,
@@ -2820,7 +2820,7 @@ interface Object {
 interface Function {
 
 	/***
-	* @short Creates a function that will execute after [num] calls.
+	* Creates a function that will execute after [num] calls.
 	* @method after([num] = 1)
 	* @returns Function
 	* @extra %after% is useful for running a final callback after a series of
@@ -2836,7 +2836,7 @@ interface Function {
 	after(num?: number): Function;
 
 	/***
-	* @short Binds <scope> as the %this% object for the function when it is called.
+	* Binds <scope> as the %this% object for the function when it is called.
 	*        Also allows currying an unlimited number of parameters.
 	* @method bind(<scope>, [arg1], ...)
 	* @returns Function
@@ -2862,7 +2862,7 @@ interface Function {
 	bind(scope?: Object, ...args: any[]): Function;
 
 	/***
-	* @short Cancels a delayed function scheduled to be run.
+	* Cancels a delayed function scheduled to be run.
 	* @method cancel()
 	* @returns Function
 	* @extra %delay%, %lazy%, %throttle%, and %debounce% can all set delays.
@@ -2876,7 +2876,7 @@ interface Function {
 	cancel(): Function;
 
 	/***
-	* @short Creates a "debounced" function that postpones its execution until
+	* Creates a "debounced" function that postpones its execution until
 	*        after <ms> milliseconds have passed.
 	* @method debounce(<ms>)
 	* @returns Function
@@ -2894,7 +2894,7 @@ interface Function {
 	debounce(ms: number): Function;
 
 	/***
-	* @short Executes the function after <ms> milliseconds.
+	* Executes the function after <ms> milliseconds.
 	* @method delay([ms] = 0, [arg1], ...)
 	* @returns Function
 	* @extra Returns a reference to itself. %delay% is also a way to execute
@@ -2911,7 +2911,7 @@ interface Function {
 	delay(ms?: number, ...args: any[]): Function;
 
 	/***
-	* @short Returns a new version of the function which when called will have
+	* Returns a new version of the function which when called will have
 	*        some of its arguments pre-emptively filled in, also known as "currying".
 	* @method fill(<arg1>, <arg2>, ...)
 	* @returns Function
@@ -2932,7 +2932,7 @@ interface Function {
 	fill(...args: any[]): Function;
 
 	/***
-	* @short Creates a lazy function that, when called repeatedly, will queue
+	* Creates a lazy function that, when called repeatedly, will queue
 	*        execution and wait [ms] milliseconds to execute again.
 	* @method lazy([ms] = 1, [limit] = Infinity)
 	* @returns Function
@@ -2959,7 +2959,7 @@ interface Function {
 	lazy(ms?: number, limit?: number): Function;
 
 	/***
-	* @short Creates a function that will execute only once and store the result.
+	* Creates a function that will execute only once and store the result.
 	* @method once()
 	* @returns Function
 	* @extra %once% is useful for creating functions that will cache the result of
@@ -2976,7 +2976,7 @@ interface Function {
 	once(): Function;
 
 	/***
-	* @short Creates a "throttled" version of the function that will only be
+	* Creates a "throttled" version of the function that will only be
 	*        executed once per <ms> milliseconds.
 	* @method throttle(<ms>)
 	* @returns Function
@@ -2998,7 +2998,7 @@ interface Function {
 interface RegExp {
 
 	/***
-	* @short Escapes all RegExp tokens in a string.
+	* Escapes all RegExp tokens in a string.
 	* @method RegExp.escape(<str> = '')
 	* @returns String
 	* @example
@@ -3011,7 +3011,7 @@ interface RegExp {
 	escape(str: string): string;
 
 	/***
-	* @short Adds <flag> to the regex.
+	* Adds <flag> to the regex.
 	* @method addFlag(<flag>)
 	* @returns RegExp
 	* @example
@@ -3022,7 +3022,7 @@ interface RegExp {
 	addFlag(flag: string): RegExp;
 
 	/***
-	* @short Returns the flags of the regex as a string.
+	* Returns the flags of the regex as a string.
 	* @method getFlags()
 	* @returns String
 	* @example
@@ -3033,7 +3033,7 @@ interface RegExp {
 	getFlags(): string;
 
 	/***
-	* @short Removes <flag> from the regex.
+	* Removes <flag> from the regex.
 	* @method removeFlag(<flag>)
 	* @returns RegExp
 	* @example
@@ -3044,7 +3044,7 @@ interface RegExp {
 	removeFlag(flag: string): RegExp;
 
 	/***
-	* @short Sets the flags on a regex and retuns a copy.
+	* Sets the flags on a regex and retuns a copy.
 	* @method setFlags(<flags>)
 	* @returns RegExp
 	* @example
@@ -3083,7 +3083,7 @@ interface Locale {
 interface Date {
 
 	/***
-	* @short Adds a locale <set> to the locales understood by Sugar.
+	* Adds a locale <set> to the locales understood by Sugar.
 	* @method Date.addLocale(<code>, <set>)
 	* @returns Locale
 	* @extra For more see @date_format.
@@ -3091,7 +3091,7 @@ interface Date {
 	addLocale(code: string, set: Locale): Locale;
 
 	/***
-	* @short Alternate Date constructor which understands many different text formats,
+	* Alternate Date constructor which understands many different text formats,
 	*        a timestamp, or another date.
 	* @method Date.create(<d>, [locale] = currentLocale)
 	* @returns Date
@@ -3122,7 +3122,7 @@ interface Date {
 	create(year: number, month: number, day: number, locale?: string): Date;
 
 	/***
-	* @short Alternate form of %Date.create% with any ambiguity assumed to be the future.
+	* Alternate form of %Date.create% with any ambiguity assumed to be the future.
 	* @method Date.future(<d>, [locale] = currentLocale)
 	* @returns Date
 	* @extra For example %"Sunday"% can be either "the Sunday coming up" or "the Sunday last"
@@ -3141,7 +3141,7 @@ interface Date {
 	future(d: string, locale?: string): Date;
 
 	/***
-	* @short Gets the locale for the given code, or the current locale.
+	* Gets the locale for the given code, or the current locale.
 	* @method Date.getLocale([code] = current)
 	* @returns Locale
 	* @extra The resulting locale object can be manipulated to provide more control over date localizations.
@@ -3150,7 +3150,7 @@ interface Date {
 	getLocale(code?: string): Locale;
 
 	/***
-	* @short Returns the number of milliseconds since January 1st, 1970 00:00:00 (UTC time).
+	* Returns the number of milliseconds since January 1st, 1970 00:00:00 (UTC time).
 	* @method Date.now()
 	* @returns String
 	* @extra Provided for browsers that do not support this method.
@@ -3162,7 +3162,7 @@ interface Date {
 	now(): string;
 
 	/***
-	* @short Alternate form of %Date.create% with any ambiguity assumed to be the past.
+	* Alternate form of %Date.create% with any ambiguity assumed to be the past.
 	* @method Date.past(<d>, [locale] = currentLocale)
 	* @returns Date
 	* @extra For example %"Sunday"% can be either "the Sunday coming up" or "the Sunday last" depending
@@ -3180,7 +3180,7 @@ interface Date {
 	past(d: string, local?: string): Date;
 
 	/***
-	* @short Creates a new date range.
+	* Creates a new date range.
 	* @method Date.range([start], [end])
 	* @returns DateRange
 	* @extra If either [start] or [end] are null, they will default to the current date.
@@ -3188,7 +3188,7 @@ interface Date {
 	range(start: Date, end: Date): DateRange;
 
 	/***
-	* @short Sets the current locale to be used with dates.
+	* Sets the current locale to be used with dates.
 	* @method Date.setLocale(<code>)
 	* @returns Locale
 	* @extra Sugar has support for 13 locales that are available through the
@@ -3199,7 +3199,7 @@ interface Date {
 	setLocale(code: string): Locale;
 
 	/***
-	* @short Adds <num> of the unit to the date. If [reset] is true, all lower
+	* Adds <num> of the unit to the date. If [reset] is true, all lower
 	*        units will be reset.
 	* @method add[Units](<num>, [reset] = false)
 	* @returns Date
@@ -3235,7 +3235,7 @@ interface Date {
 	addYears(num: number, reset?: bool): Date;
 
 	/***
-	* @short Sets the date forward.
+	* Sets the date forward.
 	* @method advance(<set>, [reset] = false)
 	* @returns Date
 	* @extra This method can accept multiple formats including an object, a string
@@ -3257,7 +3257,7 @@ interface Date {
 	advance(set: Object, reset?: bool): Date;
 
 	/***
-	* @short Sets the date to the beginning of the appropriate unit.
+	* Sets the date to the beginning of the appropriate unit.
 	* @method beginningOf[Unit]()
 	* @returns Date
 	*
@@ -3281,7 +3281,7 @@ interface Date {
 	beginningOfYear(): Date;
 
 	/***
-	* @short Clones the date.
+	* Clones the date.
 	* @method clone()
 	* @returns Date
 	* @example
@@ -3292,7 +3292,7 @@ interface Date {
 	clone(): Date;
 
 	/***
-	* @short Returns the number of days in the date's month.
+	* Returns the number of days in the date's month.
 	* @method daysInMonth()
 	* @returns Number
 	* @example
@@ -3304,7 +3304,7 @@ interface Date {
 	daysInMonth(): number;
 
 	/***
-	* @short Sets the date to the end of the appropriate unit.
+	* Sets the date to the end of the appropriate unit.
 	* @method endOf[Unit]()
 	* @returns Date
 	*
@@ -3328,7 +3328,7 @@ interface Date {
 	endOfYear(): Date;
 
 	/***
-	* @short Formats and outputs the date.
+	* Formats and outputs the date.
 	* @method format(<format>, [locale] = currentLocale)
 	* @returns String
 	* @extra <format> can be a number of pre-determined formats or a string of
@@ -3362,7 +3362,7 @@ interface Date {
 	full(): string;
 
 	/***
-	* @short Returns a string representation of the offset from UTC time. If [iso]
+	* Returns a string representation of the offset from UTC time. If [iso]
 	*        is true the offset will be in ISO8601 format.
 	* @method getUTCOffset([iso])
 	* @returns String
@@ -3387,7 +3387,7 @@ interface Date {
 	getISOWeek(): number;
 
 	/***
-	* @short Alias for %getDay%.
+	* Alias for %getDay%.
 	* @method getWeekday()
 	* @returns Number
 	* @set
@@ -3405,7 +3405,7 @@ interface Date {
 	getUTCDay(): number;
 
 	/***
-	* @short Returns true if the date is <d>.
+	* Returns true if the date is <d>.
 	* @method is(<d>, [margin] = 0)
 	* @returns Boolean
 	* @extra <d> will accept a date object, timestamp, or text format. %is%
@@ -3429,7 +3429,7 @@ interface Date {
 	is(d: Date, margin?: number): bool;
 
 	/***
-	* @short Returns true if the date is after the <d>.
+	* Returns true if the date is after the <d>.
 	* @method isAfter(<d>, [margin] = 0)
 	* @returns Boolean
 	* @extra [margin] is to allow extra margin of error (in ms). <d> will accept
@@ -3446,7 +3446,7 @@ interface Date {
 	isAfter(d: Date, margin?: number): bool;
 
 	/***
-	* @short Returns true if the date is before <d>.
+	* Returns true if the date is before <d>.
 	* @method isBefore(<d>, [margin] = 0)
 	* @returns Boolean
 	* @extra [margin] is to allow extra margin of error (in ms). <d> will accept 
@@ -3463,7 +3463,7 @@ interface Date {
 	isBefore(d: Date, margin?: number): bool;
 
 	/***
-	* @short Returns true if the date falls between <d1> and <d2>.
+	* Returns true if the date falls between <d1> and <d2>.
 	* @method isBetween(<d1>, <d2>, [margin] = 0)
 	* @returns Boolean
 	* @extra [margin] is to allow extra margin of error (in ms). <d1> and <d2>
@@ -3480,7 +3480,7 @@ interface Date {
 	isBefore(start: Date, end: Date, margin?: number): bool;
 
 	/***
-	* @short Returns true if the date falls on that day.
+	* Returns true if the date falls on that day.
 	* @method is[Day]()
 	* @returns Boolean
 	* @extra Also available: %isYesterday%, %isToday%, %isTomorrow%, %isWeekday%,
@@ -3522,7 +3522,7 @@ interface Date {
 	isSaturday(): bool;
 
 	/***
-	* @short Returns true if the date is in the future.
+	* Returns true if the date is in the future.
 	* @method isFuture()
 	* @returns Boolean
 	* @example
@@ -3534,7 +3534,7 @@ interface Date {
 	isFuture(): bool;
 
 	/***
-	* @short Returns true if the date is last week/month/year.
+	* Returns true if the date is last week/month/year.
 	* @method isLast[Unit]()
 	* @returns Boolean
 	*
@@ -3555,7 +3555,7 @@ interface Date {
 	isLastYear(): bool;
 
 	/***
-	* @short Returns true if the date is a leap year.
+	* Returns true if the date is a leap year.
 	* @method isLeapYear()
 	* @returns Boolean
 	* @example
@@ -3566,7 +3566,7 @@ interface Date {
 	isLeapYear(): bool;
 
 	/***
-	* @short Returns true if the date is next week/month/year.
+	* Returns true if the date is next week/month/year.
 	* @method isNext[Unit]()
 	* @returns Boolean
 	*
@@ -3587,7 +3587,7 @@ interface Date {
 	isNextYear(): bool;
 
 	/***
-	* @short Returns true if the date is in the past.
+	* Returns true if the date is in the past.
 	* @method isPast()
 	* @returns Boolean
 	* @example
@@ -3599,7 +3599,7 @@ interface Date {
 	isPast(): bool;
 
 	/***
-	* @short Returns true if the date is this week/month/year.
+	* Returns true if the date is this week/month/year.
 	* @method isThis[Unit]()
 	* @returns Boolean
 	*
@@ -3620,7 +3620,7 @@ interface Date {
 	isThisYear(): bool;
 
 	/***
-	* @short Returns true if the date has no timezone offset.
+	* Returns true if the date has no timezone offset.
 	* @method isUTC()
 	* @returns Boolean
 	* @extra This will also return true for a date that has had %toUTC% called on it. This is intended to help approximate shifting timezones which is not possible in client-side Javascript. Note that the native method %getTimezoneOffset% will always report the same thing, even if %isUTC% becomes true.
@@ -3633,7 +3633,7 @@ interface Date {
 	isUTC(): bool;
 
 	/***
-	* @short Returns true if the date is valid.
+	* Returns true if the date is valid.
 	* @method isValid()
 	* @returns Boolean
 	* @example
@@ -3648,7 +3648,7 @@ interface Date {
 	* @method iso()
 	* @method toISOString()
 	* @returns String
-	* @short Formats the string to ISO8601 format.
+	* Formats the string to ISO8601 format.
 	* @extra This will always format as UTC time. Provided for browsers that do not
 	*        support this method.
 	* @example
@@ -3660,7 +3660,7 @@ interface Date {
 	toISOString(): string;
 
 	/***
-	* @short Returns a relative date string offset to the current time.
+	* Returns a relative date string offset to the current time.
 	* @method relative([fn], [locale] = currentLocale)
 	* @returns String
 	* @extra [fn] can be passed to provide for more granular control over the
@@ -3682,7 +3682,7 @@ interface Date {
 	relative(fn?: (value: number, unit: string, ms: number, loc: Locale) => string, locale?: string): string;
 
 	/***
-	* @short Resets the unit passed and all smaller units. Default is "hours",
+	* Resets the unit passed and all smaller units. Default is "hours",
 	*        effectively resetting the time.
 	* @method reset([unit] = 'hours')
 	* @returns Date
@@ -3695,7 +3695,7 @@ interface Date {
 	reset(unit?: string): Date;
 
 	/***
-	* @short Sets the date back.
+	* Sets the date back.
 	* @method rewind(<set>, [reset] = false)
 	* @returns Date
 	* @extra This method can accept multiple formats including a single number as a
@@ -3714,7 +3714,7 @@ interface Date {
 	//rewind(d: Object, reset?: bool): Date; // Do not like this, is not typesafe
 
 	/***
-	* @short Sets the date object.
+	* Sets the date object.
 	* @method set(<set>, [reset] = false)
 	* @returns Date
 	* @extra This method can accept multiple formats including a single number as a
@@ -3745,7 +3745,7 @@ interface Date {
 	setISOWeek(week: number): void;
 
 	/***
-	* @short Sets the weekday of the date.
+	* Sets the weekday of the date.
 	* @method setWeekday()
 	* @returns Nothing
 	*
@@ -3758,7 +3758,7 @@ interface Date {
 	setWeekday(day: number): void;
 
 	/***
-	* @short Returns a JSON representation of the date.
+	* Returns a JSON representation of the date.
 	* @method toJSON()
 	* @returns String
 	* @extra This is effectively an alias for %toISOString%. Will always return
@@ -3772,7 +3772,7 @@ interface Date {
 	toJSON(): string;
 
 	/***
-	* @short Returns the time ago in the appropriate unit.
+	* Returns the time ago in the appropriate unit.
 	* @method [units]Ago()
 	* @returns Number
 	*
@@ -3803,7 +3803,7 @@ interface Date {
 	yearsAgo(): number;
 
 	/***
-	* @short Returns the time from now in the appropriate unit.
+	* Returns the time from now in the appropriate unit.
 	* @method [units]FromNow()
 	* @returns Number
 	*
@@ -3834,7 +3834,7 @@ interface Date {
 	yearsFromNow(): number;
 
 	/***
-	* @short Returns the time since [d] in the appropriate unit.
+	* Returns the time since [d] in the appropriate unit.
 	* @method [units]Since([d], [locale] = currentLocale)
 	* @returns Number
 	* @extra [d] will accept a date object, timestamp, or text format. If not
@@ -3879,7 +3879,7 @@ interface Date {
 	yearsSince(date: string, locale?: string): number;
 
 	/***
-	* @short Returns the time until [d] in the appropriate unit.
+	* Returns the time until [d] in the appropriate unit.
 	* @method [units]Until([d], [locale] = currentLocale)
 	* @returns Number
 	* @extra [d] will accept a date object, timestamp, or text format. If not
@@ -3924,7 +3924,7 @@ interface Date {
 	yearsUntil(date: string, locale?: string): number;
 
 	/***
-	* @short Sets the internal utc flag for the date. When on, UTC-based methods
+	* Sets the internal utc flag for the date. When on, UTC-based methods
 	*        will be called internally.
 	* @method utc([on] = true)
 	* @returns Date
@@ -3950,7 +3950,7 @@ interface DateRange {
 	end: Date;
 
 	/***
-	* @short Returns true if <d> is contained inside the DateRange.
+	* Returns true if <d> is contained inside the DateRange.
 	*        <d> may be a date or another DateRange.
 	* @method contains(<d>)
 	* @returns Boolean
@@ -3963,7 +3963,7 @@ interface DateRange {
 	contains(d: DateRange): bool;
 
 	/***
-	* @short Return the duration of the DateRange in milliseconds.
+	* Return the duration of the DateRange in milliseconds.
 	* @method duration()
 	* @returns Number
 	* @example
@@ -3974,7 +3974,7 @@ interface DateRange {
 	duration(): number;
 
 	/***
-	* @short Increments through the date range for each [unit], calling [fn] if it is passed.
+	* Increments through the date range for each [unit], calling [fn] if it is passed.
 	*        Returns an array of each increment visited.
 	* @method each[Unit]([fn])
 	* @returns Date
@@ -4005,7 +4005,7 @@ interface DateRange {
 	eachYear(fn?: (d: Date) => void ): Date[];
 
 	/***
-	* @short Iterates through the DateRange for every <increment>,
+	* Iterates through the DateRange for every <increment>,
 	*        calling [fn] if it is passed. Returns an array of each increment visited.
 	* @method every(<increment>, [fn])
 	* @returns Array
@@ -4024,7 +4024,7 @@ interface DateRange {
 	every(increment: string, fn?: (d: Date) => void ): Date[];
 
 	/***
-	* @short Returns a new DateRange with the latest starting point as its start, and the
+	* Returns a new DateRange with the latest starting point as its start, and the
 	*        earliest ending point as its end. If the two ranges do not intersect this will
 	*        effectively produce an invalid range.
 	* @method intersect(<range>)
@@ -4037,7 +4037,7 @@ interface DateRange {
 	intersect(range: DateRange): DateRange;
 
 	/***
-	* @short Returns true if the DateRange is valid, false otherwise.
+	* Returns true if the DateRange is valid, false otherwise.
 	* @method isValid()
 	* @returns Boolean
 	* @example
@@ -4049,7 +4049,7 @@ interface DateRange {
 	isValid(): bool;
 
 	/***
-	* @short Returns a string representation of the DateRange.
+	* Returns a string representation of the DateRange.
 	* @method toString()
 	* @returns String
 	* @example
@@ -4060,7 +4060,7 @@ interface DateRange {
 	toString(): string;
 
 	/***
-	* @short Returns a new DateRange with the earliest starting point as its start,
+	* Returns a new DateRange with the earliest starting point as its start,
 	*        and the latest ending point as its end. If the two ranges do not intersect
 	*        this will effectively remove the "gap" between them.
 	* @method union(<range>)
