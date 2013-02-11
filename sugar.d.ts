@@ -1,8 +1,29 @@
-﻿//     sugar.d.ts
-//     (c) 2012 Josh Baldwin
-//     sugar.d.ts may be freely distributed under the MIT license.
-//     For all details and documentation:
-//     https://github.com/jbaldwin/sugar.d.ts
+﻿/* 
+sugar-1.3.9.d.ts may be freely distributed under the MIT license.
+
+Copyright (c) 2013 Josh Baldwin https://github.com/jbaldwin/sugar.d.ts
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation 
+files (the "Software"), to deal in the Software without 
+restriction, including without limitation the rights to use, 
+copy, modify, merge, publish, distribute, sublicense, and/or sell 
+copies of the Software, and to permit persons to whom the 
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be 
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES 
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND 
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
+OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 
 interface String {
 
@@ -42,8 +63,8 @@ interface String {
 	assign(strs: string[]): string;
 	assign(num: number): string;
 	assign(nums: number[]): string;
-	assign(obj: { }): string;
-	assign(...objs: { }[]): string;
+	assign(obj: {}): string;
+	assign(...objs: {}[]): string;
 
 	/***
 	* @short Gets the character(s) at a given index.
@@ -206,11 +227,11 @@ interface String {
 	encodeBase64(): string;
 
 	/***
-	* @short Returns true if the string ends with <find>.
-	* @method endsWith(<find>, [case] = true)
-	* @returns Boolean
-	* @extra <find> may be either a string or regex. Case 
-	*        sensitive if [case] is true.
+	* Returns true if the string ends with <find>.
+	* @param find String or RegExp to find at the end of the string.
+	* @param pos Ending position to search for, defaults to the end of the string.
+	* @param case_ True for case sensitive, default = true.
+	* @returns True if the string ends with `find`.
 	* @example
 	*
 	*   'jumpy'.endsWith('py')         -> true
@@ -219,8 +240,8 @@ interface String {
 	*   'jumpy'.endsWith('MPY', false) -> true
 	*
 	***/
-	endsWith(find: string, case_?: bool): bool;
-	endsWith(find: RegExp, case_?: bool): bool;
+	endsWith(find: string, pos?: number, case_?: bool): bool;
+	endsWith(find: RegExp, pos?: number, case_?: bool): bool;
 
 	/***
 	* @short Converts HTML characters to their entity equivalents.
@@ -298,13 +319,13 @@ interface String {
 	*        or "all".
 	* @example
 	*
-	*   'タロウ　ＹＡＭＡＤＡです！'.hankaku()                      -> 'ﾀﾛｳ YAMADAです!'
-	*   'タロウ　ＹＡＭＡＤＡです！'.hankaku('a')                   -> 'タロウ　YAMADAです！'
-	*   'タロウ　ＹＡＭＡＤＡです！'.hankaku('alphabet')            -> 'タロウ　YAMADAです！'
-	*   'タロウです！　２５歳です！'.hankaku('katakana', 'numbers') -> 'ﾀﾛｳです！　25歳です！'
-	*   'タロウです！　２５歳です！'.hankaku('k', 'n')              -> 'ﾀﾛｳです！　25歳です！'
-	*   'タロウです！　２５歳です！'.hankaku('kn')                  -> 'ﾀﾛｳです！　25歳です！'
-	*   'タロウです！　２５歳です！'.hankaku('sp')                  -> 'タロウです! ２５歳です!'
+	*   '??? YAMADA??!'.hankaku()                      -> '??? YAMADA??!'
+	*   '??? YAMADA??!'.hankaku('a')                   -> '??? YAMADA??!'
+	*   '??? YAMADA??!'.hankaku('alphabet')            -> '??? YAMADA??!'
+	*   '?????! 25???!'.hankaku('katakana', 'numbers') -> '?????! 25???!'
+	*   '?????! 25???!'.hankaku('k', 'n')              -> '?????! 25???!'
+	*   '?????! 25???!'.hankaku('kn')                  -> '?????! 25???!'
+	*   '?????! 25???!'.hankaku('sp')                  -> '?????! 25???!'
 	*
 	***/
 	hankaku(mode?: string): string;
@@ -346,10 +367,10 @@ interface String {
 	*
 	* @example
 	*
-	*   'أتكلم'.hasArabic()          -> true
-	*   'визит'.hasCyrillic()        -> true
-	*   '잘 먹겠습니다!'.hasHangul() -> true
-	*   'ミックスです'.hasKatakana() -> true
+	*   '?????'.hasArabic()          -> true
+	*   '?????'.hasCyrillic()        -> true
+	*   '? ?????!'.hasHangul() -> true
+	*   '??????'.hasKatakana() -> true
 	*   "l'année".hasLatin()         -> true
 	*
 	***/
@@ -374,10 +395,10 @@ interface String {
 	* @extra If [all] is false, only full-width katakana will be converted.
 	* @example
 	*
-	*   'カタカナ'.hiragana()   -> 'かたかな'
-	*   'コンニチハ'.hiragana() -> 'こんにちは'
-	*   'ｶﾀｶﾅ'.hiragana()       -> 'かたかな'
-	*   'ｶﾀｶﾅ'.hiragana(false)  -> 'ｶﾀｶﾅ'
+	*   '????'.hiragana()   -> '????'
+	*   '?????'.hiragana() -> '?????'
+	*   '????'.hiragana()       -> '????'
+	*   '????'.hiragana(false)  -> '????'
 	*
 	***/
 	hiragana(all?: bool): string;
@@ -407,7 +428,7 @@ interface String {
 	*
 	***/
 	isBlank(): bool;
-	
+
 	/***
 	* @short Returns true if the string contains only characters in that script. Whitespace is ignored.
 	* @method is[Script]()
@@ -430,10 +451,10 @@ interface String {
 	*
 	* @example
 	*
-	*   'أتكلم'.isArabic()          -> true
-	*   'визит'.isCyrillic()        -> true
-	*   '잘 먹겠습니다!'.isHangul() -> true
-	*   'ミックスです'.isKatakana() -> false
+	*   '?????'.isArabic()          -> true
+	*   '?????'.isCyrillic()        -> true
+	*   '? ?????!'.isHangul() -> true
+	*   '??????'.isKatakana() -> false
 	*   "l'année".isLatin()         -> true
 	*
 	***/
@@ -457,8 +478,8 @@ interface String {
 	* @returns String
 	* @example
 	*
-	*   'かたかな'.katakana()   -> 'カタカナ'
-	*   'こんにちは'.katakana() -> 'コンニチハ'
+	*   '????'.katakana()   -> '????'
+	*   '?????'.katakana() -> '?????'
 	*
 	***/
 	katakana(): string;
@@ -491,21 +512,6 @@ interface String {
 	lines(fn?: Function): string[];
 
 	/***
-	* @short Finds the namespace or property indicated by the string.
-	* @method namespace([init] = global)
-	* @returns Mixed
-	* @extra [init] can be passed to provide a starting context, 
-	*        otherwise the global context will be used. If any 
-	*        level returns a falsy value, that will be the final result.
-	* @example
-	*
-	*   'Path.To.Namespace'.namespace() -> Path.To.Namespace
-	*   '$.fn'.namespace()              -> $.fn
-	*
-	***/
-	namespace(init?: any): any;
-
-	/***
 	* @short Returns the string with accented and non-standard Latin-based
 	*        characters converted into ASCII approximate equivalents.
 	* @method normalize()
@@ -515,7 +521,7 @@ interface String {
 	*   'á'.normalize()                  -> 'a'
 	*   'Ménage à trois'.normalize()     -> 'Menage a trois'
 	*   'Volkswagen'.normalize()         -> 'Volkswagen'
-	*   'ＦＵＬＬＷＩＤＴＨ'.normalize() -> 'FULLWIDTH'
+	*   'FULLWIDTH'.normalize() -> 'FULLWIDTH'
 	*
 	***/
 	normalize(): string;
@@ -650,7 +656,7 @@ interface String {
 	* @example
 	*
 	*   'a'.shift(1)  -> 'b'
-	*   'ク'.shift(1) -> 'グ'
+	*   '?'.shift(1) -> '?'
 	*
 	***/
 	shift(num: number): string[];
@@ -685,11 +691,11 @@ interface String {
 	spacify(): string;
 
 	/***
-	* @short Returns true if the string starts with <find>.
-	* @method startsWith(<find>, [case] = true)
-	* @returns Boolean
-	* @extra <find> may be either a string or regex. 
-	*        Case sensitive if [case] is true.
+	* Returns true if the string starts with <find>.
+	* @param find String or RegExp to look for at the beginning of the string.
+	* @param pos Starting position to start searching, default = 0.
+	* @param case_ True for case sensitive, default = true.
+	* @returns True if the string starts with `find`.
 	* @example
 	*
 	*   'hello'.startsWith('hell')        -> true
@@ -698,8 +704,8 @@ interface String {
 	*   'hello'.startsWith('HELL', false) -> true
 	*
 	***/
-	startsWith(find: string, case_?: bool): bool;
-	startsWith(find: RegExp, case_?: bool): bool;
+	startsWith(find: string, pos?: number, case_?: bool): bool;
+	startsWith(find: RegExp, pos?: number, case_?: bool): bool;
 
 	/***
 	* @short Strips all HTML tags from the string.
@@ -783,8 +789,7 @@ interface String {
 	*   '   wasabi   '.trimRight() -> '   wasabi'
 	*
 	***/
-	// Duplicate from lib.d.ts
-	//trim(): string;
+	trim(): string;
 	trimLeft(): string;
 	trimRight(): string;
 
@@ -871,13 +876,13 @@ interface String {
 	*        or "all".
 	* @example
 	*
-	*   'ﾀﾛｳ YAMADAです!'.zenkaku()                         -> 'タロウ　ＹＡＭＡＤＡです！'
-	*   'ﾀﾛｳ YAMADAです!'.zenkaku('a')                      -> 'ﾀﾛｳ ＹＡＭＡＤＡです!'
-	*   'ﾀﾛｳ YAMADAです!'.zenkaku('alphabet')               -> 'ﾀﾛｳ ＹＡＭＡＤＡです!'
-	*   'ﾀﾛｳです! 25歳です!'.zenkaku('katakana', 'numbers') -> 'タロウです! ２５歳です!'
-	*   'ﾀﾛｳです! 25歳です!'.zenkaku('k', 'n')              -> 'タロウです! ２５歳です!'
-	*   'ﾀﾛｳです! 25歳です!'.zenkaku('kn')                  -> 'タロウです! ２５歳です!'
-	*   'ﾀﾛｳです! 25歳です!'.zenkaku('sp')                  -> 'ﾀﾛｳです！　25歳です！'
+	*   '??? YAMADA??!'.zenkaku()                         -> '??? YAMADA??!'
+	*   '??? YAMADA??!'.zenkaku('a')                      -> '??? YAMADA??!'
+	*   '??? YAMADA??!'.zenkaku('alphabet')               -> '??? YAMADA??!'
+	*   '?????! 25???!'.zenkaku('katakana', 'numbers') -> '?????! 25???!'
+	*   '?????! 25???!'.zenkaku('k', 'n')              -> '?????! 25???!'
+	*   '?????! 25???!'.zenkaku('kn')                  -> '?????! 25???!'
+	*   '?????! 25???!'.zenkaku('sp')                  -> '?????! 25???!'
 	*
 	***/
 	zenkaku(mode?: string): string;
@@ -1537,7 +1542,7 @@ interface Number {
 }
 
 interface Array {
-	
+
 	/***
 	* @short Alternate array constructor.
 	* @method Array.create(<obj1>, <obj2>, ...)
@@ -1746,7 +1751,7 @@ interface Array {
 	exclude(...f: string[]): string[];
 	exclude(...f: RegExp[]): string[];
 	exclude(...f: Object[]): Object[];
-	exclude(f: (el: any) => bool): any[];
+	exclude(...f: (el: any, i?: number, array?: any[]) => bool): any[];
 
 	/***
 	* @short Returns any elements in the array that match <f>.
@@ -1839,6 +1844,7 @@ interface Array {
 	***/
 	findIndex(f: number, startIndex?: number, loop?: bool): number;
 	findIndex(f: string, startIndex?: number, loop?: bool): number;
+	findIndex(f: RegExp, startIndex?: number, loop?: bool): number;
 	findIndex(f: Object, startIndex?: number, loop?: bool): number;
 	findIndex(f: RegExp, startIndex?: number, loop?: bool): number;
 	findIndex(f: (el: any, i?: number, array?: any[]) => bool, startIndex?: number, loop?: bool): number;
@@ -1912,8 +1918,8 @@ interface Array {
 	*   });                                  -> { 35: [{age:35,name:'ken'}], 15: [{age:15,name:'bob'}] }
 	*
 	***/
-	groupBy(map: string, fn?: (n: any) => void): Object;
-	groupBy(fn: (n: any) => void): Object;
+	groupBy(map: string, fn?: (n: any) => void ): Object;
+	groupBy(fn: (n: any) => void ): Object;
 
 	/***
 	* @short Groups the array into <num> arrays.
@@ -2488,6 +2494,15 @@ interface Object {
 	isRegExp(): bool;
 	isRegExp(obj: any): bool;
 
+	/**
+	* Converts the object into a query string. Accepts deep nested objects and arrays.
+	* If namespace is passed, it will be prefixed to all param names.
+	* @param obj Object to convert to a query string.
+	* @param namespace Namespace to prefix properties with in the query string.
+	* @return A query string generated from `obj` and `namespace`.
+	**/
+	toQueryString(obj: any, namespace?: string): string;
+
 	/***
 	* @short Creates a clone (copy) of <obj>.
 	* @method clone(<obj> = {}, [deep] = false)
@@ -2563,7 +2578,7 @@ interface Object {
 	count(obj: Object, map: string): number;
 	count(map: (key: string, value: any) => bool): number;
 	count(obj: Object, map: (key: string, value: any) => bool): number;
-	
+
 	find(map: string): any;
 	find(obj: Object, map: string): any;
 	find(map: (key: string, value: any) => bool): any;
@@ -2578,10 +2593,10 @@ interface Object {
 	reduce(obj: Object, map: string, init?: any): any;
 	reduce(map: (key: string, value: any) => any, init?: any): any;
 	reduce(obj: Object, map: (key: string, value: any) => any, init?: any): any;
-	
+
 	isEmpty(): bool;
 	isEmpty(obj: Object): bool;
-	
+
 	sum(map: string): number;
 	sum(obj: Object, map: string): number;
 	sum(map: (key: string, value: any) => number): number;
@@ -2691,6 +2706,33 @@ interface Object {
 	***/
 	merge(target: Object, source: Object, deep?: bool, resolve?: bool): Object;
 	merge(target: Object, source: Object, deep?: bool, resolve?: (key: string, targetVal: any, sourceVal: any) => any): Object;
+
+	/**
+	* Builds a new object containing all values except those specified in find.
+	* When find is a string, that single key will be rejected. It can also be a regex,
+	* rejecting any key that matches, or an object which will match if the key also
+	* exists in that object, effectively "subtracting" that object. Multiple selections
+	* may also be passed as an array or directly as enumerated arguments. reject is
+	* available as an instance method on extended objects.
+	* @param obj Object to remove the properties in `find`.
+	* @param find The property (string), properties (object) or RegExp to remove from `obj`.
+	* @return Modified `obj` with `find` properties removed.
+	**/
+	reject(obj: any, ...find: any): any;
+
+	/**
+	* Builds a new object containing the values specified in find. When find is a string,
+	* that single key will be selected. It can also be a regex, selecting any key that
+	* matches, or an object which will match if the key also exists in that object,
+	* effectively doing an "intersect" operation on that object. Multiple selections
+	* may also be passed as an array or directly as enumerated arguments. select is
+	* available as an instance method on extended objects.
+	* @param obj Object to keep the properties in `find`.
+	* @param find The property (string), properties (object) or RegExp to keep on `obj`.
+	* @return Modified `obj` with only the `find` properties remaining.
+	**/
+	select(obj: any, ...find: any[]): any;
+
 
 	/***
 	* @short Returns the number of properties in <obj>.
@@ -3028,8 +3070,8 @@ interface Locale {
 	duration: string;
 	timeMarker: string;
 	ampm: string;
-	modifiers: 
-		{ 
+	modifiers:
+		{
 			name: string;
 			src: string;
 			value: number;
@@ -3039,7 +3081,7 @@ interface Locale {
 }
 
 interface Date {
-	
+
 	/***
 	* @short Adds a locale <set> to the locales understood by Sugar.
 	* @method Date.addLocale(<code>, <set>)
@@ -3071,7 +3113,7 @@ interface Date {
 	*   Date.create('July 4, 1776')  -> July 4, 1776
 	*   Date.create(-446806800000)   -> November 5, 1955
 	*   Date.create(1776, 6, 4)      -> July 4, 1776
-	*   Date.create('1776年07月04日', 'ja') -> July 4, 1776
+	*   Date.create('1776?07?04?', 'ja') -> July 4, 1776
 	*   Date.utc.create('July 4, 1776', 'en')  -> July 4, 1776
 	*
 	***/
@@ -3308,7 +3350,7 @@ interface Date {
 	*   Date.create().format('{hh}:{mm}')                        -> ex. 15:57
 	*   Date.create().format('{12hr}:{mm}{tt}')                  -> ex. 3:57pm
 	*   Date.create().format(Date.ISO8601_DATETIME)              -> ex. 2011-07-05 12:24:55.528Z
-	*   Date.create('last week').format('short', 'ja')                -> ex. 先週
+	*   Date.create('last week').format('short', 'ja')                -> ex. ??
 	*   Date.create('yesterday').format(function(value,unit,ms,loc) {
 	*     // value = 1, unit = 3, ms = -86400000, loc = [current locale object]
 	*   });                                                      -> ex. 1 day ago
@@ -3333,9 +3375,8 @@ interface Date {
 	getUTCOffset(iso?: bool): string;
 
 	/***
-	* @short Gets the date's week (of the year).
-	* @method getWeek()
-	* @returns Number
+	* Gets the date's week (of the year).
+	* @returns The date's week of the year as defined by the ISO-8601 standard.
 	* @extra If %utc% is set on the date, the week will be according to UTC time.
 	*
 	* @example
@@ -3343,7 +3384,7 @@ interface Date {
 	*   new Date().getWeek()    -> today's week of the year
 	*
 	***/
-	getWeek(): number;
+	getISOWeek(): number;
 
 	/***
 	* @short Alias for %getDay%.
@@ -3360,10 +3401,8 @@ interface Date {
 	***/
 	getWeekday(): number;
 	getUTCWeekday(): number;
-	// Duplicate from lib.d.ts
-	//getDay(): number;
-	// Duplicate from lib.d.ts
-	//getUTCDay(): number;
+	getDay(): number;
+	getUTCDay(): number;
 
 	/***
 	* @short Returns true if the date is <d>.
@@ -3436,7 +3475,7 @@ interface Date {
 	*   new Date().isBetween('last year', '2 years ago') -> false
 	*
 	***/
-	isBefore(start: string, end: string, margin?: number): bool;
+	isBefore(start: string, , end: string, margin?: number): bool;
 	isBefore(start: number, end: string, margin?: number): bool;
 	isBefore(start: Date, end: Date, margin?: number): bool;
 
@@ -3618,8 +3657,7 @@ interface Date {
 	*
 	***/
 	iso(): string;
-	// Duplicate from lib.d.ts
-	//toISOString(): string;
+	toISOString(): string;
 
 	/***
 	* @short Returns a relative date string offset to the current time.
@@ -3634,14 +3672,14 @@ interface Date {
 	*
 	*   Date.create('90 seconds ago').relative() -> 1 minute ago
 	*   Date.create('January').relative()        -> ex. 5 months ago
-	*   Date.create('January').relative('ja')    -> 3ヶ月前
+	*   Date.create('January').relative('ja')    -> 3???
 	*   Date.create('120 minutes ago').relative(function(val,unit,ms,loc) {
 	*     // value = 2, unit = 3, ms = -7200, loc = [current locale object]
 	*   });                                      -> ex. 5 months ago
 	*
 	***/
 	relative(locale: string): string;
-	relative(fn?: (value: number, unit: string, ms:number, loc: Locale) => string, locale?: string): string;
+	relative(fn?: (value: number, unit: string, ms: number, loc: Locale) => string, locale?: string): string;
 
 	/***
 	* @short Resets the unit passed and all smaller units. Default is "hours",
@@ -3692,22 +3730,19 @@ interface Date {
 	*   new Date().set({ year: 2004, month: 6 }, true)     -> June 1, 2004, 00:00:00.000
 	*
 	***/
-	set(ms: number): Date;
-	set(year: number, month: number, day: number): Date;
+	set (ms: number): Date;
+	set (year: number, month: number, day: number): Date;
 	//set(d: Object, reset?: bool): Date; // Do not like this, is not typesafe
 
-	
+
 	/***
-	* @short Sets the week (of the year).
-	* @method setWeek(<week>)
-	* @returns Nothing
-	*
+	* Sets the week (of the year).
 	* @example
 	*
 	*   d = new Date(); d.setWeek(15); d; -> 15th week of the year
 	*
 	***/
-	setWeek(week: number): void;
+	setISOWeek(week: number): void;
 
 	/***
 	* @short Sets the weekday of the date.
@@ -3960,14 +3995,14 @@ interface DateRange {
 	*   Date.range('2003-01-15', '2003-01-16').eachDay() -> [...]
 	*
 	***/
-	eachMillisecond(fn?: (d: Date) => void): Date[];
-	eachSecond(fn?: (d: Date) => void): Date[];
-	eachMinute(fn?: (d: Date) => void): Date[];
-	eachHour(fn?: (d: Date) => void): Date[];
-	eachDay(fn?: (d: Date) => void): Date[];
-	eachWeek(fn?: (d: Date) => void): Date[];
-	eachMonth(fn?: (d: Date) => void): Date[];
-	eachYear(fn?: (d: Date) => void): Date[];
+	eachMillisecond(fn?: (d: Date) => void ): Date[];
+	eachSecond(fn?: (d: Date) => void ): Date[];
+	eachMinute(fn?: (d: Date) => void ): Date[];
+	eachHour(fn?: (d: Date) => void ): Date[];
+	eachDay(fn?: (d: Date) => void ): Date[];
+	eachWeek(fn?: (d: Date) => void ): Date[];
+	eachMonth(fn?: (d: Date) => void ): Date[];
+	eachYear(fn?: (d: Date) => void ): Date[];
 
 	/***
 	* @short Iterates through the DateRange for every <increment>,
@@ -3985,8 +4020,8 @@ interface DateRange {
 	*   Date.range('2003-01', '2003-03').every("2 months") -> [...]
 	*
 	***/
-	every(ms: number, fn?: (d: Date) => void): Date[];
-	every(increment: string, fn?: (d: Date) => void): Date[];
+	every(ms: number, fn?: (d: Date) => void ): Date[];
+	every(increment: string, fn?: (d: Date) => void ): Date[];
 
 	/***
 	* @short Returns a new DateRange with the latest starting point as its start, and the
