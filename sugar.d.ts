@@ -24,89 +24,82 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 */
 
-
 interface String {
 
-	/***
-	* Adds <str> at [index]. Negative values are also allowed.
+	/**
+	* Adds <str> at [index].<br/> Negative values are also allowed.
 	* @param str String to add.
-	* @param index Index where str is added. Default = str.length
-	* @returns String
+	* @param index Index where <str> is added. Default = str.length
+	* @returns Original string with <str> added at [index].
 	* @extra %insert% is provided as an alias, and is generally more readable when using an index.
 	* @example
-	*
 	*   'schfifty'.add(' five')         -> schfifty five
 	*   'dopamine'.insert('e', 3)       -> dopeamine
 	*   'spelling eror'.insert('r', -3) -> spelling error
-	*
-	***/
+	**/
 	add(str: string, index?: number): string;
+
+	/**
+	* @see add
+	**/
 	insert(str: string, index?: number): string;
 
-	/***
+	/**
 	* Assigns variables to tokens in a string.
-	* @method assign(<obj1>, <obj2>, ...)
-	* @returns String
+	* @param objs Variable tokens to assign in the string.
+	* @returns String with <objs> assigned to variables in the original string.
 	* @extra If an object is passed, it's properties can be assigned using
 	*        the object's keys. If a non-object (string, number, etc.)
 	*        is passed it can be accessed by the argument number beginning
 	*        with 1 (as with regex tokens). Multiple objects can be passed
 	*        and will be merged together (original objects are unaffected).
 	* @example
-	*
 	*   'Welcome, Mr. {name}.'.assign({ name: 'Franklin' })   -> 'Welcome, Mr. Franklin.'
 	*   'You are {1} years old today.'.assign(14)             -> 'You are 14 years old today.'
 	*   '{n} and {r}'.assign({ n: 'Cheech' }, { r: 'Chong' }) -> 'Cheech and Chong'
-	*
-	***/
-	assign(str: string): string;
-	assign(strs: string[]): string;
-	assign(num: number): string;
-	assign(nums: number[]): string;
-	assign(obj: {}): string;
-	assign(...objs: {}[]): string;
+	**/
+	assign(...objs: any[]): string;
 
 	/***
 	* Gets the character(s) at a given index.
-	* @method at(<index>, [loop] = true)
-	* @param index Index of the character.
-	* @param loop Default = true
-	* @returns String or String[]
+	* @param index Indicies of the character(s) requested.
+	* @param loop Loop around the string or stop at the end, default = true.
+	* @returns Character(s) at the specified indices.
 	* @extra When [loop] is true, overshooting the end of the string
 	*        (or the beginning) will begin counting from the other end.
 	*        As an alternate syntax, passing multiple indexes will get
 	*        the characters at those indexes.
 	* @example
-	*
 	*   'jumpy'.at(0)               -> 'j'
 	*   'jumpy'.at(2)               -> 'm'
 	*   'jumpy'.at(5)               -> 'j'
 	*   'jumpy'.at(5, false)        -> ''
 	*   'jumpy'.at(-1)              -> 'y'
 	*   'lucky charms'.at(2,4,6,8) -> ['u','k','y',c']
-	*
 	***/
 	at(index: number, loop?: bool): string;
-	at(indexes: number[], loop?: bool): string[];
 
-	/***
+	/**
+	* @see at
+	* @limitation Typescript does not allow for arguments
+	*             after a variable argument list.
+	**/
+	at(...indicies: number[]): string[];
+
+	/**
 	* Converts underscores and hyphens to camel case.
-	*        If [first] is true the first letter will also be capitalized.
-	* @method camelize([first] = true)
-	* @param first Default = true
-	* @returns String
+	* @param first If [first] is true the first letter will also be capitalized, default = true
+	* @returns Camel case version of the string.
 	* @extra If the Inflections package is included acryonyms can also
 	*        be defined that will be used when camelizing.
 	* @example
-	*
 	*   'caps_lock'.camelize()              -> 'CapsLock'
 	*   'moz-border-radius'.camelize()      -> 'MozBorderRadius'
 	*   'moz-border-radius'.camelize(false) -> 'mozBorderRadius'
-	*
-	***/
+	**/
 	camelize(first?: bool): string;
 
-	/***
+	/**
 	* Capitalizes the first character in the string.
 	* @method capitalize([all] = false)
 	* @param all Default = false
@@ -118,192 +111,179 @@ interface String {
 	*   'hello kitty'.capitalize()     -> 'Hello kitty'
 	*   'hello kitty'.capitalize(true) -> 'Hello Kitty'
 	*
-	***/
+	**/
 	capitalize(all: bool): string;
 
-	/***
+	/**
 	* Runs callback [fn] against each character in the string.
-	*        Returns an array of characters.
-	* @method chars([fn])
-	* @param fn Callback function.
-	* @returns String[]
+	* Returns an array of characters.
+	* @param fn Callback function for each character in the string.
+	* @returns string[] with each element containing one character
+	*          in the string.
 	* @example
-	*
 	*   'jumpy'.chars() -> ['j','u','m','p','y']
 	*   'jumpy'.chars(function(c) {
 	*     // Called 5 times: "j","u","m","p","y"
 	*   });
-	*
-	***/
-	chars(fn?: Function): string[];
+	**/
+	chars(fn?: (c: string) => void): string[];
 
-	/***
+	/**
 	* Runs callback [fn] against each character code in the string.
-	         Returns an array of character codes.
-	* @method codes([fn])
-	* @param fn Callback function.
-	* @returns number[]
+	  Returns an array of character codes.
+	* @param fn Callback function for each character code in the string.
+	* @returns number[] with each element containing one character code
+	*          in the string.
 	* @example
-	*
 	*   'jumpy'.codes() -> [106,117,109,112,121]
 	*   'jumpy'.codes(function(c) {
 	*     // Called 5 times: 106, 117, 109, 112, 121
 	*   });
-	*
 	***/
-	codes(fn?: Function): number[];
+	codes(fn?: (c: string) => void): number[];
 
-	/***
-	* Compacts all white space in the string to
-	*        a single space and trims the ends.
-	* @method compact()
-	* @returns String
+	/**
+	* Compacts all white space in the string to a single space and trims the ends.
+	* @returns String with all whitespace compated to a single space.
 	* @example
-	*
 	*   'too \n much \n space'.compact() -> 'too much space'
-	*   'enough \n '.compact()           -> 'enought'
-	*
-	***/
+	*   'enough \n '.compact()           -> 'enough'
+	**/
 	compact(): string;
 
-	/***
+	/**
 	* Converts underscores and camel casing to hypens.
-	* @method dasherize()
-	* @returns String
+	* @returns String with underscores and camel casing changed to hypens.
 	* @example
-	*
 	*   'a_farewell_to_arms'.dasherize() -> 'a-farewell-to-arms'
 	*   'capsLock'.dasherize()           -> 'caps-lock'
-	*
-	***/
+	**/
 	dasherize(): string;
 
-	/***
+	/**
 	* Decodes the string from base64 encoding.
-	* @method decodeBase64()
-	* @returns String
+	* @returns Decoded base64 string.
 	* @extra This method wraps the browser native %atob% when available,
-	         and uses a custom implementation when not available.
+	*        and uses a custom implementation when not available.
 	* @example
-	*
 	*   'aHR0cDovL3R3aXR0ZXIuY29tLw=='.decodeBase64() -> 'http://twitter.com/'
 	*   'anVzdCBnb3QgZGVjb2RlZA=='.decodeBase64()     -> 'just got decoded!'
-	*
-	***/
+	**/
 	decodeBase64(): string;
 
-	/***
+	/**
 	* Runs callback [fn] against each occurence of [search].
-	* @method each([search] = single character, [fn])
-	* @returns Array
+	* @param fn Callback function for each occurance of [search].
+	*           If [search] is not provided each character is matched.
+	* @param search Search item to look for in the string.
+	* @returns string[] of each item matched in the string.
 	* @extra Returns an array of matches. [search] may be either
 	*        a string or regex, and defaults to every character in the string.
 	* @example
-	*
 	*   'jumpy'.each() -> ['j','u','m','p','y']
 	*   'jumpy'.each(/[r-z]/) -> ['u','y']
 	*   'jumpy'.each(/[r-z]/, function(m) {
 	*     // Called twice: "u", "y"
 	*   });
-	*
-	***/
-	each(): string[];
-	each(search: string, fn?: Function): string[];
-	each(search: RegExp, fn?: Function): string[];
-	each(search: Function): string[];
+	**/
+	each(search: string, fn?: (m: string) => void): string[];
 
-	/***
+	/**
+	* @see each
+	**/
+	each(search: RegExp, fn?: (m: string) => void ): string[];
+
+	/**
+	* @see each
+	**/
+	each(fn?: (m: string) => void ): string[];
+
+	/**
 	* Encodes the string into base64 encoding.
-	* @method encodeBase64()
-	* @returns String
+	* @returns Base64 encoded string.
 	* @extra This method wraps the browser native %btoa% when available,
 	*        and uses a custom implementation when not available.
 	* @example
-	*
 	*   'gonna get encoded!'.encodeBase64()  -> 'Z29ubmEgZ2V0IGVuY29kZWQh'
 	*   'http://twitter.com/'.encodeBase64() -> 'aHR0cDovL3R3aXR0ZXIuY29tLw=='
-	*
-	***/
+	**/
 	encodeBase64(): string;
 
-	/***
+	/**
 	* Returns true if the string ends with <find>.
 	* @param find String or RegExp to find at the end of the string.
 	* @param pos Ending position to search for, defaults to the end of the string.
 	* @param case_ True for case sensitive, default = true.
-	* @returns True if the string ends with `find`.
+	* @returns True if the string ends with <find>.
 	* @example
-	*
 	*   'jumpy'.endsWith('py')         -> true
 	*   'jumpy'.endsWith(/[q-z]/)      -> true
 	*   'jumpy'.endsWith('MPY')        -> false
 	*   'jumpy'.endsWith('MPY', false) -> true
-	*
-	***/
+	**/
 	endsWith(find: string, pos?: number, case_?: bool): bool;
+	
+	/**
+	* @see endsWith
+	**/
+	endsWith(find: string, case_?: bool): bool;
+
+	/**
+	* @see endsWith
+	**/
 	endsWith(find: RegExp, pos?: number, case_?: bool): bool;
 
-	/***
+	/**
+	* @see endsWith
+	**/
+	endsWith(find: RegExp, case_?: bool): bool;
+
+	/**
 	* Converts HTML characters to their entity equivalents.
-	* @method escapeHTML()
-	* @returns String
+	* @returns HTML escaped string.
 	* @example
-	*
 	*   '<p>some text</p>'.escapeHTML() -> '&lt;p&gt;some text&lt;/p&gt;'
 	*   'one & two'.escapeHTML()        -> 'one &amp; two'
-	*
-	***/
+	**/
 	escapeHTML(): string;
 
-	/***
+	/**
 	* Escapes all RegExp tokens in the string.
-	* @method escapeRegExp()
-	* @returns String
+	* @returns RegExp escaped string.
 	* @example
-	*
 	*   'really?'.escapeRegExp()       -> 'really\?'
 	*   'yes.'.escapeRegExp()         -> 'yes\.'
 	*   '(not really)'.escapeRegExp() -> '\(not really\)'
-	*
-	***/
+	**/
 	escapeRegExp(): string;
 
-	/***
+	/**
 	* Escapes characters in a string to make a valid URL.
-	* @method escapeURL([param] = false)
-	* @returns String
+	* @returns URL escaped string.
 	* @extra If [param] is true, it will also escape valid URL 
 	*        characters for use as a URL parameter.
 	* @example
-	*
 	*   'http://foo.com/"bar"'.escapeURL()     -> 'http://foo.com/%22bar%22'
 	*   'http://foo.com/"bar"'.escapeURL(true) -> 'http%3A%2F%2Ffoo.com%2F%22bar%22'
-	*
-	***/
+	**/
 	escapeURL(param?: bool): string;
 
-	/***
+	/**
 	* Returns the first [n] characters of the string.
-	* @method first([n] = 1)
 	* @returns String
 	* @example
-	*
 	*   'lucky charms'.first()   -> 'l'
 	*   'lucky charms'.first(3)  -> 'luc'
-	*
-	***/
+	**/
 	first(n?: number): string;
 
-	/***
+	/**
 	* Returns a section of the string starting from [index].
-	* @method from([index] = 0)
 	* @returns String
 	* @example
-	*
 	*   'lucky charms'.from()   -> 'lucky charms'
 	*   'lucky charms'.from(7)  -> 'harms'
-	*
-	***/
+	**/
 	from(index?: number): string;
 
 	/***
@@ -3475,7 +3455,7 @@ interface Date {
 	*   new Date().isBetween('last year', '2 years ago') -> false
 	*
 	***/
-	isBefore(start: string, , end: string, margin?: number): bool;
+	isBefore(start: string, end: string, margin?: number): bool;
 	isBefore(start: number, end: string, margin?: number): bool;
 	isBefore(start: Date, end: Date, margin?: number): bool;
 
