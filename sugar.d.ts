@@ -126,7 +126,7 @@ interface String {
 	*     // Called 5 times: "j","u","m","p","y"
 	*   });
 	**/
-	chars(fn?: (c: string) => void): string[];
+	chars(fn?: (c: string) => void ): string[];
 
 	/**
 	* Runs callback [fn] against each character code in the string.
@@ -140,7 +140,7 @@ interface String {
 	*     // Called 5 times: 106, 117, 109, 112, 121
 	*   });
 	***/
-	codes(fn?: (c: string) => void): number[];
+	codes(fn?: (c: string) => void ): number[];
 
 	/**
 	* Compacts all white space in the string to a single space and trims the ends.
@@ -186,7 +186,7 @@ interface String {
 	*     // Called twice: "u", "y"
 	*   });
 	**/
-	each(search: string, fn?: (m: string) => void): string[];
+	each(search: string, fn?: (m: string) => void ): string[];
 
 	/**
 	* @see each
@@ -222,7 +222,7 @@ interface String {
 	*   'jumpy'.endsWith('MPY', false) -> true
 	**/
 	endsWith(find: string, pos?: number, case_?: bool): bool;
-	
+
 	/**
 	* @see endsWith
 	**/
@@ -286,10 +286,10 @@ interface String {
 	**/
 	from(index?: number): string;
 
-	/***
+	/**
 	* Converts full-width characters (zenkaku) to half-width (hankaku).
-	* @method hankaku([mode] = 'all')
-	* @returns String
+	* @param mode default = 'all'
+	* @returns Converted string to hankaku.
 	* @extra [mode] accepts any combination of 
 	*        "a" (alphabet),
 	*        "n" (numbers),
@@ -298,7 +298,6 @@ interface String {
 	*        "p" (punctuation),
 	*        or "all".
 	* @example
-	*
 	*   '??? YAMADA??!'.hankaku()                      -> '??? YAMADA??!'
 	*   '??? YAMADA??!'.hankaku('a')                   -> '??? YAMADA??!'
 	*   '??? YAMADA??!'.hankaku('alphabet')            -> '??? YAMADA??!'
@@ -306,386 +305,452 @@ interface String {
 	*   '?????! 25???!'.hankaku('k', 'n')              -> '?????! 25???!'
 	*   '?????! 25???!'.hankaku('kn')                  -> '?????! 25???!'
 	*   '?????! 25???!'.hankaku('sp')                  -> '?????! 25???!'
-	*
-	***/
+	**/
 	hankaku(mode?: string): string;
 
-	/***
+	/**
+	* @see hankaku
+	**/
+	hankaku(...modes: string[]): string;
+
+	/**
 	* Returns true if the string matches <find>.
-	* @method has(<find>)
-	* @returns Boolean
-	* @extra <find> may be a string or regex.
+	* @param find Search parameters.
+	* @returns True if the string matchs <find>, otherwise false.
 	* @example
-	*
 	*   'jumpy'.has('py')     -> true
 	*   'broken'.has(/[a-n]/) -> true
 	*   'broken'.has(/[s-z]/) -> false
-	*
-	***/
+	**/
 	has(find: string): bool;
+
+	/**
+	* @see has
+	**/
 	has(find: RegExp): bool;
 
-	/***
-	* Returns true if the string contains any characters in that script.
-	* @method has[Script]()
-	* @returns Boolean
-	*
-	* @set
-	*   hasArabic
-	*   hasCyrillic
-	*   hasGreek
-	*   hasHangul
-	*   hasHan
-	*   hasKanji
-	*   hasHebrew
-	*   hasHiragana
-	*   hasKana
-	*   hasKatakana
-	*   hasLatin
-	*   hasThai
-	*   hasDevanagari
-	*
+	/**
+	* Returns true if the string contains any characters in Arabic.
+	* @returns True if the string contains Arabic.
 	* @example
-	*
 	*   '?????'.hasArabic()          -> true
 	*   '?????'.hasCyrillic()        -> true
 	*   '? ?????!'.hasHangul() -> true
 	*   '??????'.hasKatakana() -> true
 	*   "l'année".hasLatin()         -> true
-	*
-	***/
+	**/
 	hasArabic(): bool;
+
+	/**
+	* Returns true if the string contains any characters in Cyrillic.
+	* @returns True if the string contains Cyrillic.
+	**/
 	hasCyrillic(): bool;
+
+	/**
+	* Returns true if the string contains any characters in Greek.
+	* @returns True if the string contains Greek.
+	**/
 	hasGreek(): bool;
+
+	/**
+	* Returns true if the string contains any characters in Hangul.
+	* @returns True if the string contains Hangul.
+	**/
 	hasHangul(): bool;
+
+	/**
+	* Returns true if the string contains any characters in Han.
+	* @returns True if the string contains Han.
+	**/
 	hasHan(): bool;
+
+	/**
+	* Returns true if the string contains any characters in Kanji.
+	* @returns True if the string contains Kanji.
+	**/
 	hasKanji(): bool;
+
+	/**
+	* Returns true if the string contains any characters in Hebrew.
+	* @returns True if the string contains Hebrew.
+	**/
 	hasHebrew(): bool;
+
+	/**
+	* Returns true if the string contains any characters in Hiragana.
+	* @returns True if the string contains Hiragana.
+	**/
 	hasHiragana(): bool;
+
+	/**
+	* Returns true if the string contains any characters in Kana.
+	* @returns True if the string contains Kana.
+	**/
 	hasKana(): bool;
+
+	/**
+	* Returns true if the string contains any characters in Katakana.
+	* @returns True if the string contains Katakana.
+	**/
 	hasKatakana(): bool;
+
+	/**
+	* Returns true if the string contains any characters in Latin.
+	* @returns True if the string contains Latin.
+	**/
 	hasLatin(): bool;
+
+	/**
+	* Returns true if the string contains any characters in Thai.
+	* @returns True if the string contains Thai.
+	**/
 	hasThai(): bool;
+
+	/**
+	* Returns true if the string contains any characters in Devanagari.
+	* @returns True if the string contains Devanagari.
+	**/
 	hasDevanagari(): bool;
 
-	/***
-	* @method hiragana([all] = true)
-	* @returns String
+	/**
 	* Converts katakana into hiragana.
-	* @extra If [all] is false, only full-width katakana will be converted.
+	* @param all If [all] is false, only full-width katakana will be converted, default = true.
+	* @returns Converted string to hiragana.
 	* @example
-	*
 	*   '????'.hiragana()   -> '????'
 	*   '?????'.hiragana() -> '?????'
 	*   '????'.hiragana()       -> '????'
 	*   '????'.hiragana(false)  -> '????'
-	*
-	***/
+	**/
 	hiragana(all?: bool): string;
 
-	/***
-	* @method humanize()
-	* @returns String
+	/**
 	* Creates a human readable string.
-	* @extra Capitalizes the first word and turns underscores into spaces and strips a trailing '_id', if any. Like String#titleize, this is meant for creating pretty output.
+	* @returns Pretty printed version of the string.
+	* @extra Capitalizes the first word and turns underscores into spaces and strips a
+	*        trailing '_id', if any. Like String#titleize, this is meant for creating pretty output.
 	* @example
-	*
 	*   'employee_salary'.humanize() -> 'Employee salary'
 	*   'author_id'.humanize()       -> 'Author'
-	*
-	***/
+	**/
 	humanize(): string;
 
-	/***
+	/**
 	* Returns true if the string has a length of 0 or contains only whitespace.
-	* @method isBlank()
-	* @returns Boolean
+	* @returns True if the string has a length of 0 or contains only whitespace.
 	* @example
-	*
 	*   ''.isBlank()      -> true
 	*   '   '.isBlank()   -> true
 	*   'noway'.isBlank() -> false
-	*
-	***/
+	**/
 	isBlank(): bool;
 
-	/***
-	* Returns true if the string contains only characters in that script. Whitespace is ignored.
-	* @method is[Script]()
-	* @returns Boolean
-	*
-	* @set
-	*   isArabic
-	*   isCyrillic
-	*   isGreek
-	*   isHangul
-	*   isHan
-	*   isKanji
-	*   isHebrew
-	*   isHiragana
-	*   isKana
-	*   isKatakana
-	*   isKatakana
-	*   isThai
-	*   isDevanagari
-	*
+	/**
+	* Returns true if the string contains only characters in Arabic. Whitespace is ignored.
+	* @returns True if the string containsly only characters in Arabic.
 	* @example
-	*
 	*   '?????'.isArabic()          -> true
 	*   '?????'.isCyrillic()        -> true
 	*   '? ?????!'.isHangul() -> true
 	*   '??????'.isKatakana() -> false
 	*   "l'année".isLatin()         -> true
-	*
-	***/
+	**/
 	isArabic(): bool;
+
+	/**
+	* Returns true if the string contains only characters in Cyrillic. Whitespace is ignored.
+	* @returns True if the string containsly only characters in Cyrillic.
+	**/
 	isCyrillic(): bool;
+
+	/**
+	* Returns true if the string contains only characters in Greek. Whitespace is ignored.
+	* @returns True if the string containsly only characters in Greek.
+	**/
 	isGreek(): bool;
+
+	/**
+	* Returns true if the string contains only characters in Hangul. Whitespace is ignored.
+	* @returns True if the string containsly only characters in Hangul.
+	**/
 	isHangul(): bool;
+
+	/**
+	* Returns true if the string contains only characters in Han. Whitespace is ignored.
+	* @returns True if the string containsly only characters in Han.
+	**/
 	isHan(): bool;
+
+	/**
+	* Returns true if the string contains only characters in Kanji. Whitespace is ignored.
+	* @returns True if the string containsly only characters in Kanji.
+	**/
 	isKanji(): bool;
+
+	/**
+	* Returns true if the string contains only characters in Hebrew. Whitespace is ignored.
+	* @returns True if the string containsly only characters in Hebrew.
+	**/
 	isHebrew(): bool;
+
+	/**
+	* Returns true if the string contains only characters in Hiragana. Whitespace is ignored.
+	* @returns True if the string containsly only characters in Hiragana.
+	**/
 	isHiragana(): bool;
+
+	/**
+	* Returns true if the string contains only characters in Kana. Whitespace is ignored.
+	* @returns True if the string containsly only characters in Kana.
+	**/
 	isKana(): bool;
+
+	/**
+	* Returns true if the string contains only characters in Katakana. Whitespace is ignored.
+	* @returns True if the string containsly only characters in Katakana.
+	**/
 	isKatakana(): bool;
+
+	/**
+	* Returns true if the string contains only characters in Latin. Whitespace is ignored.
+	* @returns True if the string containsly only characters in Latin.
+	**/
 	isLatin(): bool;
+
+	/**
+	* Returns true if the string contains only characters in Thai. Whitespace is ignored.
+	* @returns True if the string containsly only characters in Thai.
+	**/
 	isThai(): bool;
+
+	/**
+	* Returns true if the string contains only characters in Devanagari. Whitespace is ignored.
+	* @returns True if the string containsly only characters in Devanagari.
+	**/
 	isDevanagari(): bool;
 
-	/***
+	/**
 	* Converts hiragana into katakana.
-	* @method katakana()
-	* @returns String
+	* @returns Converted string to katakana.
 	* @example
-	*
 	*   '????'.katakana()   -> '????'
 	*   '?????'.katakana() -> '?????'
-	*
-	***/
+	**/
 	katakana(): string;
 
-	/***
+	/**
 	* Returns the last [n] characters of the string.
-	* @method last([n] = 1)
-	* @returns String
+	* @param last Default = 1.
+	* @returns The last [n] characters of the string.
 	* @example
-	*
 	*   'lucky charms'.last()   -> 's'
 	*   'lucky charms'.last(3)  -> 'rms'
-	*
-	***/
+	**/
 	last(n?: number): string;
 
-	/***
+	/**
 	* Runs callback [fn] against each line in the string.
-	*        Returns an array of lines.
-	* @method lines([fn])
-	* @returns Array
+	* @param fn Callback against each line in the original string.
+	* @returns A string[] where each element is a line in the original string.
 	* @example
-	*
 	*   'broken wear\nand\njumpy jump'.lines() -> ['broken wear','and','jumpy jump']
 	*   'broken wear\nand\njumpy jump'.lines(function(l) {
 	*     // Called three times: "broken wear", "and", "jumpy jump"
 	*   });
-	*
-	***/
-	lines(fn?: Function): string[];
+	**/
+	lines(fn?: (l: string) => void): string[];
 
-	/***
+	/**
 	* Returns the string with accented and non-standard Latin-based
-	*        characters converted into ASCII approximate equivalents.
-	* @method normalize()
+	* characters converted into ASCII approximate equivalents.
 	* @returns String
 	* @example
-	*
 	*   'á'.normalize()                  -> 'a'
 	*   'Ménage à trois'.normalize()     -> 'Menage a trois'
 	*   'Volkswagen'.normalize()         -> 'Volkswagen'
 	*   'FULLWIDTH'.normalize() -> 'FULLWIDTH'
-	*
-	***/
+	**/
 	normalize(): string;
 
-	/***
+	/**
 	* Pads either/both sides of the string.
-	* @method pad[Side](<padding> = '', [num] = 1)
+	* @param padding The padding characters to add to the string.
+	* @param num The number of <padding> to add to the string, default = 1.
 	* @returns String
 	* @extra [num] is the number of characters on each side,
 	*        and [padding] is the character to pad with.
-	*
-	* @set
-	*   pad
-	*   padLeft
-	*   padRight
-	*
 	* @example
-	*
 	*   'wasabi'.pad('-')         -> '-wasabi-'
 	*   'wasabi'.pad('-', 2)      -> '--wasabi--'
 	*   'wasabi'.padLeft('-', 2)  -> '--wasabi'
 	*   'wasabi'.padRight('-', 2) -> 'wasabi--'
-	*
-	***/
+	**/
 	pad(padding: string, num?: number): string;
+
+	/**
+	* @see pad
+	**/
 	padLeft(padding: string, num?: number): string;
+
+	/**
+	* @see pad
+	**/
 	padRight(padding: string, num?: number): string;
 
-	/***
+	/**
 	* Runs callback [fn] against each paragraph in the string.
-	*        Returns an array of paragraphs.
-	* @method paragraphs([fn])
-	* @returns Array
+	* @param fn Callback function called for each paragraph in the string.
+	* @returns Returns a string[] where each element is a paragraph in the original string.
 	* @extra A paragraph here is defined as a block of text bounded
 	*        by two or more line breaks.
 	* @example
-	*
 	*   'Once upon a time.\n\nIn the land of oz...'.paragraphs() -> ['Once upon a time.','In the land of oz...']
 	*   'Once upon a time.\n\nIn the land of oz...'.paragraphs(function(p) {
 	*     // Called twice: "Once upon a time.", "In teh land of oz..."
 	*   });
-	*
-	***/
-	paragraphs(fn?: Function): string[];
+	**/
+	paragraphs(fn?: (p: string) => void): string[];
 
-	/***
-	* Replaces special characters in a string so that it may
-	*        be used as part of a pretty URL.
-	* @method parameterize()
-	* @returns String
+	/**
+	* Replaces special characters in a string so that it may be used as part of a pretty URL.
+	* @returns URL parameterizes the string.
 	* @example
-	*
 	*   'hell, no!'.parameterize() -> 'hell-no'
-	*
-	***/
+	**/
 	parameterize(): string;
 
-	/***
+	/**
 	* Returns the plural form of the word in the string.
 	* @method pluralize()
 	* @returns String
 	* @example
-	*
 	*   'post'.pluralize()         -> 'posts'
 	*   'octopus'.pluralize()      -> 'octopi'
 	*   'sheep'.pluralize()        -> 'sheep'
 	*   'words'.pluralize()        -> 'words'
 	*   'CamelOctopus'.pluralize() -> 'CamelOctopi'
-	*
-	***/
+	**/
 	pluralize(): string;
 
-	/***
-	* Removes any part of the string that matches <f>.
-	* @method remove(<f>)
-	* @returns String
-	* @extra <f> can be a string or a regex.
+	/**
+	* Removes any part of the string that matches <find>.
+	* @param find Remove this from the string.
+	* @returns String with all instances of <find> removed.
+	* @extra <find> can be a string or a regex.
 	* @example
-	*
 	*   'schfifty five'.remove('f')     -> 'schity ive'
 	*   'schfifty five'.remove(/[a-f]/g) -> 'shity iv'
-	*
-	***/
+	**/
 	remove(find: string): string;
+
+	/**
+	* @see remove
+	**/
 	remove(find: RegExp): string;
 
-	/***
-	* Removes all HTML tags and their contents from the string.
-	* @method removeTags([tag1], [tag2], ...)
-	* @returns String
-	* @extra Tags to remove may be enumerated in the parameters,
-	*        otherwise will remove all.
+	/**
+	* Removes all HTML tags and their contents from the string
+	* @returns String with HTML tags removed.
+	* @extra Tags to remove may be enumerated in the parameters, otherwise will remove all.
 	* @example
-	*
 	*   '<p>just <b>some</b> text</p>'.removeTags()    -> ''
 	*   '<p>just <b>some</b> text</p>'.removeTags('b') -> '<p>just text</p>'
-	*
-	***/
+	**/
 	removeTags(): string;
+
+	/**
+	* @see removeTags
+	* @param tag Remove only this HTML tag.
+	**/
 	removeTags(tag: string): string;
+
+	/**
+	* @see removeTags
+	* @param tags Remove these HTML tags.
+	**/
 	removeTags(...tags: string[]): string;
 
-	/***
+	/**
 	* Returns the string repeated [num] times.
-	* @method repeat([num] = 0)
-	* @returns String
+	* @param num Number of times to repeat the string, default = 0.
+	* @returns Repeated [num] string.
 	* @example
-	*
 	*   'jumpy'.repeat(2) -> 'jumpyjumpy'
 	*   'a'.repeat(5)     -> 'aaaaa'
 	*   'a'.repeat(0)     -> ''
-	*
-	***/
+	**/
 	repeat(num?: number): string;
 
-	/***
+	/**
 	* Reverses the string.
-	* @method reverse()
-	* @returns String
+	* @returns Reversed string.
 	* @example
-	*
 	*   'jumpy'.reverse()        -> 'ypmuj'
 	*   'lucky charms'.reverse() -> 'smrahc ykcul'
-	*
-	***/
+	**/
 	reverse(): string;
 
-	/***
+	/**
 	* Shifts each character in the string <n> places in the character map.
-	* @method shift(<n>)
-	* @returns Array
+	* @param num Number of characters to shift in the character map.
+	* @returns String with characters shifted <n>.
 	* @example
-	*
 	*   'a'.shift(1)  -> 'b'
 	*   '?'.shift(1) -> '?'
-	*
-	***/
+	**/
 	shift(num: number): string[];
 
-	/***
+	/**
 	* The reverse of String#pluralize.
-	*        Returns the singular form of a word in a string.
-	* @method singularize()
-	* @returns String
+	* @returns Returns the singular form of a word in a string.
 	* @example
-	*
 	*   'posts'.singularize()       -> 'post'
 	*   'octopi'.singularize()      -> 'octopus'
 	*   'sheep'.singularize()       -> 'sheep'
 	*   'word'.singularize()        -> 'word'
 	*   'CamelOctopi'.singularize() -> 'CamelOctopus'
-	*
-	***/
+	**/
 	singularize(): string;
 
-	/***
+	/**
 	* Converts camel case, underscores, and hyphens to a properly spaced string.
-	* @method spacify()
 	* @returns String
 	* @example
-	*
 	*   'camelCase'.spacify()                         -> 'camel case'
 	*   'an-ugly-string'.spacify()                    -> 'an ugly string'
 	*   'oh-no_youDid-not'.spacify().capitalize(true) -> 'something else'
-	*
-	***/
+	**/
 	spacify(): string;
 
-	/***
+	/**
 	* Returns true if the string starts with <find>.
 	* @param find String or RegExp to look for at the beginning of the string.
 	* @param pos Starting position to start searching, default = 0.
 	* @param case_ True for case sensitive, default = true.
 	* @returns True if the string starts with `find`.
 	* @example
-	*
 	*   'hello'.startsWith('hell')        -> true
 	*   'hello'.startsWith(/[a-h]/)       -> true
 	*   'hello'.startsWith('HELL')        -> false
 	*   'hello'.startsWith('HELL', false) -> true
-	*
-	***/
+	**/
 	startsWith(find: string, pos?: number, case_?: bool): bool;
+
+	/**
+	* @see startsWith
+	**/
+	startsWith(find: string, case_?: bool): bool;
+
+	/**
+	* @see startsWith
+	**/
 	startsWith(find: RegExp, pos?: number, case_?: bool): bool;
+
+	/**
+	* @see startsWith
+	**/
+	startsWith(find: RegExp, case_?: bool): bool;
 
 	/***
 	* Strips all HTML tags from the string.

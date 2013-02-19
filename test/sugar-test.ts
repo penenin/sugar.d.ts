@@ -71,3 +71,111 @@
 
 'lucky charms'.from();	// - > 'lucky charms'
 'lucky charms'.from(7);	// - > 'harms'
+
+// visual studio is not liking these characters very much.
+'??? YAMADA??!'.hankaku();						// - > '??? YAMADA??!'
+'??? YAMADA??!'.hankaku('a');					// - > '??? YAMADA??!'
+'??? YAMADA??!'.hankaku('alphabet');			// - > '??? YAMADA??!'
+'?????! 25???!'.hankaku('katakana', 'numbers');	// - > '?????! 25???!'
+'?????! 25???!'.hankaku('k', 'n');				// - > '?????! 25???!'
+'?????! 25???!'.hankaku('kn');					// - > '?????! 25???!'
+'?????! 25???!'.hankaku('sp');					// - > '?????! 25???!'
+
+'jumpy'.has('py');		// - > true
+'broken'.has(/[a-n]/);	// - > true
+'broken'.has(/[s-z]/);	// - > false
+
+// visual studio is not liking these characters very much.
+'?????'.hasArabic();		// - > true
+'?????'.hasCyrillic();		// - > true
+'? ?????!'.hasHangul();		// - > true
+'??????'.hasKatakana();		// - > true
+"l'année".hasLatin();		// - > true
+
+// visual studio is not liking these characters very much.
+'????'.hiragana();		// - > '????'
+'?????'.hiragana();		// - > '?????'
+'????'.hiragana();		// - > '????'
+'????'.hiragana(false);	// - > '????'
+
+'employee_salary'.humanize();	// - > 'Employee salary'
+'author_id'.humanize();			// - > 'Author'
+
+''.isBlank();		// - > true
+'   '.isBlank();	// - > true
+'noway'.isBlank();	// - > false
+
+// visual studio is not liking these characters very much.
+'?????'.isArabic();		// - > true
+'?????'.isCyrillic();	// - > true
+'? ?????!'.isHangul();	// - > true
+'??????'.isKatakana();	// - > false
+"l'année".isLatin();	// - > true
+
+// visual studio is not liking these characters very much.
+'????'.katakana();	// - > '????'
+'?????'.katakana();	// - > '?????'
+
+'lucky charms'.last();	// - > 's'
+'lucky charms'.last(3);	// - > 'rms'
+
+'broken wear\nand\njumpy jump'.lines();	// - > ['broken wear', 'and', 'jumpy jump']
+'broken wear\nand\njumpy jump'.lines(function (l) {
+	// Called three times: "broken wear", "and", "jumpy jump"
+});
+
+'á'.normalize();				// - > 'a'
+'Ménage à trois'.normalize();	// - > 'Menage a trois'
+'Volkswagen'.normalize();		// - > 'Volkswagen'
+'FULLWIDTH'.normalize();		// - > 'FULLWIDTH'
+
+'wasabi'.pad('-');			// - > '-wasabi-'
+'wasabi'.pad('-', 2);		// - > '--wasabi--'
+'wasabi'.padLeft('-', 2);	// - > '--wasabi'
+'wasabi'.padRight('-', 2);	// - > 'wasabi--'
+
+'Once upon a time.\n\nIn the land of oz...'.paragraphs();	// - > ['Once upon a time.', 'In the land of oz...']
+'Once upon a time.\n\nIn the land of oz...'.paragraphs(function (p) {
+	// Called twice: "Once upon a time.", "In teh land of oz..."
+});
+
+'hell, no!'.parameterize();	// - > 'hell-no'
+
+'post'.pluralize();			// - > 'posts'
+'octopus'.pluralize();		// - > 'octopi'
+'sheep'.pluralize();		// - > 'sheep'
+'words'.pluralize();		// - > 'words'
+'CamelOctopus'.pluralize();	// - > 'CamelOctopi'
+
+'schfifty five'.remove('f');		// - > 'schity ive'
+'schfifty five'.remove(/[a-f]/g);	// - > 'shity iv'
+
+'<p>just <b>some</b> text</p>'.removeTags();	// - > ''
+'<p>just <b>some</b> text</p>'.removeTags('b');	// - > '<p>just text</p>'
+
+'jumpy'.repeat(2);	// - > 'jumpyjumpy'
+'a'.repeat(5);		// - > 'aaaaa'
+'a'.repeat(0);		// - > ''
+
+'jumpy'.reverse();			// - > 'ypmuj'
+'lucky charms'.reverse();	// - > 'smrahc ykcul'
+
+'a'.shift(1);	// - > 'b'
+'?'.shift(1);	//- > '?'
+
+'posts'.singularize();			// -> 'post'
+'octopi'.singularize();			// -> 'octopus'
+'sheep'.singularize();			// -> 'sheep'
+'word'.singularize();			// -> 'word'
+'CamelOctopi'.singularize();	// -> 'CamelOctopus'
+
+'camelCase'.spacify();							// - > 'camel case'
+'an-ugly-string'.spacify();						// - > 'an ugly string'
+'oh-no_youDid-not'.spacify().capitalize(true);	// - > 'something else'
+
+'hello'.startsWith('hell');			// - > true
+'hello'.startsWith(/[a-h]/);		// - > true
+'hello'.startsWith('HELL');			// - > false
+'hello'.startsWith('HELL', false);	// - > true
+
+
