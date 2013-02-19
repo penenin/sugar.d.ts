@@ -1,4 +1,4 @@
-/// <reference path="sugar.d.ts" />
+/// <reference path="../sugar.d.ts" />
 
 'schfifty'.add(' five');		// - > schfifty five
 'dopamine'.insert('e', 3);		// - > dopeamine
