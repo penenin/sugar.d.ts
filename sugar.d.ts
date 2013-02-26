@@ -692,9 +692,9 @@ interface String {
 	reverse(): string;
 
 	/**
-	* Shifts each character in the string <n> places in the character map.
+	* Shifts each character in the string <num> places in the character map.
 	* @param num Number of characters to shift in the character map.
-	* @returns String with characters shifted <n>.
+	* @returns String with characters shifted <num>.
 	* @example
 	*   'a'.shift(1)  -> 'b'
 	*   '?'.shift(1) -> '?'
@@ -752,165 +752,159 @@ interface String {
 	**/
 	startsWith(find: RegExp, case_?: bool): bool;
 
-	/***
+	/**
 	* Strips all HTML tags from the string.
-	* @method stripTags([tag1], [tag2], ...)
-	* @returns String
-	* @extra Tags to strip may be enumerated in the parameters,
-	*        otherwise will strip all.
+	
+	* @returns Returns the string with all HTML removed.
+	* @extra Tags to strip may be enumerated in the parameters, otherwise will strip all.
 	* @example
-	*
 	*   '<p>just <b>some</b> text</p>'.stripTags()    -> 'just some text'
 	*   '<p>just <b>some</b> text</p>'.stripTags('p') -> 'just <b>some</b> text'
-	*
-	***/
+	**/
 	stripTags(): string;
+
+	/**
+	* @see stripTags
+	* @param tags HTML tag to strip from the string.
+	**/
 	stripTags(tag: string): string;
+
+	/**
+	* @see stripTags
+	* @param tags HTML tags to strip from the string.
+	**/
 	stripTags(...tags: string[]): string;
 
-	/***
+	/**
 	* Creates a title version of the string.
-	* @method titleize()
-	* @returns String
+	* @returns Returns a titlized version of the string.
 	* @extra Capitalizes all the words and replaces some characters
 	*        in the string to create a nicer looking title.
 	*        String#titleize is meant for creating pretty output.
 	* @example
-	*
 	*   'man from the boondocks'.titleize() -> 'Man from the Boondocks'
 	*   'x-men: the last stand'.titleize() -> 'X Men: The Last Stand'
 	*   'TheManWithoutAPast'.titleize() -> 'The Man Without a Past'
 	*   'raiders_of_the_lost_ark'.titleize() -> 'Raiders of the Lost Ark'
-	*
-	***/
+	**/
 	titleize(): string;
 
-	/***
+	/**
 	* Returns a section of the string ending at [index].
-	* @method to([index] = end)
-	* @returns String
+	* @param index Ending position in the substring, default = string.length.
+	* @returns Substring ending at [index].
 	* @example
-	*
 	*   'lucky charms'.to()   -> 'lucky charms'
 	*   'lucky charms'.to(7)  -> 'lucky ch'
-	*
-	***/
+	**/
 	to(index?: number): string;
 
-	/***
-	* Converts the string into a number.
-	* @method toNumber([base] = 10)
-	* @returns Number
+	/**
+	* Converts the string into a number in base [base].
+	* @param base The base to parse the number in, default = 10.
+	* @returns Parsed number.
 	* @extra Any value with a "." fill be converted to a floating point value,
 	*        otherwise an integer.
 	* @example
-	*
 	*   '153'.toNumber()    -> 153
 	*   '12,000'.toNumber() -> 12000
 	*   '10px'.toNumber()   -> 10
 	*   'ff'.toNumber(16)   -> 255
-	*
-	***/
+	**/
 	toNumber(base?: number): number;
 
-	/***
+	/**
 	* Removes leading and/or trailing whitespace from the string.
-	* @method trim[Side]()
-	* @returns String
+	* @returns Returns a string with leading and trailing whitespace removed.
 	* @extra Whitespace is defined as line breaks, tabs, and any character
 	*        in the "Space, Separator" Unicode category, conforming to the
 	*        the ES5 spec. The standard %trim% method is only added when
 	*        not fully supported natively.
-	*
-	* @set
-	*   trim
-	*   trimLeft
-	*   trimRight
-	*
 	* @example
-	*
 	*   '   wasabi   '.trim()      -> 'wasabi'
 	*   '   wasabi   '.trimLeft()  -> 'wasabi   '
 	*   '   wasabi   '.trimRight() -> '   wasabi'
-	*
-	***/
+	**/
 	trim(): string;
+
+	/**
+	* Removes leading whitespace from the string.
+	* @see trim
+	* @return Returns a string with leading whitespace removed.
+	**/
 	trimLeft(): string;
+
+	/**
+	* Removes trailing whitespace from the string.
+	* @see trim
+	* @return Returns a string with trailing whitespace removed.
+	**/
 	trimRight(): string;
 
-	/***
+	/**
 	* Truncates a string.
-	* @method truncate(<length>, [split] = true, [from] = 'right', [ellipsis] = '...')
-	* @returns Object
+	* @param length The length to keep in the string before truncating.
+	* @param split True to split words, false keeps them intact but may truncate earlier.
+	* @param from Where to truncate the string from, default = 'right'.
+	* @param ellipsis Character to use as ellipsis.
+	* @returns Truncated string.
 	* @extra If [split] is %false%, will not split words up, and instead
 	*        discard the word where the truncation occurred. [from] can
 	*        also be %"middle"% or %"left"%.
 	* @example
-	*
 	*   'just sittin on the dock of the bay'.truncate(20)                 -> 'just sittin on the do...'
 	*   'just sittin on the dock of the bay'.truncate(20, false)          -> 'just sittin on the...'
 	*   'just sittin on the dock of the bay'.truncate(20, true, 'middle') -> 'just sitt...of the bay'
 	*   'just sittin on the dock of the bay'.truncate(20, true, 'left')   -> '...the dock of the bay'
-	*
-	***/
+	**/
 	truncate(length: number, split?: bool, from?: string, ellipsis?: string): string;
 
-	/***
+	/**
 	* Converts hyphens and camel casing to underscores.
-	* @method underscore()
-	* @returns String
+	* @returns Returns a converted string.
 	* @example
-	*
 	*   'a-farewell-to-arms'.underscore() -> 'a_farewell_to_arms'
 	*   'capsLock'.underscore()           -> 'caps_lock'
-	*
-	***/
+	* @note Not to be confused with the populate underscore.js library.
+	**/
 	underscore(): string;
 
-	/***
+	/**
 	* Restores escaped HTML characters.
-	* @method unescapeHTML([partial] = false)
-	* @returns String
+	* @returns Returns unescaped HTML string.
 	* @example
-	*
 	*   '&lt;p&gt;some text&lt;/p&gt;'.unescapeHTML() -> '<p>some text</p>'
 	*   'one &amp; two'.unescapeHTML()                -> 'one & two'
-	*
-	***/
-	unescapeHTML(partial?: bool): string;
+	**/
+	unescapeHTML(): string;
 
-	/***
+	/**
 	* Restores escaped characters in a URL escaped string.
-	* @method unescapeURL([partial] = false)
+	* @param partial If true only escape non-valid URL characters, default = false.
 	* @returns String
 	* @extra If [partial] is true, it will only unescape non-valid URL characters. [partial] is included here for completeness, but should very rarely be needed.
 	* @example
-	*
 	*   'http%3A%2F%2Ffoo.com%2Fthe%20bar'.unescapeURL()     -> 'http://foo.com/the bar'
 	*   'http%3A%2F%2Ffoo.com%2Fthe%20bar'.unescapeURL(true) -> 'http%3A%2F%2Ffoo.com%2Fthe bar'
-	*
-	***/
+	**/
 	unescapeURL(partial?: bool): string;
 
-	/***
+	/**
 	* Runs callback [fn] against each word in the string.
-	*        Returns an array of words.
-	* @method words([fn])
-	* @returns String[]
+	* @param fn Callback to run against each word in the string.
+	* @returns Returns an string[] with each element containing a word.
 	* @extra A "word" here is defined as any sequence of non-whitespace characters.
 	* @example
-	*
 	*   'broken wear'.words() -> ['broken','wear']
 	*   'broken wear'.words(function(w) {
 	*     // Called twice: "broken", "wear"
 	*   });
-	*
-	***/
-	words(fn?: Function): string[];
+	**/
+	words(fn?: (word: string) => void): string[];
 
-	/***
+	/**
 	* Converts half-width characters (hankaku) to full-width (zenkaku).
-	* @method zenkaku([mode] = 'all')
+	* @param modes Types of characters to convert, default = 'all'.
 	* @returns String
 	* @extra [mode] accepts any combination of
 	*        "a" (alphabet),
@@ -920,7 +914,6 @@ interface String {
 	*        "p" (punctuation),
 	*        or "all".
 	* @example
-	*
 	*   '??? YAMADA??!'.zenkaku()                         -> '??? YAMADA??!'
 	*   '??? YAMADA??!'.zenkaku('a')                      -> '??? YAMADA??!'
 	*   '??? YAMADA??!'.zenkaku('alphabet')               -> '??? YAMADA??!'
@@ -928,9 +921,8 @@ interface String {
 	*   '?????! 25???!'.zenkaku('k', 'n')              -> '?????! 25???!'
 	*   '?????! 25???!'.zenkaku('kn')                  -> '?????! 25???!'
 	*   '?????! 25???!'.zenkaku('sp')                  -> '?????! 25???!'
-	*
-	***/
-	zenkaku(mode?: string): string;
+	**/
+	zenkaku(...modes: string): string;
 }
 
 interface Number {
