@@ -259,4 +259,196 @@
 ;
 'hello'.startsWith('HELL', false)// - > true
 ;
+'<p>just <b>some</b> text</p>'.stripTags()// - > 'just some text'
+;
+'<p>just <b>some</b> text</p>'.stripTags('p')// - > 'just <b>some</b> text'
+;
+'man from the boondocks'.titleize()// - > 'Man from the Boondocks'
+;
+'x-men: the last stand'.titleize()// - > 'X Men: The Last Stand'
+;
+'TheManWithoutAPast'.titleize()// - > 'The Man Without a Past'
+;
+'raiders_of_the_lost_ark'.titleize()// - > 'Raiders of the Lost Ark'
+;
+'lucky charms'.to()// - > 'lucky charms'
+;
+'lucky charms'.to(7)// - > 'lucky ch'
+;
+'153'.toNumber()// - > 153
+;
+'12,000'.toNumber()// - > 12000
+;
+'10px'.toNumber()// - > 10
+;
+'ff'.toNumber(16)// - > 255
+;
+'   wasabi   '.trim()// - > 'wasabi'
+;
+'   wasabi   '.trimLeft()// - > 'wasabi   '
+;
+'   wasabi   '.trimRight()// - > '   wasabi'
+;
+'just sittin on the dock of the bay'.truncate(20)// - > 'just sittin on the do...'
+;
+'just sittin on the dock of the bay'.truncate(20, false)// - > 'just sittin on the...'
+;
+'just sittin on the dock of the bay'.truncate(20, true, 'middle')// - > 'just sitt...of the bay'
+;
+'just sittin on the dock of the bay'.truncate(20, true, 'left')// - > '...the dock of the bay'
+;
+'a-farewell-to-arms'.underscore()// - > 'a_farewell_to_arms'
+;
+'capsLock'.underscore()// - > 'caps_lock'
+;
+'&lt;p&gt;some text&lt;/p&gt;'.unescapeHTML()// - > '<p>some text</p>'
+;
+'one &amp; two'.unescapeHTML()// - > 'one & two'
+;
+'http%3A%2F%2Ffoo.com%2Fthe%20bar'.unescapeURL()// - > 'http://foo.com/the bar'
+;
+'http%3A%2F%2Ffoo.com%2Fthe%20bar'.unescapeURL(true)// - > 'http%3A%2F%2Ffoo.com%2Fthe bar'
+;
+'broken wear'.words()// - > ['broken', 'wear']
+;
+'broken wear'.words(function (w) {
+    // Called twice: "broken", "wear"
+    });
+'??? YAMADA??!'.zenkaku()// - > '??? YAMADA??!'
+;
+'??? YAMADA??!'.zenkaku('a')// - > '??? YAMADA??!'
+;
+'??? YAMADA??!'.zenkaku('alphabet')// - > '??? YAMADA??!'
+;
+'?????! 25???!'.zenkaku('katakana', 'numbers')// - > '?????! 25???!'
+;
+'?????! 25???!'.zenkaku('k', 'n')// - > '?????! 25???!'
+;
+'?????! 25???!'.zenkaku('kn')// - > '?????! 25???!'
+;
+'?????! 25???!'.zenkaku('sp')// - > '?????! 25???!'
+;
+// static
+//Number.random(50, 100);	// - > ex.85
+//Number.random(50);		// - > ex.27
+//Number.random();		// - > ex.0
+(1000).abbr()// - > "1k"
+;
+(1000000).abbr()// - > "1m"
+;
+(1280).abbr(1)// - > "1.3k"
+;
+(1000).bytes()// - > "1kB"
+;
+(1000).bytes(2)// - > "0.98kB"
+;
+((10).pow(20)).bytes()// - > "90,949,470TB"
+;
+((10).pow(20)).bytes(0, false)// - > "87EB"
+;
+(1000).bytes()// - > "1kB"
+;
+(1000).bytes(2)// - > "0.98kB"
+;
+((10).pow(20)).bytes()// - > "90,949,470TB"
+;
+((10).pow(20)).bytes(0, false)// - > "87EB"
+;
+(3.241).ceil()// - > 4
+;
+(-3.241).ceil()// - > -3
+;
+(3.241).ceil(2)// - > 3.25
+;
+(3748).ceil(-2)// - > 3800
+;
+(65).chr()// - > "A"
+;
+(75).chr()// - > "K"
+;
+(8).downto(3)// - > [8, 7, 6, 5, 4, 3]
+;
+(8).downto(3, function (n) {
+    // This function is called 6 times receiving n as the value.
+    });
+(8).downto(2, null, 2)// - > [8, 6, 4, 2]
+;
+(500).duration()// - > '500 milliseconds'
+;
+(1200).duration()// - > '1 second'
+;
+(75).minutes().duration()// - > '1 hour'
+;
+(75).minutes().duration('es')// - > '1 hora'
+;
+(3.241).floor()// - > 3
+;
+(-3.841).floor()// - > -4
+;
+(3.241).floor(2)// - > 3.24
+;
+(3748).floor(-2)// - > 3700
+;
+(56782).format()//- > '56,782'
+;
+(56782).format(2)// - > '56,782.00'
+;
+(4388.43).format(2, ' ')// - > '4 388.43'
+;
+(4388.43).format(2, '.', ',')// - > '4.388,43'
+;
+(255).hex()// - > 'ff';
+;
+(255).hex(4)// - > '00ff';
+;
+(23654).hex()// - > '5c66';
+;
+(6).isEven()// - > true
+;
+(17).isEven()// - > false
+;
+(420).isInteger()// - > true
+;
+(4.5).isInteger()// - > false
+;
+(6).isMultipleOf(2)// - > true
+;
+(17).isMultipleOf(2)// - > false
+;
+(32).isMultipleOf(4)// - > true
+;
+(34).isMultipleOf(4)// - > false
+;
+(3).isOdd()// - > true
+;
+(18).isOdd()// - > false
+;
+(64).log(2)// - > 6
+;
+(9).log(3)// - > 2
+;
+(5).log()// - > 1.6094379124341003
+;
+(3).pow(3)// - > 27
+;
+(-3).abs()// - > 3
+;
+(1024).sqrt()// - > 32
+;
+(1000).metric()// - > "1k"
+;
+(1000000).metric()// - > "1,000k"
+;
+(1000000).metric(0, false)// - > "1M"
+;
+(1249).metric(2) + 'g'// - > "1.25kg"
+;
+(0.025).metric() + 'm'// - > "25mm"
+;
+(1).ordinalize()// - > '1st'
+;
+(2).ordinalize()// - > '2nd'
+;
+(8).ordinalize()// - > '8th'
+;
 //@ sourceMappingURL=sugar-tests.js.map
