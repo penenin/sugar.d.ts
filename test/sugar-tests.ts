@@ -45,7 +45,7 @@
 'jumpy'.each();			// - > ['j', 'u', 'm', 'p', 'y']
 'jumpy'.each(/[r-z]/);	// - > ['u', 'y']
 'jumpy'.each(/[r-z]/, function (m) {
-		// Called twice: "u", "y"
+	// Called twice: "u", "y"
 });
 
 'gonna get encoded!'.encodeBase64();	// - > 'Z29ubmEgZ2V0IGVuY29kZWQh'
@@ -178,4 +178,50 @@
 'hello'.startsWith('HELL');			// - > false
 'hello'.startsWith('HELL', false);	// - > true
 
+'<p>just <b>some</b> text</p>'.stripTags();		// - > 'just some text'
+'<p>just <b>some</b> text</p>'.stripTags('p');	// - > 'just <b>some</b> text'
+
+'man from the boondocks'.titleize();	// - > 'Man from the Boondocks'
+'x-men: the last stand'.titleize();		// - > 'X Men: The Last Stand'
+'TheManWithoutAPast'.titleize();		// - > 'The Man Without a Past'
+'raiders_of_the_lost_ark'.titleize();	// - > 'Raiders of the Lost Ark'
+
+'lucky charms'.to();	// - > 'lucky charms'
+'lucky charms'.to(7);	// - > 'lucky ch'
+
+'153'.toNumber();		// - > 153
+'12,000'.toNumber();	// - > 12000
+'10px'.toNumber();		// - > 10
+'ff'.toNumber(16);		// - > 255
+
+'   wasabi   '.trim();		// - > 'wasabi'
+'   wasabi   '.trimLeft();	// - > 'wasabi   '
+'   wasabi   '.trimRight();	// - > '   wasabi'
+
+'just sittin on the dock of the bay'.truncate(20);					// - > 'just sittin on the do...'
+'just sittin on the dock of the bay'.truncate(20, false);			// - > 'just sittin on the...'
+'just sittin on the dock of the bay'.truncate(20, true, 'middle');	// - > 'just sitt...of the bay'
+'just sittin on the dock of the bay'.truncate(20, true, 'left');	// - > '...the dock of the bay'
+
+'a-farewell-to-arms'.underscore();	// - > 'a_farewell_to_arms'
+'capsLock'.underscore();			// - > 'caps_lock'
+
+'&lt;p&gt;some text&lt;/p&gt;'.unescapeHTML();	// - > '<p>some text</p>'
+'one &amp; two'.unescapeHTML();					// - > 'one & two'
+
+'http%3A%2F%2Ffoo.com%2Fthe%20bar'.unescapeURL();		// - > 'http://foo.com/the bar'
+'http%3A%2F%2Ffoo.com%2Fthe%20bar'.unescapeURL(true);	// - > 'http%3A%2F%2Ffoo.com%2Fthe bar'
+
+'broken wear'.words();	// - > ['broken', 'wear']
+'broken wear'.words(function (w) {
+     // Called twice: "broken", "wear"
+});
+
+'??? YAMADA??!'.zenkaku();						// - > '??? YAMADA??!'
+'??? YAMADA??!'.zenkaku('a');					// - > '??? YAMADA??!'
+'??? YAMADA??!'.zenkaku('alphabet');			// - > '??? YAMADA??!'
+'?????! 25???!'.zenkaku('katakana', 'numbers');	// - > '?????! 25???!'
+'?????! 25???!'.zenkaku('k', 'n');				// - > '?????! 25???!'
+'?????! 25???!'.zenkaku('kn');					// - > '?????! 25???!'
+'?????! 25???!'.zenkaku('sp');					// - > '?????! 25???!'
 

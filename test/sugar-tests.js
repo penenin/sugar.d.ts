@@ -251,4 +251,12 @@
 ;
 'oh-no_youDid-not'.spacify().capitalize(true)// - > 'something else'
 ;
-//@ sourceMappingURL=sugar-test.js.map
+'hello'.startsWith('hell')// - > true
+;
+'hello'.startsWith(/[a-h]/)// - > true
+;
+'hello'.startsWith('HELL')// - > false
+;
+'hello'.startsWith('HELL', false)// - > true
+;
+//@ sourceMappingURL=sugar-tests.js.map
