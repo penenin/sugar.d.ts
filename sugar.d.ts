@@ -2355,13 +2355,13 @@ interface Array<T> {
 	*     return n.age;
 	*   });                                  -> { 35: [{age:35,name:'ken'}], 15: [{age:15,name:'bob'}] }
 	**/
-	groupBy(map: string, fn?: (group: T) => void ): { [key: string]: any };
+	groupBy<U>(map: string, fn?: (group: T) => void ): { [key: U]: any };
 
 	/**
 	* @see groupBy
 	* @param map Callback function for each element, returns the key for the group the element should be in.
 	**/
-	groupBy(map: (element: T) => any, fn?: (group: T) => void ): { [key: string]: any };
+	groupBy<U>(map: (element: T) => U, fn?: (group: T) => void ): { [key: U]: any };
 
 	/**
 	* Groups the array into <num> arrays.
@@ -2499,19 +2499,19 @@ interface Array<T> {
 	* @see least
 	* @param map Callback to retrieve the 'least' property to compare elements against.
 	**/
-	least(map: (n: T) => any): T[];
+	least<U>(map: (n: T) => U): T[];
 
-	/***
+	/**
 	* Maps the array to another array containing the values that
 	*        are the result of calling <map> on each element.
-	* @method map(<map>, [scope])
-	* @returns Array
+	* @param map Property on each element in the array or callback function.
+	* @param scope This pointer in <map> callback.
+	* @returns Mapped array.
 	* @extra [scope] is the %this% object. In addition to providing this method
 	*        for browsers that don't support it natively, this enhanced method
 	*        also directly accepts a string, which is a shortcut for a function
 	*        that gets that property (or invokes a function) on each element.
 	* @example
-	*
 	*   [1,2,3].map(function(n) {
 	*     return n * 3;
 	*   });                                  -> [3,6,9]
@@ -2519,108 +2519,143 @@ interface Array<T> {
 	*     return n.length;
 	*   });                                  -> [3,3,5]
 	*   ['one','two','three'].map('length')  -> [3,3,5]
-	***/
-	map(map: string, scope?: any): any[];
-	map(map: (n: any) => any, scope?: any): any[];
+	**/
+	map<U>(map: string, scope?: any): U[];
 
-	/***
+	/**
+	* @see map
+	* @param map Callback function to map each element in the array.
+	**/
+	map<U>(map: (n: T) => U, scope?: any): U[];
+
+	/**
 	* Returns the element in the array with the greatest value.
 	* @method max([map], [all] = false)
-	* @returns Mixed
+	* @param map Property on each element in the array or callback function.
+	* @returns Maximum element in the array.
 	* @extra [map] may be a function mapping the value to be checked or a string
 	*        acting as a shortcut. If [all] is true, will return all max values
 	*        in an array.
 	* @example
-	*
 	*   [1,2,3].max()                          -> 3
 	*   ['fee','fo','fum'].max('length')       -> 'fee'
 	*   ['fee','fo','fum'].max('length', true) -> ['fee']
-	+   [{a:3,a:2}].max(function(n) {
+	*   [{a:3,a:2}].max(function(n) {
 	*     return n['a'];
 	*   });                              -> {a:3}
-	*
-	***/
-	max(map: string): any;
-	max(map: (n: any) => any): any;
+	**/
+	max(map: string): T;
+
+	/**
+	* @see max
+	* @param If true return all max values in the array, default = false.
+	* @return All max values in the array.
+	**/
+	max(map: string, all: boolean): T[];
+
+	/**
+	* @see max
+	* @param map Callback function to determine the max value of each element in the array.
+	**/
+	max<U>(map: (n: T) => U): T;
+
+	/**
+	* @see max
+	**/
+	max<U>(map: (n: T) => U): T[];
 
 	/***
 	* Returns the element in the array with the lowest value.
-	* @method min([map], [all] = false)
-	* @returns Mixed
+	* @param map Property on each element in the array or callback.
+	* @returns Minimum element in the array.
 	* @extra [map] may be a function mapping the value to be checked or a string acting as a shortcut. If [all] is true, will return all min values in an array.
 	* @example
-	*
 	*   [1,2,3].min()                          -> 1
 	*   ['fee','fo','fum'].min('length')       -> 'fo'
 	*   ['fee','fo','fum'].min('length', true) -> ['fo']
-	+   ['fee','fo','fum'].min(function(n) {
+	*   ['fee','fo','fum'].min(function(n) {
 	*     return n.length;
 	*   });                              -> ['fo']
-	+   [{a:3,a:2}].min(function(n) {
+	*   [{a:3,a:2}].min(function(n) {
 	*     return n['a'];
 	*   });                              -> [{a:2}]
-	*
-	***/
-	min(map: string): any;
-	min(map: (n: any) => any): any;
+	**/
+	min(map: string): T;
 
-	/***
-	* Returns the elements in the array with the most
-	*        commonly occuring value.
-	* @method most([map])
-	* @returns Array
+	/**
+	* @see min If true return all min values in the array, default = false.
+	* @param all
+	**/
+	min(map: string, all: boolean): T[];
+
+	/**
+	* @see min
+	* @param map Callback function to determine the min value of each element in the array.
+	**/
+	min<U>(map: (n: T) => U): T;
+
+	/**
+	* @see min
+	**/
+	min<U>(map: (n: T) => U, all: boolean): T[];
+
+	/**
+	* Returns the elements in the array with the most commonly occuring value.
+	* @param map Property on each element in the array or 
+	* @returns Array of elements that have the most common property.
 	* @extra [map] may be a function mapping the value to be checked or a string
 	*              acting as a shortcut.
 	* @example
-	*
 	*   [3,2,2].most()                   -> [2]
 	*   ['fe','fo','fum'].most('length') -> ['fe','fo']
-	+   [{age:35,name:'ken'},{age:12,name:'bob'},{age:12,name:'ted'}].most(function(n) {
+	*   [{age:35,name:'ken'},{age:12,name:'bob'},{age:12,name:'ted'}].most(function(n) {
 	*     return n.age;
 	*   });                              -> [{age:12,name:'bob'},{age:12,name:'ted'}]
-	*
-	***/
-	most(map: string): any[];
-	most(map: (n: any) => any): any[];
+	**/
+	most(map: string): T[];
 
-	/***
+	/**
+	* @see most
+	* @param map Callback function to determine the element that contains the most commonly occuring value.
+	**/
+	most<U>(map: (n: T) => U): T[];
+
+	/**
 	* Returns true if none of the elements in the array match <f>.
-	* @method none(<f>)
-	* @returns Boolean
+	* @param f Value to see if it exists in the array.
+	* @returns True if none of the values match <f>, false if one or more match <f>.
 	* @extra <f> will match a string, number, array, object, or alternately test
 	*        against a function or regex. This method implements @array_matching.
 	* @example
 	*
 	*   [1,2,3].none(5)         -> true
 	*   ['a','b','c'].none(/b/) -> false
-	+   [{a:1},{b:2}].none(function(n) {
+	*   [{a:1},{b:2}].none(function(n) {
 	*     return n['a'] > 1;
 	*   });                     -> true
-	*
-	***/
-	none(f: number): bool;
-	none(f: string): bool;
-	none(f: RegExp): bool;
-	none(f: Object): bool;
-	none(f: any[]): bool;
-	none(f: (n: any) => bool): bool;
+	**/
+	none(f: T): bool;
+
+	/**
+	* @see none
+	* @param f Callback function to determine if none of the elements in the array contain a certain value.
+	**/
+	none(f: (n: T) => bool): bool;
 
 	/***
 	* Returns a copy of the array with the elements randomized.
-	* @method randomize()
-	* @returns Array
+	* @returns Copy of the array with the elements in a random order.
 	* @extra Uses Fisher-Yates algorithm.
 	* @example
-	*
 	*   [1,2,3,4].randomize()  -> [?,?,?,?]
-	*
 	***/
-	randomize(): any[];
+	randomize(): T[];
 
-	/***
+	/**
 	* Reduces the array to a single result.
-	* @method reduce(<fn>, [init])
-	* @returns Mixed
+	* @param fn Reduce function callback.
+	* @param init First argument to the callback if present.
+	* @returns Reduced value of the entire array.
 	* @extra If [init] is passed as a starting value, that value will be passed
 	*        as the first argument to the callback. The second argument will be
 	*        the first element in the array. From that point, the result of the
@@ -2634,95 +2669,93 @@ interface Array<T> {
 	*        of the previous callback as the first argument of the next. This
 	*        method is only provided for those browsers that do not support it
 	*        natively.
-	*
 	* @example
-	*
 	*   [1,2,3,4].reduce(function(a, b) {
 	*     return a - b;
 	*   });
 	*   [1,2,3,4].reduce(function(a, b) {
 	*     return a - b;
 	*   }, 100);
-	*
-	***/
-	reduce(fn: (a: any, b: any) => any, init: any): any;
+	**/
+	reduce(fn: (a: T, b: T) => T, init: T): T;
 
-	/***
-	* Identical to %Array#reduce%,
-	*        but operates on the elements in reverse order.
-	* @method reduceRight([fn], [init])
-	* @returns Mixed
+	/**
+	* Identical to %Array#reduce%, but operates on the elements in reverse order.
+	* @param fn Reduce function callback.
+	* @param init First argument to the callback if present.
+	* @returns Reduced right value of the entire array.
 	* @extra This method is only provided for those browsers that do not support
 	*        it natively.
 	* @example
-	*
 	*   [1,2,3,4].reduceRight(function(a, b) {
 	*     return a - b;
 	*   });
-	*
-	***/
-	reduceRight(fn: (a: any, b: any) => any, init: any): any;
+	**/
+	reduceRight(fn: (a: T, b: T) => T, init: T): T;
 
-	/***
+	/**
 	* Removes any element in the array that matches [f1], [f2], etc.
-	* @method remove([f1], [f2], ...)
-	* @returns Array
+	* @param args Elements that should be removed from the array.
+	* @returns The array with <args> elements removed.
 	* @extra Will match a string, number, array, object, or alternately test
 	*        against a function or regex. This method will change the array!
 	*        Use %exclude% for a non-destructive alias. This method implements
 	*        @array_matching.
 	* @example
-	*
 	*   [1,2,3].remove(3)         -> [1,2]
 	*   ['a','b','c'].remove(/b/) -> ['a','c']
-	+   [{a:1},{b:2}].remove(function(n) {
+	*   [{a:1},{b:2}].remove(function(n) {
 	*     return n['a'] == 1;
 	*   });                       -> [{b:2}]
-	*
-	***/
-	remove(...args: number[]): number[];
-	remove(...args: string[]): string[];
-	remove(...args: Object[]): Object[];
-	remove(...args: any[]): any[];
-	remove(fn: (n: any) => bool): any[];
+	**/
+	remove(...args: T[]): T[];
 
-	/***
+	/**
+	* @see remove
+	* @param fn Callback function to check if elements should be removed.
+	**/
+	remove(fn: (n: T) => bool): T[];
+
+	/**
 	* Removes element at <start>. If [end] is specified, removes the range
 	*        between <start> and [end]. This method will change the array!
 	*        If you don't intend the array to be changed use %clone% first.
-	* @method removeAt(<start>, [end])
-	* @returns Array
+	* @param start Starting index.
+	* @param end Stop index, default = Array.length.
+	* @returns Subarray with elements <start> to [end] removed.
 	* @example
-	*
 	*   ['a','b','c'].removeAt(0) -> ['b','c']
 	*   [1,2,3,4].removeAt(1, 3)  -> [1]
-	*
-	***/
-	removeAt(start: number, end?: number): any[];
+	**/
+	removeAt(start: number, end?: number): T[];
 
-	/***
+	/**
 	* Returns a random element from the array.
-	* @method sample([num])
-	* @returns Mixed
+	* @returns Single random element in the array.
 	* @extra If [num] is passed, will return [num] samples from the array.
 	* @example
-	*
 	*   [1,2,3,4,5].sample()  -> // Random element
 	*   [1,2,3,4,5].sample(3) -> // Array of 3 random elements
-	*
-	***/
-	sample(): any;
-	sample(num: number): any[];
+	**/
+	sample(): T;
+
+	/**
+	* @see sample
+	* @param num Grab this many random elements in the array.
+	* @return <num> random elements in the array.
+	**/
+	sample(num: number): T[];
 
 	/***
 	* Returns true if any element in the array matches <f>.
 	* @method some(<f>, [scope])
-	* @returns Boolean
+	* @param f Element to match or callback function.
+	* @param scope this object in the callback.
+	* @returns Returns true if any element in the array matchs <f>.
 	* @extra [scope] is the %this% object. %any% is provided as an alias.
 	*        In addition to providing this method for browsers that don't
 	*        support it natively, this method also implements @array_matching.
 	* @example
-	*
 	*   ['a','b','c'].some(function(n) {
 	*     return n == 'a';
 	*   });
@@ -2731,16 +2764,19 @@ interface Array<T> {
 	*   });
 	*   ['a','b','c'].some('a')   -> true
 	*   [{a:2},{b:5}].some({a:2}) -> true
-	***/
-	some(f: number, scope?: any): bool;
-	some(f: string, scope?: any): bool;
-	some(f: any, scope?: any): bool;
-	some(f: (n: any) => bool, scope?: any): bool;
+	**/
+	some(f: T, scope?: any): bool;
 
-	/***
+	/**
+	* @see some
+	**/
+	some(f: (n: T) => bool, scope?: any): bool;
+
+	/**
 	* Sorts the array by <map>.
-	* @method sortBy(<map>, [desc] = false)
-	* @returns Array
+	* @param map Property on each element in the array or map callback function.
+	* @param desc True to sort the array in descending order, default = false.
+	* @returns Sorted array.
 	* @extra <map> may be a function, a string acting as a shortcut, or blank
 	*        (direct comparison of array values). [desc] will sort the array in
 	*        descending order. When the field being sorted on is a string, the
@@ -2748,102 +2784,109 @@ interface Array<T> {
 	*        that is optimized for major Western languages, but can be customized.
 	*        For more information see @array_sorting.
 	* @example
-	*
 	*   ['world','a','new'].sortBy('length')       -> ['a','new','world']
 	*   ['world','a','new'].sortBy('length', true) -> ['world','new','a']
 	*   [{age:72},{age:13},{age:18}].sortBy(function(n) {
 	*     return n.age;
 	*   });                                        -> [{age:13},{age:18},{age:72}]
-	*
-	***/
-	sortBy(map: string, desc?: bool): any[];
-	sortBy(fn: (n: any) => any, desc?: bool): any[];
+	**/
+	sortBy(map: string, desc?: bool): T[];
 
-	/***
+	/**
+	* @see sortBy
+	**/
+	sortBy<U>(fn: (n: T) => U, desc?: bool): T[];
+
+	/**
 	* Subtracts from the array all elements in [a1], [a2], etc.
-	* @method subtract([a1], [a2], ...)
-	* @returns Array
+	* @param args Elements to remove from the array.
+	* @returns Array with <args> removed.
 	* @extra This method will also correctly operate on arrays of objects.
 	* @example
-	*
 	*   [1,3,5].subtract([5,7,9])   -> [1,3]
 	*   [1,3,5].subtract([3],[5])   -> [1]
 	*   ['a','b'].subtract('b','c') -> ['a']
-	*
-	***/
-	subtract(...args: any[]): any[];
+	**/
+	subtract(...args: T[]): T[];
 
-	/***
-	* @method sum([map])
-	* @returns Number
+	/**
 	* Sums all values in the array.
+	* @param map Property on each element in the array or callback function to sum up the elements.
+	* @returns The sum of all elements in the array.
 	* @extra [map] may be a function mapping the value to be summed or a string
 	*        acting as a shortcut.
 	* @example
-	*
 	*   [1,2,2].sum()                           -> 5
 	*   [{age:35},{age:12},{age:12}].sum(function(n) {
 	*     return n.age;
 	*   });                                     -> 59
 	*   [{age:35},{age:12},{age:12}].sum('age') -> 59
-	*
-	***/
+	**/
 	sum(map: string): number;
-	sum(fn: (n: any) => number): number;
 
-	/***
+	/**
+	* @see sum
+	**/
+	sum(map: (n: T) => number): number;
+
+	/**
 	* Returns a slice of the array up to <index>.
-	* @method to(<index>)
-	* @returns Array
+	* @param index Slick the array up to this index.
+	* @returns Slice of the array from 0 to <index>.
 	* @example
-	*
 	*   [1,2,3].to(1)  -> [1]
 	*   [1,2,3].to(2)  -> [1,2]
-	*
-	***/
+	**/
 	to(index: number): any[];
 
-	/***
-	* Returns an array containing all elements in all arrays with
-	*        duplicates removed.
+	/**
+	* Returns an array containing all elements in all arrays with duplicates removed.
 	* @method union([a1], [a2], ...)
-	* @returns Array
+	* @param array 
+	* @returns Union between the original array and <array>.
 	* @extra This method will also correctly operate on arrays of objects.
 	* @example
-	*
 	*   [1,3,5].union([5,7,9])     -> [1,3,5,7,9]
 	*   ['a','b'].union(['b','c']) -> ['a','b','c']
-	*
-	***/
-	union(array: any[]): any[];
-	union(...args: any[]): any[];
+	**/
+	union(array: T[]): T[];
 
-	/***
+	/**
+	* @see union
+	* @param args Elements to create a union with.
+	* @return Union between the original array and <args>
+	**/
+	union(...args: T[]): T[];
+
+	/**
 	* Removes all duplicate elements in the array.
-	* @method unique([map] = null)
-	* @returns Array
+	* @param map Property on each element in the array or callback function to pick a property on the element.
+	* @returns Array with only unique elements.
 	* @extra [map] may be a function mapping the value to be uniqued on or a
 	*        string acting as a shortcut. This is most commonly used when you
 	*        have a key that ensures the object's uniqueness, and don't need to
 	*        check all fields. This method will also correctly operate on arrays
 	*        of objects.
 	* @example
-	*
 	*   [1,2,2,3].unique()                 -> [1,2,3]
 	*   [{foo:'bar'},{foo:'bar'}].unique() -> [{foo:'bar'}]
-	+   [{foo:'bar'},{foo:'bar'}].unique(function(obj){
+	*   [{foo:'bar'},{foo:'bar'}].unique(function(obj){
 	*     return obj.foo;
 	*   }); -> [{foo:'bar'}]
 	*   [{foo:'bar'},{foo:'bar'}].unique('foo') -> [{foo:'bar'}]
-	*
-	***/
-	unique(map?: string): any[];
-	unique(fn?: (obj: any) => any): any[];
+	**/
+	unique(map?: string): T[];
 
-	/***
+	/**
+	* @see unique
+	* @param fn Callback to pluck the property to check for uniqueness.
+	**/
+	unique<U>(fn: (obj: T) => U): T[];
+
+	/**
 	* Merges multiple arrays together.
-	* @method zip([arr1], [arr2], ...)
-	* @returns Array
+	* @param arrays Arrays to zip together.
+	* @returns Zipped arrays.
 	* @extra This method "zips up" smaller arrays into one large whose elements
 	*        are "all elements at index 0", "all elements at index 1", etc.
 	*        Useful when you have associated data that is split over separated
@@ -2851,12 +2894,10 @@ interface Array<T> {
 	*        array, they will be discarded. If they have fewer elements, the
 	*        missing elements will filled with %null%.
 	* @example
-	*
 	*   [1,2,3].zip([4,5,6])                                       -> [[1,2], [3,4], [5,6]]
 	*   ['Martin','John'].zip(['Luther','F.'], ['King','Kennedy']) -> [['Martin','Luther','King'], ['John','F.','Kennedy']]
-	*
-	***/
-	zip(...arrays: any[]): any[][];
+	**/
+	zip(...arrays: T[]): T[][];
 }
 
 interface Object {
