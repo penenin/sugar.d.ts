@@ -2128,13 +2128,15 @@ interface Array<T> {
 	*     // Called 4 times: 3, 4, 1, 2
 	*   }, 2, true);
 	**/
-	each(fn: (el: T, i?: number, array?: T[]) => bool,
+	each(
+		fn: (element: T, index: number, array: T[]) => bool,
 		index?: number,
 		loop?: bool): T[];
 
 	/**
 	* Returns true if all elements in the array match <f>.
-	* @method every(<f>, [scope])
+	* @param f Match all elements to this.
+	* @param scope [this] object.
 	* @returns Boolean
 	* @extra [scope] is the %this% object. %all% is provided an alias.
 	*        In addition to providing this method for browsers that don't
@@ -2150,8 +2152,9 @@ interface Array<T> {
 
 	/**
 	* @see every
+	* @note Already defined in lib.d.ts.
 	**/
-	every(f: (el: T, i?: number, array?: T[]) => bool, scope?: any): bool;
+	//every(f: (element: T, index: number, array: T[]) => bool, scope?: any): bool;
 
 	/**
 	* @see every
@@ -2161,7 +2164,7 @@ interface Array<T> {
 	/**
 	* @see every
 	**/
-	all(f: (el: T, i?: number, array?: T[]) => bool, scope?: any): bool;
+	all(f: (element: T, index: number, array: T[]) => bool, scope?: any): bool;
 
 	/**
 	* Removes any element in the array that matches [f1], [f2], etc.
@@ -2180,7 +2183,7 @@ interface Array<T> {
 	/**
 	* @see exclude
 	**/
-	exclude(f: (el: T, i?: number, array?: T[]) => bool): T[];
+	exclude(f: (element: T, index: number, array: T[]) => bool): T[];
 
 	/**
 	* Returns any elements in the array that match <f>.
@@ -2197,58 +2200,68 @@ interface Array<T> {
 	*   [1,2,2,4].filter(2) -> 2
 	**/
 	filter(f: T, scope?: any): T[];
-	filter(f: (el: T, i?: number, array?: T[]) => bool, scope?: any): T[];
 
-	/***
+	/**
+	* @see filter
+	* @note Already defined in lib.d.ts.
+	**/
+	//filter(f: (element: T, index: number, array: T[]) => bool, scope?: any): T[];
+
+	/**
 	* Returns the first element that matches <f>.
-	* @method find(<f>, [index] = 0, [loop] = false)
-	* @returns Mixed
+	* @param f Elements to match against.
+	* @param index Index to start searching from, default = 0.
+	* @param loop Loop around the end of the array, default = false.
+	* @returns First element matching <f>.
 	* @extra <f> will match a string, number, array, object, or alternately
 	*        test against a function or regex. Starts at [index], and will
 	*        continue once from index = 0 if [loop] is true. This method
 	*        implements @array_matching.
 	* @example
-	*
 	*   [{a:1,b:2},{a:1,b:3},{a:1,b:4}].find(function(n) {
 	*     return n['a'] == 1;
 	*   });                                     -> {a:1,b:3}
 	*   ['cuba','japan','canada'].find(/^c/, 2) -> 'canada'
-	*
-	***/
-	find(f: number, index?: number, loop?: bool): number;
-	find(f: string, index?: number, loop?: bool): string;
-	find(f: RegExp, index?: number, loop?: bool): string;
-	find(f: Object, index?: number, loop?: bool): Object;
-	find(f: (el: any, i?: number, array?: any[]) => bool, index?: number, loop?: bool): any;
+	**/
+	find(f: T, index?: number, loop?: bool): T;
 
-	/***
+	/**
+	* @see find
+	**/
+	find(f: (element: T, index: number, array: T[]) => bool, index?: number, loop?: bool): T;
+
+	/**
 	* Returns all elements that match <f>.
-	* @method findAll(<f>, [index] = 0, [loop] = false)
-	* @returns Array
+	* @param f Element to match against.
+	* @param index Index to start searching from, default = 0.
+	* @param loop Loop around the end of the array, default = false.
+	* @returns Elements matching <f>.
 	* @extra <f> will match a string, number, array, object, or alternately
 	*        test against a function or regex. Starts at [index], and will
 	*        continue once from index = 0 if [loop] is true. This method
 	*        implements @array_matching.
 	* @example
-	*
 	*   [{a:1,b:2},{a:1,b:3},{a:2,b:4}].findAll(function(n) {
 	*     return n['a'] == 1;
 	*   });                                        -> [{a:1,b:3},{a:1,b:4}]
 	*   ['cuba','japan','canada'].findAll(/^c/)    -> 'cuba','canada'
 	*   ['cuba','japan','canada'].findAll(/^c/, 2) -> 'canada'
-	*
-	***/
-	findAll(f: number, index?: number, loop?: bool): number[];
-	findAll(f: string, index?: number, loop?: bool): string[];
-	findAll(f: RegExp, index?: number, loop?: bool): string[];
-	findAll(f: Object, index?: number, loop?: bool): Object[];
-	findAll(f: (el: any, i?: number, array?: any[]) => bool, index?: number, loop?: bool): any[];
+	**/
+	findAll(f: T, index?: number, loop?: bool): T[];
 
-	/***
+	/**
+	* @see findAll
+	**/
+	findAll(f: (element: T, index: number, array: T[]) => bool, index?: number, loop?: bool): T[];
+
+	/**
 	* Returns the index of the first element that matches <f>
 	*        or -1 if not found.
 	* @method findIndex(<f>, [startIndex] = 0, [loop] = false)
-	* @returns Number
+	* @param f Element to match against.
+	* @param startIndex Index to start searching from, default = 0.
+	* @param loop Loop around the end of th array, default = false.
+	* @returns Index at which <f> is found.
 	* @extra This method has a few notable differences to native %indexOf%.
 	*        Although <f> will similarly match a primitive such as a string
 	*        or number, it will also match deep objects and arrays that are
@@ -2259,229 +2272,234 @@ interface Array<T> {
 	*        and will continue once from index = 0 if [loop] is true.
 	*        This method implements @array_matching.
 	* @example
-	*
 	*   [1,2,3,4].findIndex(3);  -> 2
 	*   [1,2,3,4].findIndex(function(n) {
 	*     return n % 2 == 0;
 	*   }); -> 1
 	*   ['one','two','three'].findIndex(/th/); -> 2
-	*
-	***/
-	findIndex(f: number, startIndex?: number, loop?: bool): number;
-	findIndex(f: string, startIndex?: number, loop?: bool): number;
-	findIndex(f: RegExp, startIndex?: number, loop?: bool): number;
-	findIndex(f: Object, startIndex?: number, loop?: bool): number;
-	//findIndex(f: RegExp, startIndex?: number, loop?: bool): number;
-	findIndex(f: (el: any, i?: number, array?: any[]) => bool, startIndex?: number, loop?: bool): number;
+	**/
+	findIndex(f: T, startIndex?: number, loop?: bool): number;
 
-	/***
+	/**
+	* @see findIndex
+	**/
+	findIndex(f: (element: T, index: number, array: T[]) => bool, startIndex?: number, loop?: bool): number;
+
+	/**
 	* Returns the first element(s) in the array.
-	* @method first([num] = 1)
-	* @returns Mixed
+	* @param num Retrieve this many elements in the array, default = 1.
+	* @returns <num> first elements in the array.
 	* @extra When <num> is passed, returns the first <num> elements in the array.
+	* @note If <num> is omitted then the return type is the element itself, not an array of the element,
+	*       For example 1 instead of [1], however if <num> is present the result is always wrapped in an
+	*       array like first(1) -> [1], not 1.
 	* @example
-	*
 	*   [1,2,3].first()        -> 1
 	*   [1,2,3].first(2)       -> [1,2]
-	*
-	***/
-	first(num?: number): any[];
+	**/
+	first(): T;
 
-	/***
+	/**
+	* @see first
+	**/
+	first(num: number): T[];
+
+	/**
 	* Returns a flattened, one-dimensional copy of the array.
-	* @method flatten([limit] = Infinity)
-	* @returns Array
+	* @param limit Limit the flattening to this depth, default = Infinity.
+	* @returns Flattened array.
 	* @extra You can optionally specify a [limit], which will only flatten
 	*        that depth.
 	* @example
-	*
 	*   [[1], 2, [3]].flatten()      -> [1,2,3]
 	*   [['a'],[],'b','c'].flatten() -> ['a','b','c']
-	*
-	***/
-	flatten(limit?: number): any[];
+	**/
+	flatten(limit?: number): T[];
 
-	/***
+	/**
 	* Iterates over the array, calling [fn] on each loop.
-	* @method forEach([fn], [scope])
+	* @param fn Callback function for each element in the array.
+	* @param scope Scope during [fn] callbacks, default = this.
 	* @returns Nothing
 	* @extra This method is only provided for those browsers that do not support
 	*        it natively. [scope] becomes the %this% object.
 	* @example
-	*
 	*   ['a','b','c'].forEach(function(a) {
 	*     // Called 3 times: 'a','b','c'
 	*   });
-	*
-	***/
-	forEach(fn: (el: any, i?: number, array?: any[]) => any, scope?: any): void;
+	* @note Already defined in lib.d.ts.
+	**/
+	//forEach(fn: (element: T, index: number, array: T[]) => void, scope?: any): void;
 
-	/***
+	/**
 	* Returns a slice of the array from <index>.
-	* @method from(<index>)
-	* @returns Array
+	* @param index Index to start the slice from.
+	* @returns Subarray starting from [index] to the end of the original array.
 	* @example
-	*
 	*   [1,2,3].from(1)  -> [2,3]
 	*   [1,2,3].from(2)  -> [3]
-	*
-	***/
-	from(index: number): any[];
+	**/
+	from(index: number): T[];
 
-	/***
+	/**
 	* Groups the array by <map>.
-	* @method groupBy(<map>, [fn])
-	* @returns Object
+	* @param map Property on the elements in the array.
+	* @param fn Optional callback for each group, default = No callback.
+	* @returns 
 	* @extra Will return an object with keys equal to the grouped values.
 	*        <map> may be a mapping function, or a string acting as a shortcut.
 	*        Optionally calls [fn] for each group.
 	* @example
-	*
 	*   ['fee','fi','fum'].groupBy('length') -> { 2: ['fi'], 3: ['fee','fum'] }
-	+   [{age:35,name:'ken'},{age:15,name:'bob'}].groupBy(function(n) {
+	*   [{age:35,name:'ken'},{age:15,name:'bob'}].groupBy(function(n) {
 	*     return n.age;
 	*   });                                  -> { 35: [{age:35,name:'ken'}], 15: [{age:15,name:'bob'}] }
-	*
-	***/
-	groupBy(map: string, fn?: (n: any) => void ): Object;
-	groupBy(fn: (n: any) => void ): Object;
+	**/
+	groupBy(map: string, fn?: (group: T) => void ): { [key: string]: any };
 
-	/***
+	/**
+	* @see groupBy
+	* @param map Callback function for each element, returns the key for the group the element should be in.
+	**/
+	groupBy(map: (element: T) => any, fn?: (group: T) => void ): { [key: string]: any };
+
+	/**
 	* Groups the array into <num> arrays.
-	* @method inGroups(<num>, [padding])
-	* @returns Array
+	* @param num The number of sub-arrays to create.
+	* @param padding Padding element if the groups do not make whole amounts.
+	* @returns Array with <num> sub-arrays.
 	* @extra [padding] specifies a value with which to pad the last array
 	*        so that they are all equal length.
 	* @example
-	*
 	*   [1,2,3,4,5,6,7].inGroups(3)         -> [ [1,2,3], [4,5,6], [7] ]
 	*   [1,2,3,4,5,6,7].inGroups(3, 'none') -> [ [1,2,3], [4,5,6], [7,'none','none'] ]
-	*
-	***/
-	inGroups(num: number, padding?: any): any[][];
+	**/
+	inGroups(num: number, padding?: T): T[][];
 
-	/***
+	/**
 	* Groups the array into arrays of <num> elements each.
-	* @method inGroupsOf(<num>, [padding] = null)
-	* @returns Array
+	* @param num The number of elements to put into each sub-array.
+	* @param padding Padding element if the groups do not make whole amounts.
+	* @returns Array with sub-arrays each containing <num> elements.
 	* @extra [padding] specifies a value with which to pad the last array so that they are all equal length.
 	* @example
-	*
 	*   [1,2,3,4,5,6,7].inGroupsOf(4)         -> [ [1,2,3,4], [5,6,7] ]
 	*   [1,2,3,4,5,6,7].inGroupsOf(4, 'none') -> [ [1,2,3,4], [5,6,7,'none'] ]
-	*
-	***/
-	inGroupsOf(num: number, padding?: any): any[][];
+	**/
+	inGroupsOf(num: number, padding?: T): T[][];
 
-	/***
-	* Adds <el> to the array.
-	* @method include(<el>, [index])
-	* @returns Array
+	/**
+	* Adds <element> to the array.
+	* @param element Element to add to the array.
+	* @param index , default = Array.length.
+	* @returns Array with <element> included at [index].
 	* @extra This is a non-destructive alias for %add%. It will not change
 	*        the original array.
 	* @example
-	*
 	*   [1,2,3,4].include(5)       -> [1,2,3,4,5]
 	*   [1,2,3,4].include(8, 1)    -> [1,8,2,3,4]
 	*   [1,2,3,4].include([5,6,7]) -> [1,2,3,4,5,6,7]
-	*
-	***/
-	include(el: any, index?: number): any[];
+	**/
+	include(element: T, index?: number): T[];
 
-	/***
+	/**
+	* @see include
+	* @param elements Elements to include into the array at [index].
+	**/
+	include(elements: T[], index?: number): T[];
+
+	/**
 	* Searches the array and returns the first index where <search> occurs, or -1 if the element is not found.
 	* @method indexOf(<search>, [fromIndex])
-	* @returns Number
+	* @param search Element to search for in the array.
+	* @param fromIndex Index to start searching from, default = 0.
+	* @returns Index of <search> or -1 if <search> is not found.
 	* @extra [fromIndex] is the index from which to begin the search.
 	*        This method performs a simple strict equality comparison on <search>.
 	*        It does not support enhanced functionality such as searching
 	*        the contents against a regex, callback, or deep comparison of objects.
 	*        For such functionality, use the %findIndex% method instead.
 	* @example
-	*
 	*   [1,2,3].indexOf(3)           -> 1
 	*   [1,2,3].indexOf(7)           -> -1
-	*
-	***/
-	indexOf(search: any, fromIndex?: number): number;
+	**/
+	indexOf(search: T, fromIndex?: number): number;
 
-	/***
+	/**
 	* Returns an array containing the elements all arrays have in common.
-	* @method intersect([a1], [a2], ...)
-	* @returns Array
+	* @param args Elements to intersect with.
+	* @returns An array containing the intersecting elements.
 	* @extra This method will also correctly operate on arrays of objects.
 	* @example
-	*
 	*   [1,3,5].intersect([5,7,9])   -> [5]
 	*   ['a','b'].intersect('b','c') -> ['b']
-	*
-	***/
-	intersect(...args: number[]): number[];
-	intersect(...args: string[]): string[];
-	intersect(...args: Object[]): Object[];
-	intersect(...args: any[]): any[];
+	**/
+	intersect(...args: T[]): T[];
 
 	/***
 	* Returns true if the array is empty.
-	* @method isEmpty()
-	* @returns Boolean
+	* @returns True if the array is empty, otherwise false.
 	* @extra This is true if the array has a length of zero, or contains
 	*        only %undefined%, %null%, or %NaN%.
 	* @example
-	*
 	*   [].isEmpty()               -> true
 	*   [null,undefined].isEmpty() -> true
-	*
 	***/
 	isEmpty(): bool;
 
-	/***
+	/**
 	* Returns the last element(s) in the array.
 	* @method last([num] = 1)
-	* @returns Mixed
+	* @returns The last element in the array, if [num] is present then it returns an array of the last [num] elements.
 	* @extra When <num> is passed, returns the last <num> elements in the array.
 	* @example
-	*
 	*   [1,2,3].last()        -> 3
 	*   [1,2,3].last(2)       -> [2,3]
-	*
-	***/
-	last(): any;
-	last(num: number): any[];
+	**/
+	last(): T;
 
-	/***
+	/**
+	* @see last
+	* @param num The number of elements to return.
+	**/
+	last(num: number): T[];
+
+	/**
 	* Searches the array and returns the last index where <search> occurs,
-	*        or -1 if the element is not found.
-	* @method lastIndexOf(<search>, [fromIndex])
-	* @returns Number
+	* or -1 if the element is not found.
+	* @param search The element to search for.
+	* @param fromIndex Start the search from this index, default = Array.length.
+	* @returns The last index of <search> or -1 if <search> is not found.
 	* @extra [fromIndex] is the index from which to begin the search.
 	*        This method performs a simple strict equality comparison on <search>.
 	* @example
-	*
 	*   [1,2,1].lastIndexOf(1)                 -> 2
 	*   [1,2,1].lastIndexOf(7)                 -> -1
-	*
-	***/
+	**/
 	lastIndexOf(search: any, fromIndex?: number): number;
 
-	/***
+	/**
 	* Returns the elements in the array with the least
 	*        commonly occuring value.
 	* @method least([map])
+	* @param map Property on elements in the array.
 	* @returns Array
 	* @extra [map] may be a function mapping the value to be checked or a
 	*        string acting as a shortcut.
 	* @example
-	*
 	*   [3,2,2].least()                   -> [3]
 	*   ['fe','fo','fum'].least('length') -> ['fum']
 	*   [{age:35,name:'ken'},{age:12,name:'bob'},{age:12,name:'ted'}].least(function(n) {
 	*     return n.age;
 	*   });                               -> [{age:35,name:'ken'}]
-	*
-	***/
-	least(map: string): any[];
-	least(map: (n: any) => any): any[];
+	**/
+	least(map: string): T[];
+
+	/**
+	* @see least
+	* @param map Callback to retrieve the 'least' property to compare elements against.
+	**/
+	least(map: (n: T) => any): T[];
 
 	/***
 	* Maps the array to another array containing the values that
