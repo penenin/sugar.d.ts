@@ -2354,14 +2354,16 @@ interface Array<T> {
 	*   [{age:35,name:'ken'},{age:15,name:'bob'}].groupBy(function(n) {
 	*     return n.age;
 	*   });                                  -> { 35: [{age:35,name:'ken'}], 15: [{age:15,name:'bob'}] }
+	* todo: return should be : { [key: U]: any }
 	**/
-	groupBy<U>(map: string, fn?: (group: T) => void ): { [key: U]: any };
+	groupBy<U>(map: string, fn?: (group: T) => void ): { [key: string]: any };
 
 	/**
 	* @see groupBy
 	* @param map Callback function for each element, returns the key for the group the element should be in.
+	* todo: return should be : { [key: U]: any }
 	**/
-	groupBy<U>(map: (element: T) => U, fn?: (group: T) => void ): { [key: U]: any };
+	groupBy<U>(map: (element: T) => U, fn?: (group: T) => void ): { [key: string]: any };
 
 	/**
 	* Groups the array into <num> arrays.
@@ -2900,46 +2902,43 @@ interface Array<T> {
 	zip(...arrays: T[]): T[][];
 }
 
-interface Object {
+interface ObjectStatic {
 
-	/***
-	* Creates a new object, equivalent to %new Object()% or %{}%,
-	*        but with extended methods.
-	* @method Object.extended(<obj> = {})
-	* @returns Extended object
+	/**
+	* Creates a new object, equivalent to %new Object()% or %{}%, but with extended methods.
+	* @param obj , default = {}.
+	* @returns Extended object.
 	* @extra See extended objects for more.
 	* @example
-	*
 	*   Object.extended()
 	*   Object.extended({ happy:true, pappy:false }).keys() -> ['happy','pappy']
 	*   Object.extended({ happy:true, pappy:false }).values() -> [true, false]
-	*
-	***/
-	extended(obj?: Object): Object;
+	**/
+	extended(obj?: any): any;
 
-	/***
+	/**
 	* Converts the query string of a URL into an object.
 	* @method Object.fromQueryString(<str>, [deep] = true)
-	* @returns Object
+	* @param str Query string to convert into an object.
+	* @param deep If false the conversion will only accept shallow params, default = true.
+	* @returns Object generated from the <str>.
 	* @extra If [deep] is %false%, conversion will only accept shallow params (ie. no object or arrays with %[]% syntax) as these are not universally supported.
 	* @example
-	*
 	*   Object.fromQueryString('foo=bar&broken=wear') -> { foo: 'bar', broken: 'wear' }
 	*   Object.fromQueryString('foo[]=1&foo[]=2')     -> { foo: [1,2] }
-	*
-	***/
-	fromQueryString(str: string, deep?: bool): Object;
-
-	/***
+	**/
+	fromQueryString<T extends {}>(str: string, deep?: bool): T;
+	
+	/**
 	* Returns true if <obj> is an object of that type.
 	* @method Object.is[Type](<obj>)
-	* @returns Boolean
+	* @param obj Object to check if it is of type [Type].
+	* @returns True if <obj> is of type [Type].
 	* @extra %isObject% will return false on anything that is not an object
 	*        literal, including instances of inherited classes. Note also
 	*        that %isNaN% will ONLY return true if the object IS %NaN%.
 	*        It does not mean the same as browser native %isNaN%, which returns
 	*        true for anything that is "not a number".
-	*
 	* @set
 	*   isArray
 	*   isObject
@@ -2950,32 +2949,52 @@ interface Object {
 	*   isNumber
 	*   isString
 	*   isRegExp
-	*
 	* @example
-	*
 	*   Object.isArray([1,2,3])            -> true
 	*   Object.isDate(3)                   -> false
 	*   Object.isRegExp(/wasabi/)          -> true
 	*   Object.isObject({ broken:'wear' }) -> true
-	*
-	***/
-	isArray(): bool;
+	**/
 	isArray(obj: any): bool;
-	isObject(): bool;
+
+	/**
+	* @see isArray
+	**/
 	isObject(obj: any): bool;
-	isBoolean(): bool;
+
+	/**
+	* @see isArray
+	**/
 	isBoolean(obj: any): bool;
-	isDate(): bool;
+
+	/**
+	* @see isArray
+	**/
 	isDate(obj: any): bool;
-	isFunction(): bool;
+
+	/**
+	* @see isArray
+	**/
 	isFunction(obj: any): bool;
-	isNaN(): bool;
+
+	/**
+	* @see isArray
+	**/
 	isNaN(obj: any): bool;
-	isNumber(): bool;
+
+	/**
+	* @see isArray
+	**/
 	isNumber(obj: any): bool;
-	isString(): bool;
+
+	/**
+	* @see isArray
+	**/
 	isString(obj: any): bool;
-	isRegExp(): bool;
+
+	/**
+	* @see isArray
+	**/
 	isRegExp(obj: any): bool;
 
 	/**
@@ -2987,22 +3006,22 @@ interface Object {
 	**/
 	toQueryString(obj: any, namespace?: string): string;
 
-	/***
+	/**
 	* Creates a clone (copy) of <obj>.
 	* @method clone(<obj> = {}, [deep] = false)
-	* @returns Cloned object
+	* @param obj Object to clone.
+	* @param deep If true then deep clone, default = false.
+	* @returns Cloned object.
 	* @extra Default is a shallow clone, unless [deep] is true. %clone%
 	*        is available as an instance method on extended objects.
 	* @example
-	*
 	*   Object.clone({foo:'bar'})            -> { foo: 'bar' }
 	*   Object.clone()                       -> {}
 	*   Object.extended({foo:'bar'}).clone() -> { foo: 'bar' }
-	*
-	***/
-	clone(obj?: Object, deep?: bool): Object;
+	**/
+	clone<T extends {}>(obj?: T, deep?: bool): T;
 
-	/***
+	/**
 	* Enumerable methods in the Array package are also available to
 	*        the Object class. They will perform their normal operations for
 	*        every property in <obj>.
@@ -3011,7 +3030,6 @@ interface Object {
 	* @extra In cases where a callback is used, instead of %element, index%,
 	*        the callback will instead be passed %key, value%. Enumerable methods
 	*        are also available to extended objects as instance methods.
-	*
 	* @set
 	*   each
 	*   map
@@ -3029,146 +3047,209 @@ interface Object {
 	*   max
 	*   least
 	*   most
-	*
 	* @example
-	*
 	*   Object.any({foo:'bar'}, 'bar')            -> true
 	*   Object.extended({foo:'bar'}).any('bar')   -> true
 	*   Object.isEmpty({})                        -> true
 	*   Object.map({ fred: { age: 52 } }, 'age'); -> { fred: 52 }
-	*
-	***/
-	map(map: string): Object;
-	map(obj: Object, map: string): Object;
-	map(map: (key: string, value: any) => any): Object;
-	map(obj: Object, map: (key: string, value: any) => any): Object;
+	**/
+	map<T, U>(obj: T, map: string): U;
 
-	any(map: string): bool;
-	any(obj: Object, map: string): bool;
-	any(map: (key: string, value: any) => bool): bool;
-	any(obj: Object, map: (key: string, value: any) => bool): bool;
+	/**
+	* @see map
+	**/
+	map<T, U>(obj: T, map: (key: string, value: any) => any): U;
 
-	all(map: string): bool;
-	all(obj: Object, map: string): bool;
-	all(map: (key: string, value: any) => bool): bool;
-	all(obj: Object, map: (key: string, value: any) => bool): bool;
+	/**
+	* @see map
+	**/
+	any(obj: any, map: string): bool;
 
-	none(map: string): bool;
-	none(obj: Object, map: string): bool;
-	none(map: (key: string, value: any) => bool): bool;
-	none(obj: Object, map: (key: string, value: any) => bool): bool;
+	/**
+	* @see map
+	**/
+	any(obj: any, map: (key: string, value: any) => bool): bool;
 
-	count(map: string): number;
-	count(obj: Object, map: string): number;
-	count(map: (key: string, value: any) => bool): number;
-	count(obj: Object, map: (key: string, value: any) => bool): number;
+	/**
+	* @see map
+	**/
+	all(obj: any, map: string): bool;
 
-	find(map: string): any;
-	find(obj: Object, map: string): any;
-	find(map: (key: string, value: any) => bool): any;
-	find(obj: Object, map: (key: string, value: any) => bool): any;
+	/**
+	* @see map
+	**/
+	all(obj: any, map: (key: string, value: any) => bool): bool;
 
-	findAll(map: string): any[];
-	findAll(obj: Object, map: string): any[];
-	findAll(map: (key: string, value: any) => bool): any[];
-	findAll(obj: Object, map: (key: string, value: any) => bool): any[];
+	/**
+	* @see map
+	**/
+	none(obj: any, map: string): bool;
 
-	reduce(map: string, init?: any): any;
-	reduce(obj: Object, map: string, init?: any): any;
-	reduce(map: (key: string, value: any) => any, init?: any): any;
-	reduce(obj: Object, map: (key: string, value: any) => any, init?: any): any;
+	/**
+	* @see map
+	**/
+	none(obj: any, map: (key: string, value: any) => bool): bool;
 
-	isEmpty(): bool;
-	isEmpty(obj: Object): bool;
+	/**
+	* @see map
+	**/
+	count(obj: any, map: string): number;
 
-	sum(map: string): number;
-	sum(obj: Object, map: string): number;
-	sum(map: (key: string, value: any) => number): number;
-	sum(obj: Object, map: (key: string, value: any) => number): number;
+	/**
+	* @see map
+	**/
+	count(obj: any, map: (key: string, value: any) => bool): number;
 
-	average(map: string): number;
-	average(obj: Object, map: string): number;
-	average(map: (key: string, value: any) => number): number;
-	average(obj: Object, map: (key: string, value: any) => number): number;
+	/**
+	* @see map
+	**/
+	find(obj: any, map: string): any;
 
-	min(map: string): Object;
-	min(obj: Object, map: string): Object;
-	min(map: (key: string, value: any) => any): Object;
-	min(obj: Object, map: (key: string, value: any) => any): Object;
+	/**
+	* @see map
+	**/
+	find(obj: any, map: (key: string, value: any) => bool): any;
 
-	max(map: string): Object;
-	max(obj: Object, map: string): Object;
-	max(map: (key: string, value: any) => any): Object;
-	max(obj: Object, map: (key: string, value: any) => any): Object;
+	/**
+	* @see map
+	**/
+	findAll(obj: any, map: string): any[];
 
-	least(map: string): Object;
-	least(obj: Object, map: string): Object;
-	least(map: (key: string, value: any) => any): Object;
-	least(obj: Object, map: (key: string, value: any) => any): Object;
+	/**
+	* @see map
+	**/
+	findAll(obj: any, map: (key: string, value: any) => bool): any[];
 
-	most(map: string): Object;
-	most(obj: Object, map: string): Object;
-	most(map: (key: string, value: any) => any): Object;
-	most(obj: Object, map: (key: string, value: any) => any): Object;
+	/**
+	* @see map
+	**/
+	reduce(obj: any, map: string, init?: any): any;
 
-	/***
+	/**
+	* @see map
+	**/
+	reduce(obj: any, map: (key: string, value: any) => any, init?: any): any;
+
+	/**
+	* @see map
+	**/
+	isEmpty(obj: any): bool;
+
+	/**
+	* @see map
+	**/
+	sum(obj: any, map: string): number;
+
+	/**
+	* @see map
+	**/
+	sum(obj: any, map: (key: string, value: any) => number): number;
+
+	/**
+	* @see map
+	**/
+	average(obj: any, map: string): number;
+
+	/**
+	* @see map
+	**/
+	average(obj: any, map: (key: string, value: any) => number): number;
+
+	/**
+	* @see map
+	**/
+	min(obj: any, map: string): any;
+
+	/**
+	* @see map
+	**/
+	min(obj: any, map: (key: string, value: any) => any): any;
+
+	/**
+	* @see map
+	**/
+	max(obj: any, map: string): any;
+
+	/**
+	* @see map
+	**/
+	max(obj: any, map: (key: string, value: any) => any): any;
+
+	/**
+	* @see map
+	**/
+	least(obj: any, map: string): any;
+
+	/**
+	* @see map
+	**/
+	least(obj: any, map: (key: string, value: any) => any): any;
+
+	/**
+	* @see map
+	**/
+	most(obj: any, map: string): any;
+
+	/**
+	* @see map
+	**/
+	most(obj: any, map: (key: string, value: any) => any): any;
+
+	/**
 	* Returns true if <a> and <b> are equal.
-	* @method equal(<a>, <b>)
-	* @returns Boolean
+	* @param a First object to compare.
+	* @param b Second object to compare.
+	* @returns True if the objects are equal, otherwise false.
 	* @extra %equal% in Sugar is "egal", meaning the values are equal
 	*        if they are "not observably distinguishable". Note that on
 	*        extended objects the name is %equals% for readability.
 	* @example
-	*
 	*   Object.equal({a:2}, {a:2}) -> true
 	*   Object.equal({a:2}, {a:3}) -> false
 	*   Object.extended({a:2}).equals({a:3}) -> false
-	*
-	***/
-	equal(a: Object, b: Object): bool;
+	**/
+	equal(a: any, b: any): bool;
 
-	/***
+	/**
 	* Checks if <obj> has <key> using hasOwnProperty from Object.prototype.
-	* @method has(<obj>, <key>)
-	* @returns Boolean
+	* @param obj Object to check for the property <key>.
+	* @param key Property to check to see if it exists on <obj>.
+	* @returns True if <key> exists on <obj>, otherwise false.
 	* @extra This method is considered safer than %Object#hasOwnProperty% when
 	*        using objects as hashes. See 
 	*        http://www.devthought.com/2012/01/18/an-object-is-not-a-hash/ 
 	*        for more.
 	* @example
-	*
 	*   Object.has({ foo: 'bar' }, 'foo') -> true
 	*   Object.has({ foo: 'bar' }, 'baz') -> false
 	*   Object.has({ hasOwnProperty: true }, 'foo') -> false
-	*
-	***/
-	has(key: string): bool;
-	has(obj: Object, key: string): bool;
+	**/
+	has(obj: any, key: string): bool;
 
-	/***
-	* Returns an array containing the keys in <obj>. Optionally calls
-	*        [fn] for each key.
-	* @method keys(<obj>, [fn])
-	* @returns Array
+	/**
+	* Returns an array containing the keys in <obj>. Optionally calls [fn] for each key.
+	* @param obj Retreive all keys/properties from this object.
+	* @param fn Optional callback for each key/value pair.
+	* @returns Array of each property on <obj>.
 	* @extra This method is provided for browsers that don't support it natively,
 	*        and additionally is enhanced to accept the callback [fn]. Returned
 	*        keys are in no particular order. %keys% is available as an instance
 	*        method on extended objects.
 	* @example
-	*
 	*   Object.keys({ broken: 'wear' }) -> ['broken']
 	*   Object.keys({ broken: 'wear' }, function(key, value) {
 	*     // Called once for each key.
 	*   });
 	*   Object.extended({ broken: 'wear' }).keys() -> ['broken']
-	*
-	***/
-	keys(): string[];
-	keys(obj: Object, fn?: (key: string, value: any) => void ): string[];
+	**/
+	keys(obj: any, fn?: (key: string, value: any) => void ): string[];
 
-	/***
+	/**
 	* Merges all the properties of <source> into <target>.
-	* @method merge(<target>, <source>, [deep] = false, [resolve] = true)
+	* @param target
+	* @param source
+	* @param deep If true then deep merge, default = false.
+	* @param resolve If false then properties of source are used in the merge, default = true.
 	* @returns Merged object
 	* @extra Merges are shallow unless [deep] is %true%. Properties of <source>
 	*        will win in the case of conflicts, unless [resolve] is %false%.
@@ -3179,17 +3260,20 @@ interface Object {
 	*        together, etc. %merge% is available as an instance method on
 	*        extended objects.
 	* @example
-	*
 	*   Object.merge({a:1},{b:2}) -> { a:1, b:2 }
 	*   Object.merge({a:1},{a:2}, false, false) -> { a:1 }
 	+   Object.merge({a:1},{a:2}, false, function(key, a, b) {
 	*     return a + b;
 	*   }); -> { a:3 }
 	*   Object.extended({a:1}).merge({b:2}) -> { a:1, b:2 }
-	*
-	***/
-	merge(target: Object, source: Object, deep?: bool, resolve?: bool): Object;
-	merge(target: Object, source: Object, deep?: bool, resolve?: (key: string, targetVal: any, sourceVal: any) => any): Object;
+	**/
+	merge(target: any, source: any, deep?: bool, resolve?: bool): any;
+
+	/**
+	* @see merge
+	* @param resolve Callback to resolve conflicts in the merge.
+	**/
+	merge(target: any, source: any, deep?: bool, resolve?: (key: string, targetVal: any, sourceVal: any) => any): any;
 
 	/**
 	* Builds a new object containing all values except those specified in find.
@@ -3218,67 +3302,61 @@ interface Object {
 	select(obj: any, ...find: any[]): any;
 
 
-	/***
+	/**
 	* Returns the number of properties in <obj>.
-	* @method size(<obj>)
-	* @returns Number
+	* @param obj Object to determine the number of properties on.
+	* @returns The number of properties on <obj>.
 	* @extra %size% is available as an instance method on extended objects.
 	* @example
-	*
 	*   Object.size({ foo: 'bar' }) -> 1
-	*
-	***/
-	size(): number;
+	**/
 	size(obj: Object): number;
 
-	/***
+	/**
 	* Runs <fn> and returns <obj>.
-	* @method tap(<obj>, <fn>)
-	* @returns Object
+	* @param obj Object to tap.
+	* @param fn Function to tap on <obj>.
+	* @returns <obj>
 	* @extra  A string can also be used as a shortcut to a method. This method
 	*         is used to run an intermediary function in the middle of method
 	*         chaining. As a standalone method on the Object class it doesn't
 	*         have too much use. The power of %tap% comes when using extended
 	*         objects or modifying the Object prototype with Object.extend().
 	* @example
-	*
 	*   Object.extend();
 	*   [2,4,6].map(Math.exp).tap(function(arr) {
 	*     arr.pop()
 	*   });
 	*   [2,4,6].map(Math.exp).tap('pop').map(Math.round); ->  [7,55]
-	*
-	***/
-	tap(fn: string): Object;
-	tap(fn: (...args: any[]) => any): Object;
-	tap(obj: Object, fn: string): Object;
-	tap(obj: Object, fn: (...args: any[]) => any): Object;
+	**/
+	tap(obj: any, fn: string): any;
 
-	/***
-	* Returns an array containing the values in <obj>.
-	*        Optionally calls [fn] for each value.
-	* @method values(<obj>, [fn])
+	/**
+	* @see tap
+	**/
+	tap(obj: any, fn: (...args: any[]) => any): any;
+
+	/**
+	* Returns an array containing the values in <obj>.  Optionally calls [fn] for each value.
+	* @param obj Object to retrieve all values from.
+	* @param fn Optional callback for each value on <obj>.
 	* @returns Array
 	* @extra Returned values are in no particular order. %values% is available
 	*        as an instance method on extended objects.
 	* @example
-	*
 	*   Object.values({ broken: 'wear' }) -> ['wear']
 	*   Object.values({ broken: 'wear' }, function(value) {
 	*     // Called once for each value.
 	*   });
 	*   Object.extended({ broken: 'wear' }).values() -> ['wear']
-	*
-	***/
-	values(): any[];
-	values(fn: (value: any) => any): any[];
-	values(obj: Object): any[];
-	values(obj: Object, fn: (value: any) => any): any[];
+	**/
+	values(obj: any, fn?: (value: any) => any): any[];
 
-	/***
+	/**
 	* Watches a property of <obj> and runs <fn> when it changes.
-	* @method watch(<obj>, <prop>, <fn>)
-	* @returns Nothing
+	* @param obj Object to watch.
+	* @param prop Property to watch on <obj>
+	* @param fn Callback function when <prop> changes on <obj>.
 	* @extra <fn> is passed three arguments: the property <prop>, the old value,
 	*        and the new value. The return value of [fn] will be set as the new
 	*        value. This method is useful for things such as validating or cleaning
@@ -3296,9 +3374,458 @@ interface Object {
 	*     // Will be run when the property 'foo' is set on the object.
 	*   });
 	*
-	***/
+	**/
+	watch(obj: any, prop: string, fn: (prop: string, oldVal: any, newVal: any) => any): void;
+}
+
+interface Object {
+
+	/**
+	* Creates a new object, equivalent to %new Object()% or %{}%, but with extended methods.
+	* @returns Extended object.
+	* @extra See extended objects for more.
+	* @example
+	*   Object.extended()
+	*   Object.extended({ happy:true, pappy:false }).keys() -> ['happy','pappy']
+	*   Object.extended({ happy:true, pappy:false }).values() -> [true, false]
+	**/
+	extended(): Object;
+
+	/**
+	* Returns true if <obj> is an object of that type.
+	* @method Object.is[Type](<obj>)
+	* @returns True if <obj> is of type [Type].
+	* @extra %isObject% will return false on anything that is not an object
+	*        literal, including instances of inherited classes. Note also
+	*        that %isNaN% will ONLY return true if the object IS %NaN%.
+	*        It does not mean the same as browser native %isNaN%, which returns
+	*        true for anything that is "not a number".
+	* @set
+	*   isArray
+	*   isObject
+	*   isBoolean
+	*   isDate
+	*   isFunction
+	*   isNaN
+	*   isNumber
+	*   isString
+	*   isRegExp
+	* @example
+	*   Object.isArray([1,2,3])            -> true
+	*   Object.isDate(3)                   -> false
+	*   Object.isRegExp(/wasabi/)          -> true
+	*   Object.isObject({ broken:'wear' }) -> true
+	**/
+	isArray(): bool;
+
+	/**
+	* @see isArray
+	**/
+	isObject(): bool;
+
+	/**
+	* @see isArray
+	**/
+	isBoolean(): bool;
+
+	/**
+	* @see isArray
+	**/
+	isDate(): bool;
+
+	/**
+	* @see isArray
+	**/
+	isFunction(): bool;
+
+	/**
+	* @see isArray
+	**/
+	isNaN(): bool;
+
+	/**
+	* @see isArray
+	**/
+	isNumber(): bool;
+
+	/**
+	* @see isArray
+	**/
+	isString(): bool;
+
+	/**
+	* @see isArray
+	**/
+	isRegExp(): bool;
+
+	/**
+	* Converts the object into a query string. Accepts deep nested objects and arrays.
+	* If namespace is passed, it will be prefixed to all param names.
+	* @param obj Object to convert to a query string.
+	* @param namespace Namespace to prefix properties with in the query string.
+	* @return A query string generated from `obj` and `namespace`.
+	**/
+	toQueryString(namespace?: string): string;
+
+	/**
+	* Creates a clone (copy) of <obj>.
+	* @param deep If true then deep clone, default = false.
+	* @returns Cloned object.
+	* @extra Default is a shallow clone, unless [deep] is true. %clone%
+	*        is available as an instance method on extended objects.
+	* @example
+	*   Object.clone({foo:'bar'})            -> { foo: 'bar' }
+	*   Object.clone()                       -> {}
+	*   Object.extended({foo:'bar'}).clone() -> { foo: 'bar' }
+	**/
+	clone(deep?: bool): any;
+
+	/**
+	* Enumerable methods in the Array package are also available to
+	*        the Object class. They will perform their normal operations for
+	*        every property in <obj>.
+	* @method [enumerable](<obj>)
+	* @returns Boolean
+	* @extra In cases where a callback is used, instead of %element, index%,
+	*        the callback will instead be passed %key, value%. Enumerable methods
+	*        are also available to extended objects as instance methods.
+	* @set
+	*   each
+	*   map
+	*   any
+	*   all
+	*   none
+	*   count
+	*   find
+	*   findAll
+	*   reduce
+	*   isEmpty
+	*   sum
+	*   average
+	*   min
+	*   max
+	*   least
+	*   most
+	* @example
+	*   Object.any({foo:'bar'}, 'bar')            -> true
+	*   Object.extended({foo:'bar'}).any('bar')   -> true
+	*   Object.isEmpty({})                        -> true
+	*   Object.map({ fred: { age: 52 } }, 'age'); -> { fred: 52 }
+	**/
+	map<U>(map: string): U;
+
+	/**
+	* @see map
+	**/
+	map<U>(map: (key: string, value: any) => any): U;
+
+	/**
+	* @see map
+	**/
+	any(map: string): bool;
+
+	/**
+	* @see map
+	**/
+	any(map: (key: string, value: any) => bool): bool;
+
+	/**
+	* @see map
+	**/
+	all(map: string): bool;
+
+	/**
+	* @see map
+	**/
+	all(map: (key: string, value: any) => bool): bool;
+
+	/**
+	* @see map
+	**/
+	none(map: string): bool;
+
+	/**
+	* @see map
+	**/
+	none(map: (key: string, value: any) => bool): bool;
+
+	/**
+	* @see map
+	**/
+	count(map: string): number;
+
+	/**
+	* @see map
+	**/
+	count(map: (key: string, value: any) => bool): number;
+
+	/**
+	* @see map
+	**/
+	find(map: string): any;
+
+	/**
+	* @see map
+	**/
+	find(map: (key: string, value: any) => bool): any;
+
+	/**
+	* @see map
+	**/
+	findAll(map: string): any[];
+
+	/**
+	* @see map
+	**/
+	findAll(map: (key: string, value: any) => bool): any[];
+
+	/**
+	* @see map
+	**/
+	reduce(map: string, init?: any): any;
+
+	/**
+	* @see map
+	**/
+	reduce(map: (key: string, value: any) => any, init?: any): any;
+
+	/**
+	* @see map
+	**/
+	isEmpty(): bool;
+
+	/**
+	* @see map
+	**/
+	sum(map: string): number;
+
+	/**
+	* @see map
+	**/
+	sum(map: (key: string, value: any) => number): number;
+
+	/**
+	* @see map
+	**/
+	average(map: string): number;
+
+	/**
+	* @see map
+	**/
+	average(map: (key: string, value: any) => number): number;
+
+	/**
+	* @see map
+	**/
+	min(map: string): any;
+
+	/**
+	* @see map
+	**/
+	min(map: (key: string, value: any) => any): any;
+
+	/**
+	* @see map
+	**/
+	max(map: string): any;
+
+	/**
+	* @see map
+	**/
+	max(map: (key: string, value: any) => any): any;
+
+	/**
+	* @see map
+	**/
+	least(map: string): any;
+
+	/**
+	* @see map
+	**/
+	least(map: (key: string, value: any) => any): any;
+
+	/**
+	* @see map
+	**/
+	most(map: string): any;
+
+	/**
+	* @see map
+	**/
+	most(map: (key: string, value: any) => any): any;
+
+	/**
+	* Returns true if <a> and <b> are equal.
+	* @param b Compare to this object
+	* @returns True if the objects are equal, otherwise false.
+	* @extra %equal% in Sugar is "egal", meaning the values are equal
+	*        if they are "not observably distinguishable". Note that on
+	*        extended objects the name is %equals% for readability.
+	* @example
+	*   Object.equal({a:2}, {a:2}) -> true
+	*   Object.equal({a:2}, {a:3}) -> false
+	*   Object.extended({a:2}).equals({a:3}) -> false
+	**/
+	equal(b: any): bool;
+
+	/**
+	* Checks if <obj> has <key> using hasOwnProperty from Object.prototype.
+	* @param key Property to check to see if it exists on <obj>.
+	* @returns True if <key> exists on <obj>, otherwise false.
+	* @extra This method is considered safer than %Object#hasOwnProperty% when
+	*        using objects as hashes. See 
+	*        http://www.devthought.com/2012/01/18/an-object-is-not-a-hash/ 
+	*        for more.
+	* @example
+	*   Object.has({ foo: 'bar' }, 'foo') -> true
+	*   Object.has({ foo: 'bar' }, 'baz') -> false
+	*   Object.has({ hasOwnProperty: true }, 'foo') -> false
+	**/
+	has(key: string): bool;
+
+	/**
+	* Returns an array containing the keys in <obj>. Optionally calls [fn] for each key.
+	* @param fn Optional callback for each key/value pair.
+	* @returns Array of each property on <obj>.
+	* @extra This method is provided for browsers that don't support it natively,
+	*        and additionally is enhanced to accept the callback [fn]. Returned
+	*        keys are in no particular order. %keys% is available as an instance
+	*        method on extended objects.
+	* @example
+	*   Object.keys({ broken: 'wear' }) -> ['broken']
+	*   Object.keys({ broken: 'wear' }, function(key, value) {
+	*     // Called once for each key.
+	*   });
+	*   Object.extended({ broken: 'wear' }).keys() -> ['broken']
+	**/
+	keys(fn?: (key: string, value: any) => void ): string[];
+
+	/**
+	* Merges all the properties of <source> into <target>.
+	* @param source
+	* @param deep If true then deep merge, default = false.
+	* @param resolve If false then properties of source are used in the merge, default = true.
+	* @returns Merged object
+	* @extra Merges are shallow unless [deep] is %true%. Properties of <source>
+	*        will win in the case of conflicts, unless [resolve] is %false%.
+	*        [resolve] can also be a function that resolves the conflict.
+	*        In this case it will be passed 3 arguments, %key%, %targetVal%,
+	*        and %sourceVal%, with the context set to <source>. This will allow
+	*        you to solve conflict any way you want, ie. adding two numbers
+	*        together, etc. %merge% is available as an instance method on
+	*        extended objects.
+	* @example
+	*   Object.merge({a:1},{b:2}) -> { a:1, b:2 }
+	*   Object.merge({a:1},{a:2}, false, false) -> { a:1 }
+	+   Object.merge({a:1},{a:2}, false, function(key, a, b) {
+	*     return a + b;
+	*   }); -> { a:3 }
+	*   Object.extended({a:1}).merge({b:2}) -> { a:1, b:2 }
+	**/
+	merge(source: any, deep?: bool, resolve?: bool): any;
+
+	/**
+	* @see merge
+	* @param resolve Callback to resolve conflicts in the merge.
+	**/
+	merge(source: any, deep?: bool, resolve?: (key: string, targetVal: any, sourceVal: any) => any): any;
+
+	/**
+	* Builds a new object containing all values except those specified in find.
+	* When find is a string, that single key will be rejected. It can also be a regex,
+	* rejecting any key that matches, or an object which will match if the key also
+	* exists in that object, effectively "subtracting" that object. Multiple selections
+	* may also be passed as an array or directly as enumerated arguments. reject is
+	* available as an instance method on extended objects.
+	* @param find The property (string), properties (object) or RegExp to remove from `obj`.
+	* @return Modified `obj` with `find` properties removed.
+	**/
+	reject(...find: any[]): any;
+
+	/**
+	* Builds a new object containing the values specified in find. When find is a string,
+	* that single key will be selected. It can also be a regex, selecting any key that
+	* matches, or an object which will match if the key also exists in that object,
+	* effectively doing an "intersect" operation on that object. Multiple selections
+	* may also be passed as an array or directly as enumerated arguments. select is
+	* available as an instance method on extended objects.
+	* @param find The property (string), properties (object) or RegExp to keep on `obj`.
+	* @return Modified `obj` with only the `find` properties remaining.
+	**/
+	select(...find: any[]): any;
+
+
+	/**
+	* Returns the number of properties in <obj>.
+	* @returns The number of properties on <obj>.
+	* @extra %size% is available as an instance method on extended objects.
+	* @example
+	*   Object.size({ foo: 'bar' }) -> 1
+	**/
+	size(): number;
+
+	/**
+	* Runs <fn> and returns <obj>.
+	* @param fn Function to tap on <obj>.
+	* @returns <obj>
+	* @extra  A string can also be used as a shortcut to a method. This method
+	*         is used to run an intermediary function in the middle of method
+	*         chaining. As a standalone method on the Object class it doesn't
+	*         have too much use. The power of %tap% comes when using extended
+	*         objects or modifying the Object prototype with Object.extend().
+	* @example
+	*   Object.extend();
+	*   [2,4,6].map(Math.exp).tap(function(arr) {
+	*     arr.pop()
+	*   });
+	*   [2,4,6].map(Math.exp).tap('pop').map(Math.round); ->  [7,55]
+	**/
+	tap(fn: string): any;
+
+	/**
+	* @see tap
+	**/
+	tap(fn: (...args: any[]) => any): any;
+
+	/**
+	* Returns an array containing the values in <obj>.  Optionally calls [fn] for each value.
+	* @param fn Optional callback for each value on <obj>.
+	* @returns Array
+	* @extra Returned values are in no particular order. %values% is available
+	*        as an instance method on extended objects.
+	* @example
+	*   Object.values({ broken: 'wear' }) -> ['wear']
+	*   Object.values({ broken: 'wear' }, function(value) {
+	*     // Called once for each value.
+	*   });
+	*   Object.extended({ broken: 'wear' }).values() -> ['wear']
+	**/
+	values(fn?: (value: any) => any): any[];
+
+	/**
+	* Watches a property of <obj> and runs <fn> when it changes.
+	* @param obj Object to watch.
+	* @param prop Property to watch on <obj>
+	* @param fn Callback function when <prop> changes on <obj>.
+	* @extra <fn> is passed three arguments: the property <prop>, the old value,
+	*        and the new value. The return value of [fn] will be set as the new
+	*        value. This method is useful for things such as validating or cleaning
+	*        the value when it is set. Warning: this method WILL NOT work in
+	*        browsers that don't support %Object.defineProperty%. This notably
+	*        includes IE 8 and below, and Opera. This is the only method in Sugar
+	*        that is not fully compatible with all browsers. %watch% is available
+	*        as an instance method on extended objects.
+	* @example
+	*
+	*   Object.watch({ foo: 'bar' }, 'foo', function(prop, oldVal, newVal) {
+	*     // Will be run when the property 'foo' is set on the object.
+	*   });
+	*   Object.extended().watch({ foo: 'bar' }, 'foo', function(prop, oldVal, newVal) {
+	*     // Will be run when the property 'foo' is set on the object.
+	*   });
+	*
+	**/
 	watch(prop: string, fn: (prop: string, oldVal: any, newVal: any) => any): void;
-	watch(obj: Object, prop: string, fn: (prop: string, oldVal: any, newVal: any) => any): void;
 }
 
 interface Function {
