@@ -81,8 +81,7 @@ interface String {
 
 	/**
 	* @see at
-	* @limitation Typescript does not allow for arguments
-	*             after a variable argument list.
+	* @limitation Typescript does not allow for arguments after a variable argument list.
 	**/
 	at(...indicies: number[]): string[];
 
@@ -186,12 +185,12 @@ interface String {
 	*     // Called twice: "u", "y"
 	*   });
 	**/
-	each(search: string, fn?: (m: string) => void ): string[];
+	each(search: string, fn?: (m: string) => void): string[];
 
 	/**
 	* @see each
 	**/
-	each(search: RegExp, fn?: (m: string) => void ): string[];
+	each(search: RegExp, fn?: (m: string) => void): string[];
 
 	/**
 	* @see each
@@ -651,23 +650,12 @@ interface String {
 
 	/**
 	* Removes all HTML tags and their contents from the string
+	* @param tags Remove these HTML tags.
 	* @returns String with HTML tags removed.
 	* @extra Tags to remove may be enumerated in the parameters, otherwise will remove all.
 	* @example
 	*   '<p>just <b>some</b> text</p>'.removeTags()    -> ''
 	*   '<p>just <b>some</b> text</p>'.removeTags('b') -> '<p>just text</p>'
-	**/
-	removeTags(): string;
-
-	/**
-	* @see removeTags
-	* @param tag Remove only this HTML tag.
-	**/
-	removeTags(tag: string): string;
-
-	/**
-	* @see removeTags
-	* @param tags Remove these HTML tags.
 	**/
 	removeTags(...tags: string[]): string;
 
@@ -754,24 +742,12 @@ interface String {
 
 	/**
 	* Strips all HTML tags from the string.
-	
+	* @param tags HTML tags to strip from the string.
 	* @returns Returns the string with all HTML removed.
 	* @extra Tags to strip may be enumerated in the parameters, otherwise will strip all.
 	* @example
 	*   '<p>just <b>some</b> text</p>'.stripTags()    -> 'just some text'
 	*   '<p>just <b>some</b> text</p>'.stripTags('p') -> 'just <b>some</b> text'
-	**/
-	stripTags(): string;
-
-	/**
-	* @see stripTags
-	* @param tags HTML tag to strip from the string.
-	**/
-	stripTags(tag: string): string;
-
-	/**
-	* @see stripTags
-	* @param tags HTML tags to strip from the string.
 	**/
 	stripTags(...tags: string[]): string;
 
@@ -825,7 +801,8 @@ interface String {
 	*   '   wasabi   '.trimLeft()  -> 'wasabi   '
 	*   '   wasabi   '.trimRight() -> '   wasabi'
 	**/
-	trim(): string;
+	// Trim is already available on lib.d.ts interface definition.
+	//trim(): string;
 
 	/**
 	* Removes leading whitespace from the string.
@@ -925,6 +902,7 @@ interface String {
 	zenkaku(...modes: string[]): string;
 }
 
+// Todo: fix when TypeScript supports adding static functions to native types.
 interface NumberStatic {
 
 	/**
@@ -1096,6 +1074,7 @@ interface Number {
 
 	/**
 	* Returns true if the number is a multiple of <num>.
+	* @param num Number to check for multiple of.
 	* @returns True if the number is a multiple of <num>.
 	* @example
 	*   (6).isMultipleOf(2)  -> true
@@ -1980,12 +1959,13 @@ interface Number {
 	upto(num: number, fn?: Function, step?: number): number[];
 }
 
-interface Array {
+// Todo: Fix when TypeScript supports static members on native types.
+interface ArrayStatic {
 
-	/***
+	/**
 	* Alternate array constructor.
-	* @method Array.create(<obj1>, <obj2>, ...)
-	* @returns Array
+	* @param args Elements to create the array from.
+	* @returns Array containing the elements in <args>.
 	* @extra This method will create a single array by calling %concat%
 	*        on all arguments passed. In addition to ensuring that an unknown
 	*        variable is in a single, flat array (the standard constructor will
@@ -1993,35 +1973,35 @@ interface Array {
 	*        shorthand to convert a function's arguments object into a standard
 	*        array.
 	* @example
-	*
 	*   Array.create('one', true, 3)   -> ['one', true, 3]
 	*   Array.create(['one', true, 3]) -> ['one', true, 3]
-	+   Array.create(function(n) {
+	*   Array.create(function(n) {
 	*     return arguments;
 	*   }('howdy', 'doody'));
-	*
-	***/
-	create(...args: any[]): any[];
+	**/
+	create<T>(...args: T[]): T[];
 
-	/***
+	/**
 	* Returns true if <obj> is an Array.
-	* @method Array.isArray(<obj>)
-	* @returns Boolean
+	* @param obj Object to check if it is an Array.
+	* @returns True if <obj> is of type Array.
 	* @extra This method is provided for browsers that don't support it internally.
 	* @example
-	*
 	*   Array.isArray(3)        -> false
 	*   Array.isArray(true)     -> false
 	*   Array.isArray('wasabi') -> false
 	*   Array.isArray([1,2,3])  -> true
-	*
-	***/
+	**/
 	isArray(obj: any): bool;
+}
 
-	/***
+interface Array<T> {
+
+	/**
 	* Adds <el> to the array.
-	* @method add(<el>, [index])
-	* @returns Array
+	* @param el Elements to add to the array.
+	* @param index Specifies the index where to insert/add <el> into the array, default = Array.length
+	* @returns Array containing the added <el> elements at position <index>.
 	* @extra If [index] is specified, it will add at [index], otherwise
 	*        adds to the end of the array. %add% behaves like %concat%
 	*        in that if <el> is an array it will be joined, not inserted.
@@ -2029,102 +2009,108 @@ interface Array {
 	*        non-destructive alias. Also, %insert% is provided as an
 	*        alias that reads better when using an index.
 	* @example
-	*
 	*   [1,2,3,4].add(5)       -> [1,2,3,4,5]
 	*   [1,2,3,4].add([5,6,7]) -> [1,2,3,4,5,6,7]
 	*   [1,2,3,4].insert(8, 1) -> [1,8,2,3,4]
-	*
-	***/
-	add(el: any, index?: number): any[];
-	add(el: any[], index?: number): any[];
-	insert(el: any, index?: number): any[];
-	insert(el: any[], index?: number): any[];
+	**/
+	add(el: T, index?: number): T[];
+
+	/**
+	* @see add
+	**/
+	add(el: T[], index?: number): T[];
+
+	/**
+	* @see add
+	**/
+	insert(el: T, index?: number): T[];
+
+	/**
+	* @see add
+	**/
+	insert(el: T[], index?: number): T[];
 
 	/***
 	* Gets the element(s) at a given index.
-	* @method at(<index>, [loop] = true)
-	* @returns Mixed
-	* @extra When [loop] is true, overshooting the end of the array (or the beginning) will begin counting from the other end. As an alternate syntax, passing multiple indexes will get the elements at those indexes.
+	* @param index Element's index to retrieve.
+	* @param loop Continue counting if the index overshoots the Array.length
+	* @returns The element at <index>.
+	* @extra When [loop] is true, overshooting the end of the array (or the beginning)
+	*        will begin counting from the other end. As an alternate syntax, passing
+	*        multiple indexes will get the elements at those indexes.
 	* @example
-	*
 	*   [1,2,3].at(0)        -> 1
 	*   [1,2,3].at(2)        -> 3
 	*   [1,2,3].at(4)        -> 2
 	*   [1,2,3].at(4, false) -> null
 	*   [1,2,3].at(-1)       -> 3
 	*   [1,2,3].at(0,1)      -> [1,2]
-	*
-	***/
-	at(index: number, loop?: bool): any;
-	at(start: number, stop: number): any[];
+	**/
+	at(index: number, loop?: bool): T;
 
-	/***
+	/**
+	* @see at
+	* @param start Start index.
+	* @param end End index.
+	* @return Elements between <start> and <end>
+	**/
+	at(start: number, stop: number): T[];
+
+	/**
 	* Averages all values in the array.
-	* @method average([map])
-	* @returns Number
+	* @param map Maps each element to a number.
+	* @returns The average of the entire array.
 	* @extra [map] may be a function mapping the value to be averaged or
 	*        a string acting as a shortcut.
 	* @example
-	*
 	*   [1,2,3].average()                           -> 2
-	+   [{age:35},{age:11},{age:11}].average(function(n) {
+	*   [{age:35},{age:11},{age:11}].average(function(n) {
 	*     return n.age;
 	*   });                                         -> 19
 	*   [{age:35},{age:11},{age:11}].average('age') -> 19
-	*
-	***/
-	average(map?: (n: number) => number): number;
+	**/
+	average(map?: (e: T) => number): number;
 
-	/***
+	/**
 	* Clones the array.
-	* @method clone()
-	* @returns Array
+	* @returns Cloned array.
 	* @example
-	*
 	*   [1,2,3].clone() -> [1,2,3]
-	*
-	***/
-	clone(): any[];
+	**/
+	clone(): T[];
 
-	/***
+	/**
 	* Removes all instances of %undefined%, %null%, and %NaN% from the array.
-	* @method compact([all] = false)
-	* @returns Array
+	* @param all Remove false elements, default = false.
+	* @returns The same array with the special values removed.
 	* @extra If [all] is %true%, all "falsy" elements will be removed. This includes empty strings, 0, and false.
 	* @example
-	*
 	*   [1,null,2,undefined,3].compact() -> [1,2,3]
 	*   [1,'',2,false,3].compact()       -> [1,'',2,false,3]
 	*   [1,'',2,false,3].compact(true)   -> [1,2,3]
-	*
-	***/
-	compact(all?: bool): any[];
+	**/
+	compact(all?: bool): T[];
 
-	/***
+	/**
 	* Counts all elements in the array that match <f>.
-	* @method count(<f>)
-	* @returns Number
+	* @param f object to match against in the array.
+	* @returns Number of elements in the array that match <f>.
 	* @extra <f> will match a string, number, array, object, or alternately test against a function or regex. This method implements @array_matching.
 	* @example
-	*
 	*   [1,2,3,1].count(1)       -> 2
 	*   ['a','b','c'].count(/b/) -> 1
-	+   [{a:1},{b:2}].count(function(n) {
+	*   [{a:1},{b:2}].count(function(n) {
 	*     return n['a'] > 1;
 	*   });                      -> 0
-	*
-	***/
-	count(f: number): number;
-	count(f: string): number;
-	count(f: any[]): number;
-	count(f: Object): number;
-	count(f: (n: any) => any): number;
-	count(f: RegExp): number;
+	**/
+	count(f: T): number;
 
-	/***
+	/**
 	* Runs <fn> against each element in the array. Enhanced version of %Array#forEach%.
-	* @method each(<fn>, [index] = 0, [loop] = false)
-	* @returns Array
+	* @param fn Callback function for applied to each element in the array.
+	* @param index Starting index, default = 0.
+	* @param loop Continue from the beginning if the end of the array is reached, default = false.
+	* @returns Original array.
 	* @extra Parameters passed to <fn> are identical to %forEach%,
 	*        ie. the first parameter is the current element, second
 	*        parameter is the current index, and third parameter is
@@ -2135,20 +2121,18 @@ interface Array {
 	*        is true, it will then start over from the beginning of the
 	*        array and continue until it reaches [index] - 1.
 	* @example
-	*
 	*   [1,2,3,4].each(function(n) {
 	*     // Called 4 times: 1, 2, 3, 4
 	*   });
 	*   [1,2,3,4].each(function(n) {
 	*     // Called 4 times: 3, 4, 1, 2
 	*   }, 2, true);
-	*
-	***/
-	each(fn: (el: any, i?: number, array?: any[]) => bool,
+	**/
+	each(fn: (el: T, i?: number, array?: T[]) => bool,
 		index?: number,
-		loop?: bool): any[];
+		loop?: bool): T[];
 
-	/***
+	/**
 	* Returns true if all elements in the array match <f>.
 	* @method every(<f>, [scope])
 	* @returns Boolean
@@ -2156,62 +2140,64 @@ interface Array {
 	*        In addition to providing this method for browsers that don't
 	*        support it natively, this method also implements @array_matching.
 	* @example
-	*
-	+   ['a','a','a'].every(function(n) {
+	*   ['a','a','a'].every(function(n) {
 	*     return n == 'a';
 	*   });
 	*   ['a','a','a'].every('a')   -> true
 	*   [{a:2},{a:2}].every({a:2}) -> true
-	***/
-	every(f: number, scope?: any): bool;
-	every(f: string, scope?: any): bool;
-	every(f: Object, scope?: any): bool;
-	every(f: (el: any, i?: number, array?: any[]) => bool, scope?: any): bool;
-	all(f: number, scope?: any): bool;
-	all(f: string, scope?: any): bool;
-	all(f: Object, scope?: any): bool;
-	all(f: (el: any, i?: number, array?: any[]) => bool, scope?: any): bool;
+	**/
+	every(f: T, scope?: any): bool;
 
-	/***
+	/**
+	* @see every
+	**/
+	every(f: (el: T, i?: number, array?: T[]) => bool, scope?: any): bool;
+
+	/**
+	* @see every
+	**/
+	all(f: T, scope?: any): bool;
+
+	/**
+	* @see every
+	**/
+	all(f: (el: T, i?: number, array?: T[]) => bool, scope?: any): bool;
+
+	/**
 	* Removes any element in the array that matches [f1], [f2], etc.
-	* @method exclude([f1], [f2], ...)
-	* @returns Array
+	* @param f Elements to find in the array and remove.
+	* @returns A copy of the original array with all instances of <f> removed.
 	* @extra This is a non-destructive alias for %remove%. It will not change the original array. This method implements @array_matching.
 	* @example
-	*
 	*   [1,2,3].exclude(3)         -> [1,2]
 	*   ['a','b','c'].exclude(/b/) -> ['a','c']
 	*   [{a:1},{b:2}].exclude(function(n) {
 	*     return n['a'] == 1;
 	*   });                       -> [{b:2}]
-	*
-	***/
-	exclude(...f: number[]): number[];
-	exclude(...f: string[]): string[];
-	exclude(...f: RegExp[]): string[];
-	exclude(...f: Object[]): Object[];
-	exclude(...f: (el: any, i?: number, array?: any[]) => bool): any[];
+	**/
+	exclude(...f: T[]): T[];
 
-	/***
+	/**
+	* @see exclude
+	**/
+	exclude(f: (el: T, i?: number, array?: T[]) => bool): T[];
+
+	/**
 	* Returns any elements in the array that match <f>.
-	* @method filter(<f>, [scope])
-	* @returns Array
+	* @param f Find these elements in the array.
+	* @param scope %this% object while filtering.
+	* @returns Array containing th items <f> found in the array.
 	* @extra [scope] is the %this% object. In addition to providing this
 	*        method for browsers that don't support it natively, this method
 	*        also implements @array_matching.
 	* @example
-	*
 	*   [1,2,3].filter(function(n) {
 	*     return n > 1;
 	*   });
 	*   [1,2,2,4].filter(2) -> 2
-	*
-	***/
-	filter(f: number, scope?: any): number[];
-	filter(f: string, scope?: any): string[];
-	filter(f: RegExp, scope?: any): String[];
-	filter(f: Object, scope?: any): Object[];
-	filter(f: (el: any, i?: number, array?: any[]) => bool, scope?: any): any[];
+	**/
+	filter(f: T, scope?: any): T[];
+	filter(f: (el: T, i?: number, array?: T[]) => bool, scope?: any): T[];
 
 	/***
 	* Returns the first element that matches <f>.
@@ -2285,7 +2271,7 @@ interface Array {
 	findIndex(f: string, startIndex?: number, loop?: bool): number;
 	findIndex(f: RegExp, startIndex?: number, loop?: bool): number;
 	findIndex(f: Object, startIndex?: number, loop?: bool): number;
-	findIndex(f: RegExp, startIndex?: number, loop?: bool): number;
+	//findIndex(f: RegExp, startIndex?: number, loop?: bool): number;
 	findIndex(f: (el: any, i?: number, array?: any[]) => bool, startIndex?: number, loop?: bool): number;
 
 	/***
@@ -3157,7 +3143,7 @@ interface Object {
 	* @param find The property (string), properties (object) or RegExp to remove from `obj`.
 	* @return Modified `obj` with `find` properties removed.
 	**/
-	reject(obj: any, ...find: any): any;
+	reject(obj: any, ...find: any[]): any;
 
 	/**
 	* Builds a new object containing the values specified in find. When find is a string,
@@ -3840,8 +3826,8 @@ interface Date {
 	***/
 	getWeekday(): number;
 	getUTCWeekday(): number;
-	getDay(): number;
-	getUTCDay(): number;
+	//getDay(): number;
+	//getUTCDay(): number;
 
 	/***
 	* Returns true if the date is <d>.
@@ -4096,7 +4082,7 @@ interface Date {
 	*
 	***/
 	iso(): string;
-	toISOString(): string;
+	//toISOString(): string;
 
 	/***
 	* Returns a relative date string offset to the current time.

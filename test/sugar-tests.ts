@@ -1,4 +1,4 @@
-/// <reference path="../sugar.d.ts" />
+ï»¿/// <reference path="../sugar.d.ts" />
 
 'schfifty'.add(' five');		// - > schfifty five
 'dopamine'.insert('e', 3);		// - > dopeamine
@@ -90,7 +90,7 @@
 '?????'.hasCyrillic();		// - > true
 '? ?????!'.hasHangul();		// - > true
 '??????'.hasKatakana();		// - > true
-"l'année".hasLatin();		// - > true
+"l'annÃ©e".hasLatin();		// - > true
 
 // visual studio is not liking these characters very much.
 '????'.hiragana();		// - > '????'
@@ -110,7 +110,7 @@
 '?????'.isCyrillic();	// - > true
 '? ?????!'.isHangul();	// - > true
 '??????'.isKatakana();	// - > false
-"l'année".isLatin();	// - > true
+"l'annÃ©e".isLatin();	// - > true
 
 // visual studio is not liking these characters very much.
 '????'.katakana();	// - > '????'
@@ -124,8 +124,8 @@
 	// Called three times: "broken wear", "and", "jumpy jump"
 });
 
-'á'.normalize();				// - > 'a'
-'Ménage à trois'.normalize();	// - > 'Menage a trois'
+'Ã¡'.normalize();				// - > 'a'
+'MÃ©nage Ã  trois'.normalize();	// - > 'Menage a trois'
 'Volkswagen'.normalize();		// - > 'Volkswagen'
 'FULLWIDTH'.normalize();		// - > 'FULLWIDTH'
 
