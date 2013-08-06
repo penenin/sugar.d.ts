@@ -3987,61 +3987,55 @@ interface Function {
 	throttle(ms: number): Function;
 }
 
-interface RegExp {
+interface RegExpStatic {
 
 	/**
 	* Escapes all RegExp tokens in a string.
-	* @method RegExp.escape(<str> = '')
-	* @returns String
+	* @param str Escape RegExp tokens in this string.
+	* @returns Escaped RegExp tokens in <str>.
 	* @example
 	*   RegExp.escape('really?')      -> 'really\?'
 	*   RegExp.escape('yes.')         -> 'yes\.'
 	*   RegExp.escape('(not really)') -> '\(not really\)'
 	**/
 	escape(str: string): string;
+}
 
-	/***
+interface RegExp {
+
+	/**
 	* Adds <flag> to the regex.
-	* @method addFlag(<flag>)
-	* @returns RegExp
+	* @param flag RegExp flag to add.
+	* @returns RegExp with <flag> added.
 	* @example
-	*
 	*   /texty/.addFlag('g') -> now has global flag set
-	*
-	***/
+	**/
 	addFlag(flag: string): RegExp;
 
-	/***
+	/**
 	* Returns the flags of the regex as a string.
-	* @method getFlags()
-	* @returns String
+	* @returns RegExp flags.
 	* @example
-	*
 	*   /texty/gim.getFlags('testy') -> 'gim'
-	*
-	***/
+	**/
 	getFlags(): string;
 
-	/***
+	/**
 	* Removes <flag> from the regex.
-	* @method removeFlag(<flag>)
-	* @returns RegExp
+	* @param flag RegExp flag to remove.
+	* @returns RegExp with flag <flag> removed.
 	* @example
-	*
 	*   /texty/g.removeFlag('g') -> now has global flag removed
-	*
-	***/
+	**/
 	removeFlag(flag: string): RegExp;
 
-	/***
+	/**
 	* Sets the flags on a regex and retuns a copy.
-	* @method setFlags(<flags>)
-	* @returns RegExp
+	* @param flags Set the RegExp to have these flags.
+	* @returns Copy of RegExp with <flags>.
 	* @example
-	*
 	*   /texty/.setFlags('gim') -> now has global, ignoreCase, and multiline set
-	*
-	***/
+	**/
 	setFlags(flags: string): RegExp;
 }
 
