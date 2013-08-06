@@ -4064,20 +4064,23 @@ interface Locale {
 	timeParse: string[];
 }
 
-interface Date {
+interface DateStatic {
 
-	/***
+	/**
 	* Adds a locale <set> to the locales understood by Sugar.
 	* @method Date.addLocale(<code>, <set>)
+	* @param code Locale code.
+	* @param set Locale definition.
 	* @returns Locale
 	* @extra For more see @date_format.
-	***/
+	**/
 	addLocale(code: string, set: Locale): Locale;
 
-	/***
+	/**
 	* Alternate Date constructor which understands many different text formats,
 	*        a timestamp, or another date.
 	* @method Date.create(<d>, [locale] = currentLocale)
+	* @param locale Locale to create the date in, default = currentLocale.
 	* @returns Date
 	* @extra If no argument is given, date is assumed to be now. %Date.create% additionally
 	*        can accept enumerated parameters as with the standard date constructor. [locale]
@@ -4086,9 +4089,7 @@ interface Date {
 	*        through the %utc% object. For more see @date_format.
 	* @set
 	*   Date.utc.create
-	*
 	* @example
-	*
 	*   Date.create('July')          -> July of this year
 	*   Date.create('1776')          -> 1776
 	*   Date.create('today')         -> today
@@ -4099,15 +4100,28 @@ interface Date {
 	*   Date.create(1776, 6, 4)      -> July 4, 1776
 	*   Date.create('1776?07?04?', 'ja') -> July 4, 1776
 	*   Date.utc.create('July 4, 1776', 'en')  -> July 4, 1776
-	*
-	***/
+	**/
 	create(locale?: string): Date;
+
+	/**
+	* @see create
+	* @param d Human readable date to convert to a Date object.
+	**/
 	create(d: string, locale?: string): Date;
+
+	/**
+	* @see create
+	* @param year Year YYYY
+	* @param month Month MM
+	* @param day Day DD
+	**/
 	create(year: number, month: number, day: number, locale?: string): Date;
 
-	/***
+	/**
 	* Alternate form of %Date.create% with any ambiguity assumed to be the future.
 	* @method Date.future(<d>, [locale] = currentLocale)
+	* @param d Future human redable date to convert to a Date object.
+	* @param locale Locale to create the date in, default = currentLocale.
 	* @returns Date
 	* @extra For example %"Sunday"% can be either "the Sunday coming up" or "the Sunday last"
 	*        depending on context. Note that dates explicitly in the past ("last Sunday") will
@@ -4115,39 +4129,37 @@ interface Date {
 	*       -based dates can be created through the %utc% object. For more, see @date_format.
 	* @set
 	*   Date.utc.future
-	*
 	* @example
-	*
 	*   Date.future('July')          -> July of this year or next depending on the current month
 	*   Date.future('Wednesday')     -> This wednesday or next depending on the current weekday
-	*
-	***/
+	**/
 	future(d: string, locale?: string): Date;
 
-	/***
+	/**
 	* Gets the locale for the given code, or the current locale.
 	* @method Date.getLocale([code] = current)
+	* @param code Locale code to retrieve.
 	* @returns Locale
 	* @extra The resulting locale object can be manipulated to provide more control over date localizations.
 	*        For more about locales, see @date_format.
-	***/
+	**/
 	getLocale(code?: string): Locale;
 
-	/***
+	/**
 	* Returns the number of milliseconds since January 1st, 1970 00:00:00 (UTC time).
 	* @method Date.now()
 	* @returns String
 	* @extra Provided for browsers that do not support this method.
 	* @example
-	*
 	*   Date.now() -> ex. 1311938296231
-	*
-	***/
+	**/
 	now(): string;
 
-	/***
+	/**
 	* Alternate form of %Date.create% with any ambiguity assumed to be the past.
 	* @method Date.past(<d>, [locale] = currentLocale)
+	* @param d Past human readable date to convert to a Date object.
+	* @param locale , default = currentLocale.
 	* @returns Date
 	* @extra For example %"Sunday"% can be either "the Sunday coming up" or "the Sunday last" depending
 	*        on context. Note that dates explicitly in the future ("next Sunday") will remain in the future.
@@ -4156,42 +4168,51 @@ interface Date {
 	* @set
 	*   Date.utc.past
 	* @example
-	*
 	*   Date.past('July')          -> July of this year or last depending on the current month
 	*   Date.past('Wednesday')     -> This wednesday or last depending on the current weekday
-	*
-	***/
+	**/
 	past(d: string, local?: string): Date;
 
-	/***
+	/**
 	* Creates a new date range.
 	* @method Date.range([start], [end])
+	* @param start Beginning date.
+	* @param end Ending date.
 	* @returns DateRange
 	* @extra If either [start] or [end] are null, they will default to the current date.
-	***/
+	**/
 	range(start: Date, end: Date): DateRange;
 
-	/***
+	/**
 	* Sets the current locale to be used with dates.
 	* @method Date.setLocale(<code>)
+	* @param code Locale code.
 	* @returns Locale
 	* @extra Sugar has support for 13 locales that are available through the
-	&        "Date Locales" package. In addition you can define a new locale with
+	*        "Date Locales" package. In addition you can define a new locale with
 	*         %Date.addLocale%. For more see @date_format.
-	*
-	***/
+	**/
 	setLocale(code: string): Locale;
+}
 
-	/***
-	* Adds <num> of the unit to the date. If [reset] is true, all lower
-	*        units will be reset.
+interface DateFields {
+	year?: number;
+	month?: number;
+	day?: number;
+}
+
+interface Date {
+
+	/**
+	* Adds <num> of the unit to the date. If [reset] is true, all lower units will be reset.
 	* @method add[Units](<num>, [reset] = false)
+	* @param num Add this many [Units] to the date.
+	* @param reset If true lower units will be reset.
 	* @returns Date
 	* @extra Note that "months" is ambiguous as a unit of time. If the target
 	*        date falls on a day that does not exist (ie. August 31 -> February 31),
 	*        the date will be shifted to the last day of the month. Don't use
 	*        %addMonths% if you need precision.
-	*
 	* @set
 	*   addMilliseconds
 	*   addSeconds
@@ -4201,26 +4222,53 @@ interface Date {
 	*   addWeeks
 	*   addMonths
 	*   addYears
-	*
 	* @example
-	*
 	*   Date.create().addMilliseconds(5) -> current time + 5 milliseconds
 	*   Date.create().addDays(5)         -> current time + 5 days
 	*   Date.create().addYears(5)        -> current time + 5 years
-	*
-	***/
+	**/
 	addMilliseconds(num: number, reset?: bool): Date;
+
+	/**
+	* @see addMilliseconds
+	**/
 	addSeconds(num: number, reset?: bool): Date;
+
+	/**
+	* @see addMilliseconds
+	**/
 	addMinutes(num: number, reset?: bool): Date;
+
+	/**
+	* @see addMilliseconds
+	**/
 	addHours(num: number, reset?: bool): Date;
+
+	/**
+	* @see addMilliseconds
+	**/
 	addDays(num: number, reset?: bool): Date;
+
+	/**
+	* @see addMilliseconds
+	**/
 	addWeeks(num: number, reset?: bool): Date;
+
+	/**
+	* @see addMilliseconds
+	**/
 	addMonths(num: number, reset?: bool): Date;
+	
+	/**
+	* @see addMilliseconds
+	**/
 	addYears(num: number, reset?: bool): Date;
 
-	/***
+	/**
 	* Sets the date forward.
 	* @method advance(<set>, [reset] = false)
+	* @param set Human readable amount of time to advance the date.
+	* @param reset If true resets the lower date fields to zero.
 	* @returns Date
 	* @extra This method can accept multiple formats including an object, a string
 	*        in the format %3 days%, a single number as milliseconds, or enumerated
@@ -4228,90 +4276,93 @@ interface Date {
 	*        units more specific than those passed will be reset. For more see
 	*        @date_format.
 	* @example
-	*
 	*   new Date().advance({ year: 2 }) -> 2 years in the future
 	*   new Date().advance('2 days')    -> 2 days in the future
 	*   new Date().advance(0, 2, 3)     -> 2 months 3 days in the future
 	*   new Date().advance(86400000)    -> 1 day in the future
-	*
-	***/
+	**/
 	advance(set: string, reset?: bool): Date;
-	advance(year: number, month: number, day: number, reset?: bool): Date;
-	advance(milliseconds: number, reset?: bool): Date;
-	advance(set: Object, reset?: bool): Date;
 
-	/***
+	/**
+	* @see advance
+	* @param year YYYY to advance.
+	* @param month MM to advance.
+	* @param day DD to advance.
+	**/
+	advance(year: number, month: number, day: number, reset?: bool): Date;
+
+	/**
+	* @see advance
+	* @param milliseconds Milliseconds to advance the date.
+	**/
+	advance(milliseconds: number, reset?: bool): Date;
+
+	/**
+	* @see advance
+	* @param set Advance the year/month/day of the date from a single object.
+	**/
+	advance(set: DateFields, reset?: bool): Date;
+
+	/**
 	* Sets the date to the beginning of the appropriate unit.
 	* @method beginningOf[Unit]()
 	* @returns Date
-	*
 	* @set
 	*   beginningOfDay
 	*   beginningOfWeek
 	*   beginningOfMonth
 	*   beginningOfYear
-	*
 	* @example
-	*
 	*   Date.create().beginningOfDay()   -> the beginning of today (resets the time)
 	*   Date.create().beginningOfWeek()  -> the beginning of the week
 	*   Date.create().beginningOfMonth() -> the beginning of the month
 	*   Date.create().beginningOfYear()  -> the beginning of the year
-	*
-	***/
+	**/
 	beginningOfDay(): Date;
 	beginningOfWeek(): Date;
 	beginningOfMonth(): Date;
 	beginningOfYear(): Date;
 
-	/***
+	/**
 	* Clones the date.
 	* @method clone()
 	* @returns Date
 	* @example
-	*
 	*   Date.create().clone() -> Copy of now
-	*
-	***/
+	**/
 	clone(): Date;
 
-	/***
+	/**
 	* Returns the number of days in the date's month.
 	* @method daysInMonth()
 	* @returns Number
 	* @example
-	*
 	*   Date.create('May').daysInMonth()            -> 31
 	*   Date.create('February, 2000').daysInMonth() -> 29
-	*
-	***/
+	**/
 	daysInMonth(): number;
 
-	/***
+	/**
 	* Sets the date to the end of the appropriate unit.
 	* @method endOf[Unit]()
 	* @returns Date
-	*
 	* @set
 	*   endOfDay
 	*   endOfWeek
 	*   endOfMonth
 	*   endOfYear
-	*
 	* @example
-	*
 	*   Date.create().endOfDay()   -> the end of today (sets the time to 23:59:59.999)
 	*   Date.create().endOfWeek()  -> the end of the week
 	*   Date.create().endOfMonth() -> the end of the month
 	*   Date.create().endOfYear()  -> the end of the year
-	*
-	***/
+	**/
 	endOfDay(): Date;
 	endOfWeek(): Date;
 	endOfMonth(): Date;
 	endOfYear(): Date;
 
-	/***
+	/**
 	* Formats and outputs the date.
 	* @method format(<format>, [locale] = currentLocale)
 	* @returns String
@@ -4321,14 +4372,11 @@ interface Date {
 	*        If <format> is not specified the %long% format is assumed. [locale]
 	*        specifies a locale code to use (if not specified the current locale 
 	*        is used). See @date_format for more details.
-	*
 	* @set
 	*   short
 	*   long
 	*   full
-	*
 	* @example
-	*
 	*   Date.create().format()                                   -> ex. July 4, 2003
 	*   Date.create().format('{Weekday} {d} {Month}, {yyyy}')    -> ex. Monday July 4, 2003
 	*   Date.create().format('{hh}:{mm}')                        -> ex. 15:57
@@ -4338,57 +4386,48 @@ interface Date {
 	*   Date.create('yesterday').format(function(value,unit,ms,loc) {
 	*     // value = 1, unit = 3, ms = -86400000, loc = [current locale object]
 	*   });                                                      -> ex. 1 day ago
-	*
-	***/
+	**/
 	format(format: string, locale?: string): string;
 	short(): string;
 	long(): string;
 	full(): string;
 
-	/***
+	/**
 	* Returns a string representation of the offset from UTC time. If [iso]
 	*        is true the offset will be in ISO8601 format.
 	* @method getUTCOffset([iso])
 	* @returns String
 	* @example
-	*
 	*   new Date().getUTCOffset()     -> "+0900"
 	*   new Date().getUTCOffset(true) -> "+09:00"
-	*
-	***/
+	**/
 	getUTCOffset(iso?: bool): string;
 
-	/***
+	/**
 	* Gets the date's week (of the year).
 	* @returns The date's week of the year as defined by the ISO-8601 standard.
 	* @extra If %utc% is set on the date, the week will be according to UTC time.
-	*
 	* @example
-	*
 	*   new Date().getWeek()    -> today's week of the year
-	*
-	***/
+	**/
 	getISOWeek(): number;
 
-	/***
+	/**
 	* Alias for %getDay%.
 	* @method getWeekday()
 	* @returns Number
 	* @set
 	*   getUTCWeekday
-	*
 	* @example
-	*
 	*   Date.create().getWeekday();    -> (ex.) 3
 	*   Date.create().getUTCWeekday();    -> (ex.) 3
-	*
-	***/
+	**/
 	getWeekday(): number;
 	getUTCWeekday(): number;
 	//getDay(): number;
 	//getUTCDay(): number;
 
-	/***
+	/**
 	* Returns true if the date is <d>.
 	* @method is(<d>, [margin] = 0)
 	* @returns Boolean
@@ -4398,7 +4437,6 @@ interface Date {
 	*        implied in <d>. [margin] allows an extra margin of error in
 	*        milliseconds.  For more, see @date_format.
 	* @example
-	*
 	*   Date.create().is('July')               -> true or false?
 	*   Date.create().is('1776')               -> false
 	*   Date.create().is('today')              -> true
@@ -4406,13 +4444,12 @@ interface Date {
 	*   Date.create().is('July 4, 1776')       -> false
 	*   Date.create().is(-6106093200000)       -> false
 	*   Date.create().is(new Date(1776, 6, 4)) -> false
-	*
-	***/
+	**/
 	is(d: string, margin?: number): bool;
 	is(milliseconds: number, margin?: number): bool;
 	is(d: Date, margin?: number): bool;
 
-	/***
+	/**
 	* Returns true if the date is after the <d>.
 	* @method isAfter(<d>, [margin] = 0)
 	* @returns Boolean
@@ -4420,16 +4457,14 @@ interface Date {
 	*        a date object, timestamp, or text format. If not specified, <d> is
 	*        assumed to be now. See @date_format for more.
 	* @example
-	*
 	*   new Date().isAfter('tomorrow')  -> false
 	*   new Date().isAfter('yesterday') -> true
-	*
-	***/
+	**/
 	isAfter(d: string, margin?: number): bool;
 	isAfter(milliseconds: number, margin?: number): bool;
 	isAfter(d: Date, margin?: number): bool;
 
-	/***
+	/**
 	* Returns true if the date is before <d>.
 	* @method isBefore(<d>, [margin] = 0)
 	* @returns Boolean
@@ -4437,16 +4472,14 @@ interface Date {
 	*        a date object, timestamp, or text format. If not specified, <d> is
 	*        assumed to be now. See @date_format for more.
 	* @example
-	*
 	*   new Date().isBefore('tomorrow')  -> true
 	*   new Date().isBefore('yesterday') -> false
-	*
-	***/
+	**/
 	isBefore(d: string, margin?: number): bool;
 	isBefore(milliseconds: number, margin?: number): bool;
 	isBefore(d: Date, margin?: number): bool;
 
-	/***
+	/**
 	* Returns true if the date falls between <d1> and <d2>.
 	* @method isBetween(<d1>, <d2>, [margin] = 0)
 	* @returns Boolean
@@ -4454,22 +4487,19 @@ interface Date {
 	*        will accept a date object, timestamp, or text format. If not specified,
 	*        they are assumed to be now. See @date_format for more.
 	* @example
-	*
 	*   new Date().isBetween('yesterday', 'tomorrow')    -> true
 	*   new Date().isBetween('last year', '2 years ago') -> false
-	*
-	***/
+	**/
 	isBefore(start: string, end: string, margin?: number): bool;
 	isBefore(start: number, end: string, margin?: number): bool;
 	isBefore(start: Date, end: Date, margin?: number): bool;
 
-	/***
+	/**
 	* Returns true if the date falls on that day.
 	* @method is[Day]()
 	* @returns Boolean
 	* @extra Also available: %isYesterday%, %isToday%, %isTomorrow%, %isWeekday%,
 	*        and %isWeekend%.
-	*
 	* @set
 	*   isToday
 	*   isYesterday
@@ -4483,15 +4513,12 @@ interface Date {
 	*   isThursday
 	*   isFriday
 	*   isSaturday
-	*
 	* @example
-	*
 	*   Date.create('tomorrow').isToday() -> false
 	*   Date.create('thursday').isTomorrow() -> ?
 	*   Date.create('yesterday').isWednesday() -> ?
 	*   Date.create('today').isWeekend() -> ?
-	*
-	***/
+	**/
 	isToday(): bool;
 	isYesterday(): bool;
 	isTomorrow(): bool;
@@ -4505,130 +4532,108 @@ interface Date {
 	isFriday(): bool;
 	isSaturday(): bool;
 
-	/***
+	/**
 	* Returns true if the date is in the future.
 	* @method isFuture()
 	* @returns Boolean
 	* @example
-	*
 	*   Date.create('next week').isFuture() -> true
 	*   Date.create('last week').isFuture() -> false
-	*
-	***/
+	**/
 	isFuture(): bool;
 
-	/***
+	/**
 	* Returns true if the date is last week/month/year.
 	* @method isLast[Unit]()
 	* @returns Boolean
-	*
 	* @set
 	*   isLastWeek
 	*   isLastMonth
 	*   isLastYear
-	*
 	* @example
-	*
 	*   Date.create('yesterday').isLastWeek()  -> true or false?
 	*   Date.create('yesterday').isLastMonth() -> probably not...
 	*   Date.create('yesterday').isLastYear()  -> even less likely...
-	*
-	***/
+	**/
 	isLastWeek(): bool;
 	isLastMonth(): bool;
 	isLastYear(): bool;
 
-	/***
+	/**
 	* Returns true if the date is a leap year.
 	* @method isLeapYear()
 	* @returns Boolean
 	* @example
-	*
 	*   Date.create('2000').isLeapYear() -> true
-	*
-	***/
+	**/
 	isLeapYear(): bool;
 
-	/***
+	/**
 	* Returns true if the date is next week/month/year.
 	* @method isNext[Unit]()
 	* @returns Boolean
-	*
 	* @set
 	*   isNextWeek
 	*   isNextMonth
 	*   isNextYear
-	*
 	* @example
-	*
 	*   Date.create('tomorrow').isNextWeek()  -> true or false?
 	*   Date.create('tomorrow').isNextMonth() -> probably not...
 	*   Date.create('tomorrow').isNextYear()  -> even less likely...
-	*
-	***/
+	**/
 	isNextWeek(): bool;
 	isNextMonth(): bool;
 	isNextYear(): bool;
 
-	/***
+	/**
 	* Returns true if the date is in the past.
 	* @method isPast()
 	* @returns Boolean
 	* @example
-	*
 	*   Date.create('last week').isPast() -> true
 	*   Date.create('next week').isPast() -> false
-	*
-	***/
+	**/
 	isPast(): bool;
 
-	/***
+	/**
 	* Returns true if the date is this week/month/year.
 	* @method isThis[Unit]()
 	* @returns Boolean
-	*
 	* @set
 	*   isThisWeek
 	*   isThisMonth
 	*   isThisYear
-	*
 	* @example
-	*
 	*   Date.create('tomorrow').isThisWeek()  -> true or false?
 	*   Date.create('tomorrow').isThisMonth() -> probably...
 	*   Date.create('tomorrow').isThisYear()  -> signs point to yes...
-	*
-	***/
+	**/
 	isThisWeek(): bool;
 	isThisMonth(): bool;
 	isThisYear(): bool;
 
-	/***
+	/**
 	* Returns true if the date has no timezone offset.
 	* @method isUTC()
 	* @returns Boolean
 	* @extra This will also return true for a date that has had %toUTC% called on it. This is intended to help approximate shifting timezones which is not possible in client-side Javascript. Note that the native method %getTimezoneOffset% will always report the same thing, even if %isUTC% becomes true.
 	* @example
-	*
 	*   new Date().isUTC()         -> true or false?
 	*   new Date().toUTC().isUTC() -> true
-	*
-	***/
+	**/
 	isUTC(): bool;
 
-	/***
+	/**
 	* Returns true if the date is valid.
 	* @method isValid()
 	* @returns Boolean
 	* @example
-	*
 	*   new Date().isValid()         -> true
 	*   new Date('flexor').isValid() -> false
-	*
-	***/
+	**/
 	isValid(): bool;
 
-	/***
+	/**
 	* @method iso()
 	* @method toISOString()
 	* @returns String
@@ -4636,14 +4641,12 @@ interface Date {
 	* @extra This will always format as UTC time. Provided for browsers that do not
 	*        support this method.
 	* @example
-	*
 	*   Date.create().toISOString() -> ex. 2011-07-05 12:24:55.528Z
-	*
-	***/
+	**/
 	iso(): string;
 	//toISOString(): string;
 
-	/***
+	/**
 	* Returns a relative date string offset to the current time.
 	* @method relative([fn], [locale] = currentLocale)
 	* @returns String
@@ -4653,32 +4656,28 @@ interface Date {
 	*        alternate syntax, [locale] can also be passed as the first (and only)
 	*        parameter. For more, see @date_format.
 	* @example
-	*
 	*   Date.create('90 seconds ago').relative() -> 1 minute ago
 	*   Date.create('January').relative()        -> ex. 5 months ago
 	*   Date.create('January').relative('ja')    -> 3???
 	*   Date.create('120 minutes ago').relative(function(val,unit,ms,loc) {
 	*     // value = 2, unit = 3, ms = -7200, loc = [current locale object]
 	*   });                                      -> ex. 5 months ago
-	*
-	***/
+	**/
 	relative(locale: string): string;
 	relative(fn?: (value: number, unit: string, ms: number, loc: Locale) => string, locale?: string): string;
 
-	/***
+	/**
 	* Resets the unit passed and all smaller units. Default is "hours",
 	*        effectively resetting the time.
 	* @method reset([unit] = 'hours')
 	* @returns Date
 	* @example
-	*
 	*   Date.create().reset('day')   -> Beginning of today
 	*   Date.create().reset('month') -> 1st of the month
-	*
-	***/
+	**/
 	reset(unit?: string): Date;
 
-	/***
+	/**
 	* Sets the date back.
 	* @method rewind(<set>, [reset] = false)
 	* @returns Date
@@ -4687,17 +4686,15 @@ interface Date {
 	*        constructor). If [reset] is %true%, any units more specific than
 	*        those passed will be reset. For more see @date_format.
 	* @example
-	*
 	*   new Date().rewind({ year: 2 }) -> 2 years in the past
 	*   new Date().rewind(0, 2, 3)     -> 2 months 3 days in the past
 	*   new Date().rewind(86400000)    -> 1 day in the past
-	*
-	***/
+	**/
 	rewind(ms: number, reset?: bool): Date;
 	rewind(year: number, month: number, day: number, reset?: bool): Date;
-	//rewind(d: Object, reset?: bool): Date; // Do not like this, is not typesafe
+	rewind(d: DateFields, reset?: bool): Date;
 
-	/***
+	/**
 	* Sets the date object.
 	* @method set(<set>, [reset] = false)
 	* @returns Date
@@ -4705,43 +4702,34 @@ interface Date {
 	*        timestamp, an object, or enumerated parameters (as with the Date
 	*        constructor). If [reset] is %true%, any units more specific than those
 	*        passed will be reset.
-	*
 	* @example
-	*
 	*   new Date().set({ year: 2011, month: 11, day: 31 }) -> December 31, 2011
 	*   new Date().set(2011, 11, 31)                       -> December 31, 2011
 	*   new Date().set(86400000)                           -> 1 day after Jan 1, 1970
 	*   new Date().set({ year: 2004, month: 6 }, true)     -> June 1, 2004, 00:00:00.000
-	*
-	***/
-	set (ms: number): Date;
-	set (year: number, month: number, day: number): Date;
-	//set(d: Object, reset?: bool): Date; // Do not like this, is not typesafe
+	**/
+	set(ms: number): Date;
+	set(year: number, month: number, day: number): Date;
+	set(d: DateFields, reset?: bool): Date;
 
-
-	/***
+	/**
 	* Sets the week (of the year).
 	* @example
-	*
 	*   d = new Date(); d.setWeek(15); d; -> 15th week of the year
-	*
-	***/
+	**/
 	setISOWeek(week: number): void;
 
-	/***
+	/**
 	* Sets the weekday of the date.
 	* @method setWeekday()
 	* @returns Nothing
-	*
 	* @example
-	*
 	*   d = new Date(); d.setWeekday(1); d; -> Monday of this week
 	*   d = new Date(); d.setWeekday(6); d; -> Saturday of this week
-	*
-	***/
+	**/
 	setWeekday(day: number): void;
 
-	/***
+	/**
 	* Returns a JSON representation of the date.
 	* @method toJSON()
 	* @returns String
@@ -4749,17 +4737,14 @@ interface Date {
 	*        the date in UTC time. Provided for browsers that do not support this
 	*        method.
 	* @example
-	*
 	*   Date.create().toJSON() -> ex. 2011-07-05 12:24:55.528Z
-	*
-	***/
+	**/
 	toJSON(): string;
 
-	/***
+	/**
 	* Returns the time ago in the appropriate unit.
 	* @method [units]Ago()
 	* @returns Number
-	*
 	* @set
 	*   millisecondsAgo
 	*   secondsAgo
@@ -4769,14 +4754,11 @@ interface Date {
 	*   weeksAgo
 	*   monthsAgo
 	*   yearsAgo
-	*
 	* @example
-	*
 	*   Date.create('last year').millisecondsAgo() -> 3,600,000
 	*   Date.create('last year').daysAgo()         -> 7
 	*   Date.create('last year').yearsAgo()        -> 15
-	*
-	***/
+	**/
 	millisecondsAgo(): number;
 	secondsAgo(): number;
 	minutesAgo(): number;
@@ -4786,11 +4768,10 @@ interface Date {
 	monthsAgo(): number;
 	yearsAgo(): number;
 
-	/***
+	/**
 	* Returns the time from now in the appropriate unit.
 	* @method [units]FromNow()
 	* @returns Number
-	*
 	* @set
 	*   millisecondsFromNow
 	*   secondsFromNow
@@ -4800,14 +4781,11 @@ interface Date {
 	*   weeksFromNow
 	*   monthsFromNow
 	*   yearsFromNow
-	*
 	* @example
-	*
 	*   Date.create('next year').millisecondsFromNow() -> 3,600,000
 	*   Date.create('next year').daysFromNow()         -> 7
 	*   Date.create('next year').yearsFromNow()        -> 15
-	*
-	***/
+	**/
 	millisecondsFromNow(): number;
 	secondsFromNow(): number;
 	minutesFromNow(): number;
@@ -4817,7 +4795,7 @@ interface Date {
 	monthsFromNow(): number;
 	yearsFromNow(): number;
 
-	/***
+	/**
 	* Returns the time since [d] in the appropriate unit.
 	* @method [units]Since([d], [locale] = currentLocale)
 	* @returns Number
@@ -4826,7 +4804,6 @@ interface Date {
 	*        the locale that the date is in. %[unit]Ago% is provided as an alias to
 	*        make this more readable when [d] is assumed to be the current date.
 	*        For more see @date_format.
-	*
 	* @set
 	*   millisecondsSince
 	*   secondsSince
@@ -4836,15 +4813,12 @@ interface Date {
 	*   weeksSince
 	*   monthsSince
 	*   yearsSince
-	*
 	* @example
-	*
 	*   Date.create().millisecondsSince('1 hour ago') -> 3,600,000
 	*   Date.create().daysSince('1 week ago')         -> 7
 	*   Date.create().yearsSince('15 years ago')      -> 15
 	*   Date.create('15 years ago').yearsAgo()        -> 15
-	*
-	***/
+	**/
 	millisecondsSince(date?: Date, locale?: string): number;
 	millisecondsSince(date: string, locale?: string): number;
 	secondsSince(date?: Date, locale?: string): number;
@@ -4862,7 +4836,7 @@ interface Date {
 	yearsSince(date?: Date, locale?: string): number;
 	yearsSince(date: string, locale?: string): number;
 
-	/***
+	/**
 	* Returns the time until [d] in the appropriate unit.
 	* @method [units]Until([d], [locale] = currentLocale)
 	* @returns Number
@@ -4871,7 +4845,6 @@ interface Date {
 	*        the locale that the date is in. %[unit]FromNow% is provided as an
 	*        alias to make this more readable when [d] is assumed to be the current
 	*        date. For more see @date_format.
-	*
 	* @set
 	*   millisecondsUntil
 	*   secondsUntil
@@ -4881,15 +4854,12 @@ interface Date {
 	*   weeksUntil
 	*   monthsUntil
 	*   yearsUntil
-	*
 	* @example
-	*
 	*   Date.create().millisecondsUntil('1 hour from now') -> 3,600,000
 	*   Date.create().daysUntil('1 week from now')         -> 7
 	*   Date.create().yearsUntil('15 years from now')      -> 15
 	*   Date.create('15 years from now').yearsFromNow()    -> 15
-	*
-	***/
+	**/
 	millisecondsUntil(date?: Date, locale?: string): number;
 	millisecondsUntil(date: string, locale?: string): number;
 	secondsUntil(date?: Date, locale?: string): number;
@@ -4907,62 +4877,58 @@ interface Date {
 	yearsUntil(date?: Date, locale?: string): number;
 	yearsUntil(date: string, locale?: string): number;
 
-	/***
+	/**
 	* Sets the internal utc flag for the date. When on, UTC-based methods
 	*        will be called internally.
 	* @method utc([on] = true)
 	* @returns Date
 	* @extra For more see @date_format.
 	* @example
-	*
 	*   new Date().utc(true)
 	*   new Date().utc(false)
-	*
-	***/
+	**/
 	utc(on?: bool): Date;
 }
 
-/***
+/**
 * @package DateRange
 * @dependency date
 * @description Date Ranges define a range of time. They can enumerate over specific points
 *              within that range, and be manipulated and compared.
-*
-***/
+**/
 interface DateRange {
 	start: Date;
 	end: Date;
 
-	/***
+	/**
 	* Returns true if <d> is contained inside the DateRange.
 	*        <d> may be a date or another DateRange.
-	* @method contains(<d>)
-	* @returns Boolean
+	* @param d Date to check if it is contained within this DateRange.
+	* @returns True if <d> is contained within the DateRange, false otherwise.
 	* @example
-	*
 	*   Date.range('2003', '2005').contains(Date.create('2004')) -> true
-	*
-	***/
+	**/
 	contains(d: Date): bool;
+
+	/**
+	* @see contains
+	**/
 	contains(d: DateRange): bool;
 
-	/***
+	/**
 	* Return the duration of the DateRange in milliseconds.
-	* @method duration()
-	* @returns Number
+	* @returns Duration of the DateRange in milliseconds.
 	* @example
-	*
 	*   Date.range('2003', '2005').duration() -> 94694400000
-	*
-	***/
+	**/
 	duration(): number;
 
-	/***
+	/**
 	* Increments through the date range for each [unit], calling [fn] if it is passed.
 	*        Returns an array of each increment visited.
 	* @method each[Unit]([fn])
-	* @returns Date
-	*
+	* @param fn Callback function for each date in the requested increments.
+	* @returns Array of Dates for each increment.
 	* @set
 	*   eachMillisecond
 	*   eachSecond
@@ -4972,27 +4938,54 @@ interface DateRange {
 	*   eachWeek
 	*   eachMonth
 	*   eachYear
-	*
 	* @example
-	*
 	*   Date.range('2003-01', '2003-02').eachMonth()     -> [...]
 	*   Date.range('2003-01-15', '2003-01-16').eachDay() -> [...]
-	*
-	***/
-	eachMillisecond(fn?: (d: Date) => void ): Date[];
-	eachSecond(fn?: (d: Date) => void ): Date[];
-	eachMinute(fn?: (d: Date) => void ): Date[];
-	eachHour(fn?: (d: Date) => void ): Date[];
-	eachDay(fn?: (d: Date) => void ): Date[];
-	eachWeek(fn?: (d: Date) => void ): Date[];
-	eachMonth(fn?: (d: Date) => void ): Date[];
-	eachYear(fn?: (d: Date) => void ): Date[];
+	**/
+	eachMillisecond(fn?: (d: Date) => void): Date[];
 
-	/***
+	/**
+	* @see eachMillisecond
+	**/
+	eachSecond(fn?: (d: Date) => void): Date[];
+
+	/**
+	* @see eachMillisecond
+	**/
+	eachMinute(fn?: (d: Date) => void): Date[];
+
+	/**
+	* @see eachMillisecond
+	**/
+	eachHour(fn?: (d: Date) => void): Date[];
+
+	/**
+	* @see eachMillisecond
+	**/
+	eachDay(fn?: (d: Date) => void): Date[];
+
+	/**
+	* @see eachMillisecond
+	**/
+	eachWeek(fn?: (d: Date) => void): Date[];
+
+	/**
+	* @see eachMillisecond
+	**/
+	eachMonth(fn?: (d: Date) => void): Date[];
+
+	/**
+	* @see eachMillisecond
+	**/
+	eachYear(fn?: (d: Date) => void): Date[];
+
+	/**
 	* Iterates through the DateRange for every <increment>,
 	*        calling [fn] if it is passed. Returns an array of each increment visited.
 	* @method every(<increment>, [fn])
-	* @returns Array
+	* @param ms Time span to increment by.
+	* @param fn Callback for each incremented date.
+	* @returns An array of each incremented date visited.
 	* @extra When <increment> is a number, increments will be to the exact millisecond.
 	*        <increment> can also be a string in the format %{number} {unit}s%, in which
 	*        case it will increment in the unit specified. Note that a discrepancy exists
@@ -5000,59 +4993,52 @@ interface DateRange {
 	*        through the actual months by passing %"2 months"% is usually preferable in
 	*        this case.
 	* @example
-	*
 	*   Date.range('2003-01', '2003-03').every("2 months") -> [...]
-	*
-	***/
+	**/
 	every(ms: number, fn?: (d: Date) => void ): Date[];
+
+	/**
+	* @see every
+	* @param increment Time span to increment by.
+	**/
 	every(increment: string, fn?: (d: Date) => void ): Date[];
 
-	/***
+	/**
 	* Returns a new DateRange with the latest starting point as its start, and the
 	*        earliest ending point as its end. If the two ranges do not intersect this will
 	*        effectively produce an invalid range.
-	* @method intersect(<range>)
+	* @param range DateRange to intersect with.
 	* @returns DateRange
 	* @example
-	*
 	*   Date.range('2003-01', '2005-01').intersect(Date.range('2004-01', '2006-01')) -> Jan 1, 2004..Jan 1, 2005
-	*
-	***/
+	**/
 	intersect(range: DateRange): DateRange;
 
-	/***
+	/**
 	* Returns true if the DateRange is valid, false otherwise.
-	* @method isValid()
-	* @returns Boolean
+	* @returns True if the date range is valid, false otherwise.
 	* @example
-	*
 	*   Date.range('2003', '2005').isValid() -> true
 	*   Date.range('2005', '2003').isValid() -> false
-	*
-	***/
+	**/
 	isValid(): bool;
 
-	/***
+	/**
 	* Returns a string representation of the DateRange.
-	* @method toString()
-	* @returns String
+	* @returns String representation of the DateRange.
 	* @example
-	*
 	*   Date.range('2003', '2005').toString() -> January 1, 2003..January 1, 2005
-	*
-	***/
+	**/
 	toString(): string;
 
-	/***
+	/**
 	* Returns a new DateRange with the earliest starting point as its start,
 	*        and the latest ending point as its end. If the two ranges do not intersect
 	*        this will effectively remove the "gap" between them.
-	* @method union(<range>)
+	* @param range DateRange to create a union with.
 	* @returns DateRange
 	* @example
-	*
 	*   Date.range('2003=01', '2005-01').union(Date.range('2004-01', '2006-01')) -> Jan 1, 2003..Jan 1, 2006
-	*
-	***/
+	**/
 	union(range: DateRange): DateRange;
 }
