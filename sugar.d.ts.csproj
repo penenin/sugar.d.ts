@@ -59,10 +59,10 @@
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="test\sugar-tests.js">
+    <TypeScriptCompile Include="sugar-tests.ts" />
+    <Content Include="sugar-tests.js">
       <DependentUpon>sugar-tests.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="test\sugar-tests.ts" />
     <Content Include="sugar.d.ts" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
