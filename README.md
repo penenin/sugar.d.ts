@@ -1,9 +1,12 @@
 sugar.d.ts
 ==========
 
-This is a typescript definitions file for sugar-1.3.9.js.
+This is a typescript definitions file for sugar.js.
 
-2013/02/10 - Note there is a bug currently where typescript does not support adding static functions to object types, like Date, within lib.d.ts.  Because of this there are some functions that do not work properly until this issue is fixed.
+This is also hosted on https://github.com/borisyankov/DefinitelyTyped If you found this via DefinitelyTyped use @jbaldwin or open an issue here so I will see the problem, otherwise it might not be noticed ;-)
+
+2013/08/24 - NOTE: the typescript compiler is having issues with the generics and creates a stackoverflow when using these definitions, there are several issues already opened on CodePlex against TSC.
+2013/02/10 - NOTE: there is a bug currently where typescript does not support adding static functions to object types, like Date, within lib.d.ts.  Because of this there are some functions that do not work properly until this issue is fixed.
 
 Usage
 =====
